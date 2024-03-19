@@ -12,15 +12,15 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @EnableAsync
 @SpringBootApplication(scanBasePackages = "com.arextest.web", exclude = {
     MongoAutoConfiguration.class})
-public class WebSpringBootServletInitializer extends SpringBootServletInitializer {
+public class SaasWebSpringBootServletInitializer extends SpringBootServletInitializer {
 
   public static void main(String[] args) {
-    SpringApplication.run(WebSpringBootServletInitializer.class, args);
+    SpringApplication.run(SaasWebSpringBootServletInitializer.class, args);
   }
 
   @Override
   protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-    return application.sources(WebSpringBootServletInitializer.class);
+    return application.sources(SaasWebSpringBootServletInitializer.class);
   }
 
 }
