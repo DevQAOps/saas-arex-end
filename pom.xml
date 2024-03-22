@@ -17,15 +17,13 @@
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <springboot.version>2.7.18</springboot.version>
+    <arex-common.version>0.1.22</arex-common.version>
+    <caffine.version>2.9.2</caffine.version>
   </properties>
 
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
-        <version>2.7.18</version>
-      </dependency>
       <!--child jar-->
       <dependency>
         <groupId>com.arextest</groupId>
@@ -35,7 +33,23 @@
       <dependency>
         <groupId>com.arextest</groupId>
         <artifactId>arex-common</artifactId>
-        <version>0.1.20-token-SNAPSHOT</version>
+        <version>${arex-common.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+        <version>${springboot.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-data-mongodb</artifactId>
+        <version>${springboot.version}</version>
+      </dependency>
+      <!--caffeine-->
+      <dependency>
+        <groupId>com.github.ben-manes.caffeine</groupId>
+        <artifactId>caffeine</artifactId>
+        <version>${caffine.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
