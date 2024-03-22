@@ -11,6 +11,7 @@
   <modules>
     <module>saas-arex-api-web</module>
     <module>saas-arex-common</module>
+    <module>saas-arex-storage</module>
   </modules>
 
   <properties>

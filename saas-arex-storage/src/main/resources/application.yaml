@@ -1,0 +1,49 @@
+spring:
+  application:
+    name: AREX's Storage Web API Spring Boot
+  jackson:
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+    default-property-inclusion: non_null
+  profiles:
+    active: prod
+# for report
+arex:
+  app:
+    auth:
+      switch: false
+  query:
+    config:
+      url: ${arex.api.service.api:http://arex-api-service:8080}/api/config/comparison/summary/queryConfigOfCategory
+  config:
+    # default for application settings
+    application:
+      provider: ''
+      service:
+        provider: ''
+    default:
+      # default for service collect settings
+      schedule:
+        offsetDays: 1
+        sendMaxQps: 20
+        targetEnv: ''
+      # default for replay schedule settings
+      service:
+        collect:
+          allowDayOfWeeks: 127
+          allowTimeOfDayFrom: 00:01
+          allowTimeOfDayTo: '23:59'
+          sampleRate: 1
+          timeMock: true
+      compare:
+        # to insert default ignoredCategoryTypes when create app
+        ignoredCategoryTypes: [ { operationType: Redis }, { operationType: QMessageConsumer }, { operationType: DynamicClass } ]
+  prometheus:
+    port: 20093
+  common:
+    record:
+      payload:
+        with:
+          metric: false
+pom:
+  version: ""
