@@ -12,6 +12,7 @@
     <module>saas-arex-api-web</module>
     <module>saas-arex-common</module>
     <module>saas-arex-storage</module>
+    <module>saas-arex-replay-schedule</module>
   </modules>
 
   <properties>
