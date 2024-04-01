@@ -13,6 +13,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * for coustomize the pattern of interceptor
+ */
 @Slf4j
 @NoArgsConstructor
 public class SaasAuthorizationInterceptor extends AbstractInterceptorHandler {
