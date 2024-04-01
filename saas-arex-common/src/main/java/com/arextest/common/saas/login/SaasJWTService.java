@@ -1,7 +1,7 @@
 package com.arextest.common.saas.login;
 
 import com.arextest.common.jwt.JWTServiceImpl;
-import com.arextest.common.saas.utils.GroupContextUtil;
+import com.arextest.common.utils.GroupContextUtil;
 import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
