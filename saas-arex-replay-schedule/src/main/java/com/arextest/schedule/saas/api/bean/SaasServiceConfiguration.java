@@ -16,5 +16,4 @@ public class SaasServiceConfiguration {
   public JWTService saasJWTService(MongoTemplate mongoTemplate) {
     return new SaasJWTService(ACCESS_EXPIRE_TIME, REFRESH_EXPIRE_TIME, mongoTemplate);
   }
-
 }
