@@ -44,11 +44,11 @@ public class InterceptorHandlerAutoConfiguration {
   }
 
 
-  public List<String> getAuthorizationPathPatterns() {
+  private List<String> getAuthorizationPathPatterns() {
     return Collections.singletonList("/**");
   }
 
-  public List<String> getAuthorizationExcludePathPatterns() {
+  private List<String> getAuthorizationExcludePathPatterns() {
     List<String> defaultPatterns = new ArrayList<>(20);
     // error
     defaultPatterns.add("/error");
@@ -100,11 +100,11 @@ public class InterceptorHandlerAutoConfiguration {
     return defaultPatterns;
   }
 
-  public List<String> getRefreshPathPatterns() {
+  private List<String> getRefreshPathPatterns() {
     return Collections.singletonList("/api/login/refreshToken");
   }
 
-  public List<String> getRefreshExcludePathPatterns() {
+  private List<String> getRefreshExcludePathPatterns() {
     return Collections.emptyList();
   }
 

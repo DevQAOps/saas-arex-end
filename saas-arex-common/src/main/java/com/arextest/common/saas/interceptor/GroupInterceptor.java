@@ -8,8 +8,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang3.StringUtils;
 
 public class GroupInterceptor extends AbstractInterceptorHandler {
+
+  private static final String ORG = "org";
 
   @Override
   public Integer getOrder() {
@@ -27,9 +30,9 @@ public class GroupInterceptor extends AbstractInterceptorHandler {
   }
 
   @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-    String serverName = request.getServerName();
-    String groupName = extractGroupName(serverName);
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
+      Object handler) {
+    String groupName = extractGroupName(request);
     GroupContextUtil.setGroup(groupName);
     return true;
   }
@@ -40,14 +43,21 @@ public class GroupInterceptor extends AbstractInterceptorHandler {
     GroupContextUtil.clear();
   }
 
-  private String extractGroupName(String serverName) {
-    Pattern pattern = Pattern.compile("^(.*?)\\.arextest\\.com$");
-    Matcher matcher = pattern.matcher(serverName);
-    if (matcher.find()) {
-      return matcher.group(1);
+  private String extractGroupName(HttpServletRequest request) {
+    String res = "";
+    String serverName = request.getServerName();
+    if (StringUtils.isNotEmpty(serverName)) {
+      Pattern pattern = Pattern.compile("^(.*?)\\.arextest\\.com$");
+      Matcher matcher = pattern.matcher(serverName);
+      if (matcher.find()) {
+        res = matcher.group(1);
+      }
     }
-    return "";
-  }
 
+    if (StringUtils.isEmpty(res)) {
+      res = request.getHeader(ORG) == null ? "" : request.getHeader(ORG);
+    }
+    return res;
+  }
 
 }
