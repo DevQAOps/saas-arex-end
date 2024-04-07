@@ -6,7 +6,7 @@ services:
     container_name: saas-arex-front
     restart: always
     ports:
-      - '8088:8080'
+      - '8188:8080'
     volumes:
       - ./arex-logs/arex-front:/usr/src/app/logs
     environment:
@@ -23,7 +23,7 @@ services:
     container_name: saas-arex-api
     restart: always
     ports:
-      - '8090:8080'
+      - '8190:8080'
     volumes:
       - ./arex-logs/arex-api:/logs
       - ./additional-config:/usr/local/tomcat/additional-config
@@ -42,7 +42,7 @@ services:
     container_name: saas-arex-storage
     restart: always
     ports:
-      - '8093:8080'
+      - '8193:8080'
     volumes:
       - ./arex-logs/arex-storage:/logs
     environment:
@@ -58,7 +58,7 @@ services:
     container_name: saas-arex-schedule
     restart: always
     ports:
-      - '8092:8080'
+      - '8192:8080'
     volumes:
       - ./arex-logs/arex-schedule:/logs
     environment:
