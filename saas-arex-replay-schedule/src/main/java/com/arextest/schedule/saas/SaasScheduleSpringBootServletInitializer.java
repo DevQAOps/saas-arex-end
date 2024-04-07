@@ -48,8 +48,8 @@ public class SaasScheduleSpringBootServletInitializer extends SpringBootServletI
     return application.sources(SaasScheduleSpringBootServletInitializer.class);
   }
 
-  @PostConstruct
-  public void init() {
-    PrometheusConfiguration.initMetrics(prometheusPort);
-  }
+//  @PostConstruct
+//  public void init() {
+//    PrometheusConfiguration.initMetrics(prometheusPort);
+//  }
 }

@@ -4,6 +4,7 @@ import com.arextest.common.interceptor.AbstractInterceptorHandler;
 import com.arextest.common.jwt.JWTService;
 import com.arextest.common.saas.interceptor.GroupInterceptor;
 import com.arextest.common.saas.interceptor.SaasAuthorizationInterceptor;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
@@ -28,18 +29,14 @@ public class InterceptorHandlerAutoConfiguration {
 
 
   public List<String> getAuthorizationPathPatterns() {
-//    return Collections.singletonList("/**");
-    return Collections.emptyList();
+    return Collections.singletonList("/**");
   }
 
   public List<String> getAuthorizationExcludePathPatterns() {
-//    List<String> defaultPatterns = new ArrayList<>(5);
-//    // for agent
-//    defaultPatterns.add("/api/config/agent/*");
-//    defaultPatterns.add("/api/storage/record/*");
-//    // for inner call
-//
-//    return defaultPatterns;
-    return Collections.singletonList("/**");
+    List<String> defaultPatterns = new ArrayList<>(5);
+    // for agent
+    defaultPatterns.add("/api/config/agent/*");
+    defaultPatterns.add("/api/storage/record/*");
+    return defaultPatterns;
   }
 }

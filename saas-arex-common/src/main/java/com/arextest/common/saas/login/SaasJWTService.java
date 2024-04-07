@@ -40,49 +40,61 @@ public class SaasJWTService extends JWTServiceImpl {
   @Override
   public String makeAccessToken(String username) {
     String group = GroupContextUtil.getGroup();
-    JWTServiceImpl JWTServiceImpl = JWTServiceImplCache.get(group);
-    if (JWTServiceImpl == null) {
+    JWTServiceImpl jwtServiceImpl = JWTServiceImplCache.get(group);
+    if (jwtServiceImpl == null) {
       LOGGER.error("JWTServiceImpl not found, group : {}, action : {}", group,
           "makeAccessToken");
       return null;
     }
-    return JWTServiceImpl.makeAccessToken(username);
+    return jwtServiceImpl.makeAccessToken(username);
+  }
+
+  @Override
+  public String makeAccessToken(String username, long expireTime) {
+    String group = GroupContextUtil.getGroup();
+    JWTServiceImpl jwtServiceImpl = JWTServiceImplCache.get(group);
+    if (jwtServiceImpl == null) {
+      LOGGER.error("JWTServiceImpl not found, group : {}, action : {}", group,
+          "makeAccessToken");
+      return null;
+    }
+    return jwtServiceImpl.makeAccessToken(username, expireTime);
   }
 
   @Override
   public String makeRefreshToken(String username) {
     String group = GroupContextUtil.getGroup();
-    JWTServiceImpl JWTServiceImpl = JWTServiceImplCache.get(group);
-    if (JWTServiceImpl == null) {
+    JWTServiceImpl jwtServiceImpl = JWTServiceImplCache.get(group);
+    if (jwtServiceImpl == null) {
       LOGGER.error("JWTServiceImpl not found, group : {}, action : {}", group,
           "makeRefreshToken");
       return null;
     }
-    return JWTServiceImpl.makeRefreshToken(username);
+    return jwtServiceImpl.makeRefreshToken(username);
   }
 
   @Override
   public boolean verifyToken(String field) {
     String group = GroupContextUtil.getGroup();
-    JWTServiceImpl JWTServiceImpl = JWTServiceImplCache.get(group);
-    if (JWTServiceImpl == null) {
+    JWTServiceImpl jwtServiceImpl = JWTServiceImplCache.get(group);
+    if (jwtServiceImpl == null) {
       LOGGER.error("JWTServiceImpl not found, group : {}, action : {}", group, "verifyToken");
       return false;
     }
-    return JWTServiceImpl.verifyToken(field);
+    return jwtServiceImpl.verifyToken(field);
   }
 
   public String getUserName(String token) {
     String group = GroupContextUtil.getGroup();
-    JWTServiceImpl JWTServiceImpl = JWTServiceImplCache.get(group);
-    if (JWTServiceImpl == null) {
+    JWTServiceImpl jwtServiceImpl = JWTServiceImplCache.get(group);
+    if (jwtServiceImpl == null) {
       LOGGER.error("JWTServiceImpl not found, group : {}, action : {}", group, "getUserName");
       return null;
     }
-    return JWTServiceImpl.getUserName(token);
+    return jwtServiceImpl.getUserName(token);
   }
 
-
+  // todo to get single-mongoTemplate from the multiple mongoTemplate
   private class JWTServiceImplCacheLoader implements CacheLoader<String, JWTServiceImpl> {
 
     @Nullable
