@@ -34,9 +34,9 @@ services:
         -Darex.storage.service.url=http://arex-storage-service:8080
         -Dspring.config.additional-location=/usr/local/tomcat/additional-config/
         -Dspring.config.name=application,oauth
-    depends_on:
-      - mongodb
-      - redis
+#    depends_on:
+#      - mongodb
+#      - redis
   arex-storage-service:
     image: $AREX_STORAGE_IMAGE
     container_name: saas-arex-storage
@@ -50,9 +50,9 @@ services:
       - JAVA_OPTS=-Darex.mongo.uri=$AREX_MONGO_URI
         -Darex.redis.uri=$AREX_REDIS_URI
         -Darex.api.service.api=http://arex-api-service:8080
-    depends_on:
-      - mongodb
-      - redis
+#    depends_on:
+#      - mongodb
+#      - redis
   arex-schedule-service:
     image: $AREX_SCHEDULE_IMAGE
     container_name: saas-arex-schedule
@@ -67,9 +67,9 @@ services:
         -Darex.redis.uri=$AREX_REDIS_URI
         -Darex.storage.service.api=http://arex-storage-service:8080
         -Darex.api.service.api=http://arex-api-service:8080
-    depends_on:
-      - mongodb
-      - redis
+#    depends_on:
+#      - mongodb
+#      - redis
 #  mongodb:
 #    image: mongo:5.0
 #    container_name: arex-mongodb
