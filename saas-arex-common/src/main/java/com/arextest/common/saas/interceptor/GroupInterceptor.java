@@ -29,6 +29,7 @@ public class GroupInterceptor extends AbstractInterceptorHandler {
     return Collections.emptyList();
   }
 
+  // todo: if group name is empty, we should reject the request
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
       Object handler) {
