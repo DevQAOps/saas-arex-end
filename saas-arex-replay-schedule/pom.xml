@@ -15,7 +15,7 @@
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <arex.schedule.version>1.1.12</arex.schedule.version>
+    <arex.schedule.version>1.1.13-cory-SNAPSHOT</arex.schedule.version>
   </properties>
 
 

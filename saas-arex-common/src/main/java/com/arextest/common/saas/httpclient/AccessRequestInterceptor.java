@@ -1,6 +1,8 @@
 package com.arextest.common.saas.httpclient;
 
 import com.arextest.common.jwt.JWTService;
+import com.arextest.common.saas.model.Constants;
+import com.arextest.common.utils.GroupContextUtil;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
@@ -37,8 +39,16 @@ public class AccessRequestInterceptor implements ClientHttpRequestInterceptor {
             + "://"
             + Optional.ofNullable(uri.getAuthority()).orElse(Strings.EMPTY);
     if (innerServiceAddress.contains(webSite)) {
+
+      // todo temporary plan, to solve the problem of starting to read the system configuration
+      //  and there is no group
+      if (GroupContextUtil.getGroup() == null) {
+        GroupContextUtil.setGroup(Strings.EMPTY);
+      }
+
       String temporaryToken = jwtService.makeAccessToken("", TEMPORARY_EXPIRATION_MS);
       request.getHeaders().add(TOKEN_KEY_FIELD, temporaryToken);
+      request.getHeaders().add(Constants.ORG, GroupContextUtil.getGroup());
     }
     return execution.execute(request, body);
   }
