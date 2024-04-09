@@ -35,8 +35,8 @@ public class InterceptorHandlerAutoConfiguration {
   public List<String> getAuthorizationExcludePathPatterns() {
     List<String> defaultPatterns = new ArrayList<>(5);
     // for agent
-    defaultPatterns.add("/api/config/agent/*");
-    defaultPatterns.add("/api/storage/record/*");
+    defaultPatterns.add("/api/config/agent/**");
+    defaultPatterns.add("/api/storage/record/**");
     return defaultPatterns;
   }
 }

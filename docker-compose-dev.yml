@@ -67,6 +67,7 @@ services:
         -Darex.redis.uri=$AREX_REDIS_URI
         -Darex.storage.service.api=http://arex-storage-service:8080
         -Darex.api.service.api=http://arex-api-service:8080
+        -Darex.schedule.service.api=http://arex-schedule-service:8080
 #    depends_on:
 #      - mongodb
 #      - redis
