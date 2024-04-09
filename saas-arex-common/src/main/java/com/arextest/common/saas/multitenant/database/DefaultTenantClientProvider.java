@@ -72,11 +72,6 @@ public class DefaultTenantClientProvider implements TenantClientProvider {
   }
 
   @Override
-  public List<TenantMongoClientHolder> loadAll() {
-    return null;
-  }
-
-  @Override
   public TenantMongoClientHolder load(String tenant) {
     return cache.get(tenant);
   }
