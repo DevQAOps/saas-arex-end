@@ -30,6 +30,10 @@
       <groupId>com.github.ben-manes.caffeine</groupId>
       <artifactId>caffeine</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.arextest</groupId>
+      <artifactId>arex-storage-web-api</artifactId>
+    </dependency>
   </dependencies>
 
 </project>

@@ -5,6 +5,7 @@ import com.arextest.common.saas.login.SaasJWTService;
 import com.mongodb.client.MongoDatabase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 @Configuration
 public class SaasServiceConfiguration {
@@ -13,8 +14,7 @@ public class SaasServiceConfiguration {
   private static final long REFRESH_EXPIRE_TIME = 2592000000L;
 
   @Bean
-  public JWTService saasJWTService(MongoDatabase mongoDatabase) {
-    return new SaasJWTService(ACCESS_EXPIRE_TIME, REFRESH_EXPIRE_TIME, null);
+  public JWTService saasJWTService(MongoTemplate mongoTemplate) {
+    return new SaasJWTService(ACCESS_EXPIRE_TIME, REFRESH_EXPIRE_TIME, mongoTemplate);
   }
-
 }
