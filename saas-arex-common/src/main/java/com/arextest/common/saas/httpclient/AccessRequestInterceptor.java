@@ -46,6 +46,8 @@ public class AccessRequestInterceptor implements ClientHttpRequestInterceptor {
         GroupContextUtil.setGroup(Strings.EMPTY);
       }
 
+      // The service currently does not need to pass userName upstream and downstream, so it is left blank.
+      // If you want to pass userName later, you can pass threadlocal
       String temporaryToken = jwtService.makeAccessToken("", TEMPORARY_EXPIRATION_MS);
       request.getHeaders().add(TOKEN_KEY_FIELD, temporaryToken);
       request.getHeaders().add(Constants.ORG, GroupContextUtil.getGroup());
