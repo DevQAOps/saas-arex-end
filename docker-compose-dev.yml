@@ -50,6 +50,9 @@ services:
       - JAVA_OPTS=-Darex.mongo.uri=$AREX_MONGO_URI
         -Darex.redis.uri=$AREX_REDIS_URI
         -Darex.api.service.api=http://arex-api-service:8080
+        -Dsaas.tenant.database.mongo.default.uri=$AREX_MONGO_URI
+        -Dsaas.tenant.database.mongo.default.database=arex_storage_db
+        -Dsaas.tenant.database.mongo.uri.base=mongodb://arex:iLoveArex@10.144.62.53:27017/
 #    depends_on:
 #      - mongodb
 #      - redis
