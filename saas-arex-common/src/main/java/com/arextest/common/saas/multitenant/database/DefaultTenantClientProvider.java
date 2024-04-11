@@ -29,8 +29,13 @@ public class DefaultTenantClientProvider implements TenantClientProvider {
   private final LoadingCache<String, TenantMongoClientHolder> cache = Caffeine.newBuilder()
       .maximumSize(100)
       .build((k) -> {
+        // todo note it for test,
+//        if (StringUtils.isEmpty(k)) {
+//          throw new RuntimeException("Invalid tenant");
+//        }
+        // todo will remove it in the future
         if (StringUtils.isEmpty(k)) {
-          throw new RuntimeException("Invalid tenant");
+          return createHolderByUri(defaultUri, defaultDatabaseName);
         }
 
         if (DEFAULT_TENANT.equals(k)) {
