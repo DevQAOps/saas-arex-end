@@ -21,8 +21,9 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <springboot.version>2.7.18</springboot.version>
     <arex-common.version>0.1.25</arex-common.version>
-    <arex-common.version>0.1.25</arex-common.version>
-    <arex.storage.version>1.1.23</arex.storage.version>
+    <arex.storage.version>1.1.24</arex.storage.version>
+    <arex.schedule.version>1.1.13</arex.schedule.version>
+    <arex.api.version>0.6.4.2</arex.api.version>
     <caffine.version>2.9.2</caffine.version>
   </properties>
 
@@ -61,6 +62,16 @@
         <groupId>com.arextest</groupId>
         <artifactId>arex-storage-web-api</artifactId>
         <version>${arex.storage.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.arextest</groupId>
+        <artifactId>arex-schedule-web-api</artifactId>
+        <version>${arex.schedule.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.arextest</groupId>
+        <artifactId>arex-web-api</artifactId>
+        <version>${arex.api.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

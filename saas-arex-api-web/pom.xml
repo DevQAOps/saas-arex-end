@@ -15,18 +15,11 @@
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <arex.api.version>0.6.4.2</arex.api.version>
   </properties>
 
 
   <dependencyManagement>
     <dependencies>
-      <!--open arex jar-->
-      <dependency>
-        <groupId>com.arextest</groupId>
-        <artifactId>arex-web-api</artifactId>
-        <version>${arex.api.version}</version>
-      </dependency>
       <dependency>
         <groupId>org.mongodb</groupId>
         <artifactId>bson</artifactId>
