@@ -1,6 +1,7 @@
 package com.arextest.common.saas.interceptor;
 
 import com.arextest.common.interceptor.AbstractInterceptorHandler;
+import com.arextest.common.saas.model.Constants;
 import com.arextest.common.utils.GroupContextUtil;
 import java.util.Collections;
 import java.util.List;
@@ -9,10 +10,9 @@ import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.util.Strings;
 
 public class GroupInterceptor extends AbstractInterceptorHandler {
-
-  private static final String ORG = "org";
 
   @Override
   public Integer getOrder() {
@@ -29,6 +29,7 @@ public class GroupInterceptor extends AbstractInterceptorHandler {
     return Collections.emptyList();
   }
 
+  // todo: if group name is empty, we should reject the request
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
       Object handler) {
@@ -55,7 +56,8 @@ public class GroupInterceptor extends AbstractInterceptorHandler {
     }
 
     if (StringUtils.isEmpty(res)) {
-      res = request.getHeader(ORG) == null ? "" : request.getHeader(ORG);
+      String orgHeader = request.getHeader(Constants.ORG);
+      res = orgHeader == null ? Strings.EMPTY : orgHeader;
     }
     return res;
   }

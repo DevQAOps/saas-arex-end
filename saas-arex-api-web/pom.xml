@@ -15,18 +15,11 @@
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <arex.api.version>0.6.2.10</arex.api.version>
   </properties>
 
 
   <dependencyManagement>
     <dependencies>
-      <!--open arex jar-->
-      <dependency>
-        <groupId>com.arextest</groupId>
-        <artifactId>arex-web-api</artifactId>
-        <version>${arex.api.version}</version>
-      </dependency>
       <dependency>
         <groupId>org.mongodb</groupId>
         <artifactId>bson</artifactId>
@@ -141,5 +134,57 @@
       <artifactId>saas-arex-common</artifactId>
     </dependency>
   </dependencies>
+
+  <profiles>
+    <profile>
+      <build>
+        <finalName>web-api</finalName>
+        <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+            <excludes>
+              <exclude>**/*.jar</exclude>
+            </excludes>
+            <filtering>true</filtering>
+          </resource>
+          <resource>
+            <directory>src/main/resources</directory>
+            <includes>
+              <include>**/*.yaml</include>
+              <include>**/*.jar</include>
+            </includes>
+          </resource>
+        </resources>
+        <plugins>
+          <plugin>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <groupId>org.apache.maven.plugins</groupId>
+          </plugin>
+          <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <version>${springboot.version}</version>
+            <configuration>
+              <includeSystemScope>true</includeSystemScope>
+              <mainClass>com.arextest.web.saas.SaasWebSpringBootServletInitializer</mainClass>
+              <outputDirectory>../saas-end-jar</outputDirectory>
+            </configuration>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>repackage</goal>
+                </goals>
+                <phase>package</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+      <id>jar</id>
+      <properties>
+        <packagingType>jar</packagingType>
+      </properties>
+    </profile>
+  </profiles>
 
 </project>
