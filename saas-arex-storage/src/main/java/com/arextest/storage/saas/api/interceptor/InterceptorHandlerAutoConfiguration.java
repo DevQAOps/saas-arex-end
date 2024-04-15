@@ -18,18 +18,18 @@ public class InterceptorHandlerAutoConfiguration {
     return new GroupInterceptor();
   }
 
-  @Bean
-  public AbstractInterceptorHandler authorizationInterceptor(JWTService jwtService) {
-    return new SaasAuthorizationInterceptor(
-        getAuthorizationPathPatterns(),
-        getAuthorizationExcludePathPatterns(),
-        jwtService
-    );
-  }
+//  @Bean
+//  public AbstractInterceptorHandler authorizationInterceptor(JWTService jwtService) {
+//    return new SaasAuthorizationInterceptor(
+//        getAuthorizationPathPatterns(),
+//        getAuthorizationExcludePathPatterns(),
+//        jwtService
+//    );
+//  }
 
 
   public List<String> getAuthorizationPathPatterns() {
-    return Collections.singletonList("/**");
+    return Collections.emptyList();
   }
 
   public List<String> getAuthorizationExcludePathPatterns() {

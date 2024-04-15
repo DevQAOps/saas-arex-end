@@ -14,6 +14,8 @@ arex:
     defaultExpirationDuration: 345600000
     allowReRunDays: 1
   api:
+    service:
+      api: http://10.144.62.53:8090
     config:
       agent:
         url: http://10.144.62.53:8090

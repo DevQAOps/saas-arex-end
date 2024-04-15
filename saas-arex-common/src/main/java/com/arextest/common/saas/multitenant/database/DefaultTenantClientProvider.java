@@ -1,14 +1,11 @@
 package com.arextest.common.saas.multitenant.database;
 
-import com.arextest.storage.repository.impl.mongo.ArexCodecFactory;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
-import java.util.List;
 import org.apache.commons.lang3.StringUtils;
-import org.bson.codecs.configuration.CodecProvider;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -64,8 +61,7 @@ public class DefaultTenantClientProvider implements TenantClientProvider {
   private void createDatabase(TenantMongoClientHolder holder) {
     MongoClient client = holder.getMongoClient();
     MongoDatabase database = client.getDatabase(holder.getDatabaseName());
-    List<CodecProvider> codecProviders = ArexCodecFactory.get(database);
-    holder.setMongoDatabase(database.withCodecRegistry(DBUtils.customCodecRegistry(codecProviders)));
+    holder.setMongoDatabase(database);
   }
 
   private String getUriByTenant(String tenant) {

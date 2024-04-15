@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <Configuration>
     <Appenders>
-        <NoSql name="Mongo4">
-            <ArexMongoDb4 capped="true" collectionSize="104857600"
-              connection="${sys:arex.mongo.uri}"
-            />
-        </NoSql>
         <RollingFile fileName="logs/app.log"
           filePattern="logs/app.%d{yyyy-MM-dd.HH}.log"
           name="RollingFile">
@@ -23,9 +18,6 @@
     </Appenders>
 
     <Loggers>
-        <Logger level="INFO" name="com.arextest">
-            <AppenderRef ref="Mongo4"/>
-        </Logger>
         <Root level="info">
             <AppenderRef ref="RollingFile"/>
         </Root>
