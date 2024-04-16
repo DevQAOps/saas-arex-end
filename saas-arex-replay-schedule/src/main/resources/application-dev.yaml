@@ -16,3 +16,12 @@ arex:
   schedule:
     service:
       api: http://10.144.62.53:8092
+saas:
+  tenant:
+    database:
+      mongo:
+        uri:
+          base: mongodb://arex:iLoveArex@10.144.62.53:27017/
+        default:
+          uri: mongodb://arex:iLoveArex@10.144.62.53:27017/arex_storage_db
+          database: arex_storage_db
