@@ -4,6 +4,7 @@ import com.arextest.common.interceptor.AbstractInterceptorHandler;
 import com.arextest.common.jwt.JWTService;
 import com.arextest.common.saas.interceptor.GroupInterceptor;
 import com.arextest.common.saas.interceptor.SaasAuthorizationInterceptor;
+import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
@@ -26,12 +27,11 @@ public class InterceptorHandlerAutoConfiguration {
     );
   }
 
-
   public List<String> getAuthorizationPathPatterns() {
     return Collections.singletonList("/**");
   }
 
   public List<String> getAuthorizationExcludePathPatterns() {
-    return Collections.emptyList();
+    return Lists.newArrayList("/vi/health");
   }
 }

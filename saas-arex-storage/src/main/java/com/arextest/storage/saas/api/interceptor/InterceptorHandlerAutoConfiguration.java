@@ -27,7 +27,6 @@ public class InterceptorHandlerAutoConfiguration {
     );
   }
 
-
   public List<String> getAuthorizationPathPatterns() {
     return Collections.singletonList("/**");
   }
@@ -37,6 +36,7 @@ public class InterceptorHandlerAutoConfiguration {
     // for agent
     defaultPatterns.add("/api/config/agent/**");
     defaultPatterns.add("/api/storage/record/**");
+    defaultPatterns.add("/vi/health");
     return defaultPatterns;
   }
 }
