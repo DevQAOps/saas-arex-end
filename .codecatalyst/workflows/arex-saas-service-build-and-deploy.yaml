@@ -30,8 +30,7 @@ Actions:
         #build:
         - Run: echo Build started on `date`
         - Run: echo Building the Docker image...
-        - Run: cd saas-arex-api-web
-        - Run: docker build -t $REPOSITORY_URI:latest .
+        - Run: docker build -t $REPOSITORY_URI:latest -f ./saas-arex-api-web/Dockerfile .
         - Run: docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
         #post_build:
         - Run: echo Build completed on `date`
