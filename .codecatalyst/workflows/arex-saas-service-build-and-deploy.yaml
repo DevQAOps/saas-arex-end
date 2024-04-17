@@ -19,7 +19,7 @@ Actions:
         - Name: REPOSITORY_URI
           Value: 435235521547.dkr.ecr.us-west-2.amazonaws.com/codecatalyst-ecs-image-repo
         - Name: IMAGE_TAG
-          Value: arex-web-api:${WorkflowSource.CommitId}
+          Value: arex-web-api-${WorkflowSource.CommitId}
     Configuration:
       Steps:
         #pre_build:
@@ -87,4 +87,4 @@ Actions:
         - Name: REPOSITORY_URI
           Value: 435235521547.dkr.ecr.us-west-2.amazonaws.com/codecatalyst-ecs-image-repo
         - Name: IMAGE_TAG
-          Value: arex-web-api:${WorkflowSource.CommitId}
+          Value: arex-web-api-${WorkflowSource.CommitId}
