@@ -1,0 +1,22 @@
+{
+	"executionRoleArn": "arn:aws:iam::435235521547:role/codecatalyst-ecs-task-execution-role",
+	"containerDefinitions": [{
+		"name": "arex-web-api-container",
+		"image": "435235521547.dkr.ecr.us-west-2.amazonaws.com/codecatalyst-ecs-image-repo:7855246779fc25694c54c9a5d4fc63e186111816",
+		"essential": true,
+		"portMappings": [{
+			"hostPort": 8080,
+			"protocol": "tcp",
+			"containerPort": 8080
+		}],
+		"environment": [{
+			"name": "JAVA_OPTS",
+			"value": "-Dsaas.tenant.mongo.default.uri=mongodb://arex:iLoveArex@mongo-nlb-2df9ea376fed96d7.elb.us-west-2.amazonaws.com/arex_storage_db -Dsaas.tenant.mongo.default.database=arex_storage_db -Dsaas.tenant.mongo.uri.base=mongodb://arex:iLoveArex@mongo-nlb-2df9ea376fed96d7.elb.us-west-2.amazonaws.com -Darex.redis.uri=redis://Redis-nlb-7f68f3434af8867b.elb.us-west-2.amazonaws.com"
+		}]
+	}],
+	"requiresCompatibilities": ["FARGATE"],
+	"networkMode": "awsvpc",
+	"cpu": "1024",
+	"memory": "4096",
+	"family": "arex-web-api"
+}
