@@ -1,0 +1,27 @@
+package com.arextest.saasdevops.service;
+
+import java.util.List;
+
+/**
+ * @author wildeslam.
+ * @create 2024/3/29 14:59
+ */
+public interface UserManageService {
+    /**
+     * Initialize the organization's resources including the database, indexes and add admin user.
+     * return true if the initialization is successful.
+     */
+    boolean initSaasUser(String companyName, String email);
+
+    /**
+     * Add users to the organization.
+     * return true if the addition is successful.
+     */
+    boolean addUser(String companyName, List<String> emails);
+
+    /**
+     * Remove users to the organization.
+     * return true if the removal is successful.
+     */
+    boolean removeUser(String companyName, List<String> emails);
+}

@@ -1,0 +1,13 @@
+package com.arextest.saasdevops;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SaasDevOpsApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(SaasDevOpsApplication.class, args);
+    }
+
+}
