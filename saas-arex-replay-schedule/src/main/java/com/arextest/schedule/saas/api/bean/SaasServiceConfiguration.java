@@ -3,6 +3,9 @@ package com.arextest.schedule.saas.api.bean;
 import com.arextest.common.jwt.JWTService;
 import com.arextest.common.saas.httpclient.AccessRequestInterceptor;
 import com.arextest.common.saas.login.SaasJWTService;
+import com.arextest.schedule.comparer.CompareConfigService;
+import com.arextest.schedule.comparer.CompareService;
+import com.arextest.schedule.saas.api.compare.SaasCompareService;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,6 +44,17 @@ public class SaasServiceConfiguration {
       InterfaceAddressConfiguration interfaceAddressConfiguration) {
     return new AccessRequestInterceptor(jwtService,
         interfaceAddressConfiguration.getServiceAddressInfos());
+  }
+
+  /**
+   * for compare service
+   *
+   * @param compareConfigService
+   * @return
+   */
+  @Bean
+  public CompareService compareService(CompareConfigService compareConfigService) {
+    return new SaasCompareService(compareConfigService);
   }
 
 
