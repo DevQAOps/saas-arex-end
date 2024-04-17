@@ -68,7 +68,7 @@ Actions:
     Configuration:
       image: $REPOSITORY_URI:$IMAGE_TAG
       container-name: arex-web-api-container
-      task-definition: ./taskdef.json
+      task-definition: ./saas-arex-api-web/taskdef.json
     Compute:
       Type: EC2
       Fleet: Linux.x86-64.Large
