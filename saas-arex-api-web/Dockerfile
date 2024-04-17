@@ -1,5 +1,5 @@
 FROM maven:3-openjdk-8-slim as builder
-COPY . /usr/src/app/
+COPY .. /usr/src/app/
 WORKDIR /usr/src/app
 RUN mvn clean package -pl saas-arex-api-web -am -DskipTests=true -Pjar
 
