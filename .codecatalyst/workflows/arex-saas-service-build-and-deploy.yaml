@@ -1,0 +1,91 @@
+Name: arex-saas-service-build-and-deploy
+SchemaVersion: 1.0
+Triggers:
+  - Type: PUSH
+    Branches:
+      - main
+Actions:
+  BuildBackend:
+    Identifier: aws/build@v1
+    Environment:
+      Connections:
+        - Role: codecatalyst-ecs-build-role
+          Name: "435235521547"
+      Name: Ares-Saas-Service-Test
+    Inputs:
+      Sources:
+        - WorkflowSource
+      Variables:
+        - Name: REPOSITORY_URI
+          Value: 435235521547.dkr.ecr.us-west-2.amazonaws.com/codecatalyst-ecs-image-repo
+        - Name: IMAGE_TAG
+          Value: arex-web-api:${WorkflowSource.CommitId}
+    Configuration:
+      Steps:
+        #pre_build:
+        - Run: echo Logging in to Amazon ECR...
+        - Run: aws --version
+        - Run: aws ecr get-login-password --region us-west-2 | docker login --username AWS
+            --password-stdin 435235521547.dkr.ecr.us-west-2.amazonaws.com
+        #build:
+        - Run: echo Build started on `date`
+        - Run: echo Building the Docker image...
+        - Run: cd saas-arex-api-web
+        - Run: docker build -t $REPOSITORY_URI:latest .
+        - Run: docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
+        #post_build:
+        - Run: echo Build completed on `date`
+        - Run: echo Pushing the Docker images...
+        - Run: docker push $REPOSITORY_URI:latest
+        - Run: docker push $REPOSITORY_URI:$IMAGE_TAG
+    Compute:
+      Type: EC2
+      Fleet: Linux.x86-64.Large
+  DeployToECS:
+    Identifier: aws/ecs-deploy@v1
+    Configuration:
+      task-definition: ${RenderTaskDef.task-definition}
+      service: arex-web-api-service
+      cluster: Arex-api-cluster
+      region: us-west-2
+    Compute:
+      Type: EC2
+      Fleet: Linux.x86-64.Large
+    Environment:
+      Connections:
+        - Role: codecatalyst-ecs-deploy-role
+          Name: "435235521547"
+      Name: Ares-Saas-Service-Test
+    DependsOn:
+      - BuildBackend
+      - RenderTaskDef
+    Inputs:
+      Artifacts:
+        - TaskDefArtifact
+      Sources: []
+
+  RenderTaskDef:
+    Identifier: aws/ecs-render-task-definition@v1
+    Configuration:
+      image: $REPOSITORY_URI:$IMAGE_TAG
+      container-name: arex-web-api-container
+      task-definition: ./taskdef.json
+    Compute:
+      Type: EC2
+      Fleet: Linux.x86-64.Large
+    # The output variable is set to the name of the updated task definition file. 
+    Outputs:
+      Artifacts:
+        - Name: TaskDefArtifact
+          Files:
+            - task-definition*
+    DependsOn:
+      - BuildBackend
+    Inputs:
+      Sources:
+        - WorkflowSource
+      Variables:
+        - Name: REPOSITORY_URI
+          Value: 435235521547.dkr.ecr.us-west-2.amazonaws.com/codecatalyst-ecs-image-repo
+        - Name: IMAGE_TAG
+          Value: arex-web-api:${WorkflowSource.CommitId}
