@@ -1,0 +1,13 @@
+server:
+  port: 8094
+logging:
+  config: classpath:log4j2-dev.xml
+saas:
+  tenant:
+    database:
+      mongo:
+        uri:
+          base: mongodb://arex:iLoveArex@10.144.62.53:27017/
+        default:
+          uri: mongodb://arex:iLoveArex@10.144.62.53:27017/arex_storage_db
+          database: arex_storage_db

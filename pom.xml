@@ -13,6 +13,7 @@
     <module>saas-arex-common</module>
     <module>saas-arex-storage</module>
     <module>saas-arex-replay-schedule</module>
+    <module>saas-DevOps</module>
   </modules>
 
   <properties>

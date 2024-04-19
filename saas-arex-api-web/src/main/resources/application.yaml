@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: prod
+    active: dev
   application:
     name: Arex web service
   jackson:
@@ -92,4 +92,14 @@ arex:
     port: 20090
 pom:
   version: ""
+
+saas:
+  tenant:
+    database:
+      mongo:
+        uri:
+          base: mongodb://arex:iLoveArex@10.144.62.53:27017/
+        default:
+          uri: mongodb://arex:iLoveArex@10.144.62.53:27017/arex_storage_db
+          database: arex_storage_db
 
