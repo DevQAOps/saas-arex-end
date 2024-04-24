@@ -7,7 +7,7 @@ arex:
       url: http://10.144.62.53:8093
   schedule:
     service:
-      url: http://10.144.62.53:8092
+      url: arex-schedule-discovery.arex-namesapce:8080
   mongo:
     uri: mongodb://arex:password@10.144.62.53:27017/arex_storage_db
   redis:

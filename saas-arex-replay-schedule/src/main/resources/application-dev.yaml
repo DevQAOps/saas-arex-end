@@ -13,7 +13,7 @@ arex:
       api: http://10.144.62.53:8093
   schedule:
     service:
-      api: http://10.144.62.53:8092
+      api: arex-schedule-discovery.arex-namesapce:8080
 saas:
   tenant:
     database:
