@@ -3,17 +3,17 @@ logging:
 arex:
   api:
     service:
-      api: arex-web-api-find.arex-namesapce:8080
+      api: http://arex-web-api-find.arex-namesapce:8080
   mongo:
     uri: mongodb://arex:password@10.144.62.53:27017/arex_storage_db
   redis:
     uri: redis://35.94.19.164:6379
   storage:
     service:
-      api: http://10.144.62.53:8093
+      api: http://arex-storage-discovery.arex-namesapce:8080
   schedule:
     service:
-      api: arex-schedule-discovery.arex-namesapce:8080
+      api: http://arex-schedule-discovery.arex-namesapce:8080
 saas:
   tenant:
     database:

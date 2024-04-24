@@ -13,10 +13,10 @@ arex:
     allowReRunDays: 1
   api:
     service:
-      api: arex-web-api-find.arex-namesapce:8080
+      api: http://arex-web-api-find.arex-namesapce:8080
     config:
       agent:
-        url: http://10.144.62.53:8090
+        url: http://arex-web-api-find.arex-namesapce:8080
 #    categoryTypes:
 #      - name: Hi
 #        entryPoint: true
