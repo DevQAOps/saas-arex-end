@@ -83,6 +83,7 @@ public class InterceptorHandlerAutoConfiguration {
     defaultPatterns.add("/api/config/comparison/summary/queryConfigOfCategory");
     defaultPatterns.add("/api/report/queryPlanStatistic");
     defaultPatterns.add("/api/desensitization/listJar");
+    defaultPatterns.add("/");
 
     // exclude configuration services
     defaultPatterns.add("/api/config/**");
