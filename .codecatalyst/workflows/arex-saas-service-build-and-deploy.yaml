@@ -1,9 +1,6 @@
 Name: arex-saas-service-build-and-deploy
 SchemaVersion: 1.0
-Triggers:
-  - Type: PUSH
-    Branches:
-      - main
+Triggers: []
 Actions:
   BuildBackend:
     Identifier: aws/build@v1
