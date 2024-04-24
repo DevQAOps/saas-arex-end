@@ -5,7 +5,7 @@ logging:
 arex:
   storage:
     cache:
-      uri: redis://10.144.62.53:6379/
+      uri: redis://35.94.19.164:6379
     enableDiscoveryEntryPoint: true
     mongodbUri: mongodb://arex:password@10.144.62.53:27017/arex_storage_db
     recordEnv: TEST
@@ -28,7 +28,7 @@ saas:
     database:
       mongo:
         uri:
-          base: mongodb://arex:iLoveArex@10.144.62.53:27017/
+          base: mongodb://arex:iLoveArex@mongo-nlb-2df9ea376fed96d7.elb.us-west-2.amazonaws.com/
         default:
-          uri: mongodb://arex:iLoveArex@10.144.62.53:27017/arex_storage_db
+          uri: mongodb://arex:iLoveArex@mongo-nlb-2df9ea376fed96d7.elb.us-west-2.amazonaws.com/arex_storage_db
           database: arex_storage_db

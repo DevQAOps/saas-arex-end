@@ -6,7 +6,7 @@ spring:
     serialization:
       FAIL_ON_EMPTY_BEANS: false
   profiles:
-    active: prod
+    active: dev
 arex:
   api:
     config:
