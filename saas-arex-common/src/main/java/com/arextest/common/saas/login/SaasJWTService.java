@@ -22,7 +22,9 @@ public class SaasJWTService extends JWTServiceImpl {
 
   private static final String KEY = "key";
 
-  private static final String SEED_KEY = "jwt_seed";
+  private static final String KEY_VALUE = "jwt_seed";
+
+  private static final String SEED_KEY = "jwtSeed";
 
   private MongoTemplate mongoTemplate;
 
@@ -100,7 +102,7 @@ public class SaasJWTService extends JWTServiceImpl {
     @Nullable
     @Override
     public JWTServiceImpl load(@NonNull String key) {
-      Query query = new Query().addCriteria(Criteria.where(KEY).is(SEED_KEY));
+      Query query = new Query().addCriteria(Criteria.where(KEY).is(KEY_VALUE));
 
       Document systemConfiguration = mongoTemplate.findOne(query, Document.class,
           "SystemConfiguration");
