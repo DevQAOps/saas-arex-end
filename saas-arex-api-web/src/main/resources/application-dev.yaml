@@ -11,7 +11,7 @@ arex:
   mongo:
     uri: mongodb://arex:password@10.144.62.53:27017/arex_storage_db
   redis:
-    uri: redis://35.94.19.164:6379
+    uri: redis://redis-inner-nlb-2203a1ba55b82a05.elb.us-west-2.amazonaws.com
 
 saas:
   tenant:
