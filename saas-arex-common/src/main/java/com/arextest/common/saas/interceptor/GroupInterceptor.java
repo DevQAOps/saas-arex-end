@@ -3,15 +3,19 @@ package com.arextest.common.saas.interceptor;
 import com.arextest.common.interceptor.AbstractInterceptorHandler;
 import com.arextest.common.saas.model.Constants;
 import com.arextest.common.utils.GroupContextUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 
+@Slf4j
 public class GroupInterceptor extends AbstractInterceptorHandler {
 
   @Override
@@ -45,6 +49,16 @@ public class GroupInterceptor extends AbstractInterceptorHandler {
   }
 
   private String extractGroupName(HttpServletRequest request) {
+    LOGGER.info("extract group name from request: {}", request.getServerName());
+
+    ObjectMapper objectMapper = new ObjectMapper();
+    String requestStr = "";
+    try {
+      requestStr = objectMapper.writeValueAsString(request);
+    } catch (JsonProcessingException e) {
+    }
+    LOGGER.info("extract group name from requestStr: {}", requestStr);
+
     String res = "";
     String serverName = request.getServerName();
     if (StringUtils.isNotEmpty(serverName)) {
