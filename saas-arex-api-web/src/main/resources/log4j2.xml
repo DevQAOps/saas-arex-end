@@ -2,8 +2,8 @@
 <Configuration>
     <Appenders>
         <RollingFile fileName="logs/app.log"
-          filePattern="logs/app.%d{yyyy-MM-dd.HH}.log"
-          name="RollingFile">
+                     filePattern="logs/app.%d{yyyy-MM-dd.HH}.log"
+                     name="RollingFile">
             <PatternLayout>
                 <pattern>%d %p %C{1.} [%t] %m%n</pattern>
             </PatternLayout>
@@ -15,11 +15,16 @@
                 <TimeBasedTriggeringPolicy/>
             </Policies>
         </RollingFile>
+
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+        </Console>
     </Appenders>
 
     <Loggers>
         <Root level="info">
             <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="Console"/>
         </Root>
     </Loggers>
 </Configuration>
