@@ -50,7 +50,7 @@ public class AccessRequestInterceptor implements ClientHttpRequestInterceptor {
       // If you want to pass userName later, you can pass threadlocal
       String temporaryToken = jwtService.makeAccessToken("", TEMPORARY_EXPIRATION_MS);
       request.getHeaders().add(TOKEN_KEY_FIELD, temporaryToken);
-      request.getHeaders().add(Constants.ORG, GroupContextUtil.getGroup());
+      request.getHeaders().add(Constants.AREX_TENANT_CODE, GroupContextUtil.getGroup());
     }
     return execution.execute(request, body);
   }
