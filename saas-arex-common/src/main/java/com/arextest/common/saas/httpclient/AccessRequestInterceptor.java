@@ -38,6 +38,8 @@ public class AccessRequestInterceptor implements ClientHttpRequestInterceptor {
         Optional.ofNullable(uri.getScheme()).orElse(Strings.EMPTY)
             + "://"
             + Optional.ofNullable(uri.getAuthority()).orElse(Strings.EMPTY);
+    LOGGER.info("webSite: {}, path：{}, group:{}", webSite, uri.getPath(),
+        GroupContextUtil.getGroup());
     if (innerServiceAddress.contains(webSite)) {
 
       // todo temporary plan, to solve the problem of starting to read the system configuration
