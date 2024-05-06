@@ -35,6 +35,9 @@ public class TenantInterceptor extends AbstractInterceptorHandler {
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
       Object handler) {
+    if (TenantContextUtil.getTenantCode() != null) {
+      return true;
+    }
     String tenantCode = extractTenantCode(request);
     TenantContextUtil.setTenantCode(tenantCode);
     return true;
