@@ -58,7 +58,7 @@ public class GroupInterceptor extends AbstractInterceptorHandler {
     }
 
     if (StringUtils.isEmpty(res)) {
-      String orgHeader = request.getHeader(Constants.ORG);
+      String orgHeader = request.getHeader(Constants.AREX_TENANT_CODE);
       res = orgHeader == null ? Strings.EMPTY : orgHeader;
     }
     return res;
