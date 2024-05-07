@@ -1,19 +1,29 @@
 arex:
   storage:
     cache:
-      uri: ${arex.redis.uri:redis://redis:6379/}
+      uri: redis://redis-inner-nlb-2203a1ba55b82a05.elb.us-west-2.amazonaws.com:6379/
     enableDiscoveryEntryPoint: true
-    mongodbUri: ${arex.mongo.uri:mongodb://arex:password@mongodb:27017/arex_storage_db}
     recordEnv: TEST
     expirationDurationMap:
       ConfigFile: 3456000000
     defaultExpirationDuration: 345600000
     allowReRunDays: 1
   api:
+    service:
+      api: http://arex-web-api-find.arex-namesapce:8080
     config:
       agent:
-        url: ${arex.api.service.api:http://arex-api-service:8080}
+        url: http://arex-web-api-find.arex-namesapce:8080
 #    categoryTypes:
 #      - name: Hi
 #        entryPoint: true
 #        skipComparison: true
+saas:
+  tenant:
+    database:
+      mongo:
+        uri:
+          base: mongodb://arex:iLoveArex@mongo-inner-nlb-d5fc37ce9602213c.elb.us-west-2.amazonaws.com/
+        default:
+          uri: mongodb://arex:iLoveArex@mongo-inner-nlb-d5fc37ce9602213c.elb.us-west-2.amazonaws.com/arex_storage_db
+          database: arex_storage_db

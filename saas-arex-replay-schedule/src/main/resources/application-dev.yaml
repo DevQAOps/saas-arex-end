@@ -4,8 +4,6 @@ arex:
   api:
     service:
       api: http://arex-web-api-find.arex-namesapce:8080
-  mongo:
-    uri: mongodb://arex:password@10.144.62.53:27017/arex_storage_db
   redis:
     uri: redis://redis-inner-nlb-2203a1ba55b82a05.elb.us-west-2.amazonaws.com:6379/
   storage:

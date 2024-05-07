@@ -5,7 +5,6 @@ arex:
     cache:
       uri: redis://redis-inner-nlb-2203a1ba55b82a05.elb.us-west-2.amazonaws.com:6379/
     enableDiscoveryEntryPoint: true
-    mongodbUri: mongodb://arex:password@10.144.62.53:27017/arex_storage_db
     recordEnv: TEST
     expirationDurationMap:
       ConfigFile: 3456000000

@@ -1,12 +1,21 @@
 # prod
 arex:
-  mongo:
-    uri: mongodb://arex:password@mongodb:27017/arex_storage_db
   storage:
     service:
-      url: http://arex-storage-service:8080
+      url: http://arex-storage-discovery.arex-namesapce:8080
   schedule:
     service:
-      url: http://arex-schedule-service:8080
+      url: http://arex-schedule-discovery.arex-namesapce:8080
   redis:
-    uri: redis://redis:6379/
+    uri: redis://redis-inner-nlb-2203a1ba55b82a05.elb.us-west-2.amazonaws.com:6379/
+
+
+saas:
+  tenant:
+    database:
+      mongo:
+        uri:
+          base: mongodb://arex:iLoveArex@mongo-inner-nlb-d5fc37ce9602213c.elb.us-west-2.amazonaws.com/
+        default:
+          uri: mongodb://arex:iLoveArex@mongo-inner-nlb-d5fc37ce9602213c.elb.us-west-2.amazonaws.com/arex_storage_db
+          database: arex_storage_db
