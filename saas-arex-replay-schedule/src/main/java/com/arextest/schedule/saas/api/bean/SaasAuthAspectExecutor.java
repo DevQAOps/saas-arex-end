@@ -1,7 +1,7 @@
 package com.arextest.schedule.saas.api.bean;
 
 import com.arextest.common.jwt.JWTService;
-import com.arextest.common.utils.GroupContextUtil;
+import com.arextest.common.utils.TenantContextUtil;
 import com.arextest.schedule.aspect.AppAuthAspectExecutor;
 import com.arextest.schedule.dao.mongodb.ApplicationRepository;
 import com.github.benmanes.caffeine.cache.CacheLoader;
@@ -48,8 +48,8 @@ public class SaasAuthAspectExecutor extends AppAuthAspectExecutor {
 
   @Override
   protected boolean judgeByAuth() {
-    String group = GroupContextUtil.getGroup();
-    return Boolean.TRUE.equals(authSwitchCache.get(group));
+    String tenantCode = TenantContextUtil.getTenantCode();
+    return Boolean.TRUE.equals(authSwitchCache.get(tenantCode));
   }
 
 

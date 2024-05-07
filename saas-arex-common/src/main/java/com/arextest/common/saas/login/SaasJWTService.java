@@ -1,7 +1,7 @@
 package com.arextest.common.saas.login;
 
 import com.arextest.common.jwt.JWTServiceImpl;
-import com.arextest.common.utils.GroupContextUtil;
+import com.arextest.common.utils.TenantContextUtil;
 import com.github.benmanes.caffeine.cache.CacheLoader;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.github.benmanes.caffeine.cache.LoadingCache;
@@ -41,10 +41,10 @@ public class SaasJWTService extends JWTServiceImpl {
 
   @Override
   public String makeAccessToken(String username) {
-    String group = GroupContextUtil.getGroup();
-    JWTServiceImpl jwtServiceImpl = JWTServiceImplCache.get(group);
+    String tenantCode = TenantContextUtil.getTenantCode();
+    JWTServiceImpl jwtServiceImpl = JWTServiceImplCache.get(tenantCode);
     if (jwtServiceImpl == null) {
-      LOGGER.error("JWTServiceImpl not found, group : {}, action : {}", group,
+      LOGGER.error("JWTServiceImpl not found, tenantCode : {}, action : {}", tenantCode,
           "makeAccessToken");
       return null;
     }
@@ -53,10 +53,10 @@ public class SaasJWTService extends JWTServiceImpl {
 
   @Override
   public String makeAccessToken(String username, long expireTime) {
-    String group = GroupContextUtil.getGroup();
-    JWTServiceImpl jwtServiceImpl = JWTServiceImplCache.get(group);
+    String tenantCode = TenantContextUtil.getTenantCode();
+    JWTServiceImpl jwtServiceImpl = JWTServiceImplCache.get(tenantCode);
     if (jwtServiceImpl == null) {
-      LOGGER.error("JWTServiceImpl not found, group : {}, action : {}", group,
+      LOGGER.error("JWTServiceImpl not found, tenantCode : {}, action : {}", tenantCode,
           "makeAccessToken");
       return null;
     }
@@ -65,10 +65,10 @@ public class SaasJWTService extends JWTServiceImpl {
 
   @Override
   public String makeRefreshToken(String username) {
-    String group = GroupContextUtil.getGroup();
-    JWTServiceImpl jwtServiceImpl = JWTServiceImplCache.get(group);
+    String tenantCode = TenantContextUtil.getTenantCode();
+    JWTServiceImpl jwtServiceImpl = JWTServiceImplCache.get(tenantCode);
     if (jwtServiceImpl == null) {
-      LOGGER.error("JWTServiceImpl not found, group : {}, action : {}", group,
+      LOGGER.error("JWTServiceImpl not found, tenantCode : {}, action : {}", tenantCode,
           "makeRefreshToken");
       return null;
     }
@@ -77,20 +77,20 @@ public class SaasJWTService extends JWTServiceImpl {
 
   @Override
   public boolean verifyToken(String field) {
-    String group = GroupContextUtil.getGroup();
-    JWTServiceImpl jwtServiceImpl = JWTServiceImplCache.get(group);
+    String tenantCode = TenantContextUtil.getTenantCode();
+    JWTServiceImpl jwtServiceImpl = JWTServiceImplCache.get(tenantCode);
     if (jwtServiceImpl == null) {
-      LOGGER.error("JWTServiceImpl not found, group : {}, action : {}", group, "verifyToken");
+      LOGGER.error("JWTServiceImpl not found, tenantCode : {}, action : {}", tenantCode, "verifyToken");
       return false;
     }
     return jwtServiceImpl.verifyToken(field);
   }
 
   public String getUserName(String token) {
-    String group = GroupContextUtil.getGroup();
-    JWTServiceImpl jwtServiceImpl = JWTServiceImplCache.get(group);
+    String tenantCode = TenantContextUtil.getTenantCode();
+    JWTServiceImpl jwtServiceImpl = JWTServiceImplCache.get(tenantCode);
     if (jwtServiceImpl == null) {
-      LOGGER.error("JWTServiceImpl not found, group : {}, action : {}", group, "getUserName");
+      LOGGER.error("JWTServiceImpl not found, tenantCode : {}, action : {}", tenantCode, "getUserName");
       return null;
     }
     return jwtServiceImpl.getUserName(token);

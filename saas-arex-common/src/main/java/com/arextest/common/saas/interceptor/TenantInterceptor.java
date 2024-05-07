@@ -2,7 +2,7 @@ package com.arextest.common.saas.interceptor;
 
 import com.arextest.common.interceptor.AbstractInterceptorHandler;
 import com.arextest.common.saas.model.Constants;
-import com.arextest.common.utils.GroupContextUtil;
+import com.arextest.common.utils.TenantContextUtil;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.Strings;
 
 @Slf4j
-public class GroupInterceptor extends AbstractInterceptorHandler {
+public class TenantInterceptor extends AbstractInterceptorHandler {
 
   @Override
   public Integer getOrder() {
@@ -35,18 +35,18 @@ public class GroupInterceptor extends AbstractInterceptorHandler {
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
       Object handler) {
-    String groupName = extractGroupName(request);
-    GroupContextUtil.setGroup(groupName);
+    String tenantCode = extractTenantCode(request);
+    TenantContextUtil.setTenantCode(tenantCode);
     return true;
   }
 
   @Override
   public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
       Object handler, Exception ex) throws Exception {
-    GroupContextUtil.clear();
+    TenantContextUtil.clearAll();
   }
 
-  private String extractGroupName(HttpServletRequest request) {
+  private String extractTenantCode(HttpServletRequest request) {
     String res = "";
     String serverName = request.getServerName();
     if (StringUtils.isNotEmpty(serverName)) {
