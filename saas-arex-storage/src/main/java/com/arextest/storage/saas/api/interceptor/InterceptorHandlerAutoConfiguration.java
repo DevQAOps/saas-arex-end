@@ -2,7 +2,7 @@ package com.arextest.storage.saas.api.interceptor;
 
 import com.arextest.common.interceptor.AbstractInterceptorHandler;
 import com.arextest.common.jwt.JWTService;
-import com.arextest.common.saas.interceptor.GroupInterceptor;
+import com.arextest.common.saas.interceptor.TenantInterceptor;
 import com.arextest.common.saas.interceptor.SaasAuthorizationInterceptor;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -14,8 +14,8 @@ import org.springframework.context.annotation.Configuration;
 public class InterceptorHandlerAutoConfiguration {
 
   @Bean
-  public AbstractInterceptorHandler groupInterceptor() {
-    return new GroupInterceptor();
+  public AbstractInterceptorHandler tenantInterceptor() {
+    return new TenantInterceptor();
   }
 
   @Bean

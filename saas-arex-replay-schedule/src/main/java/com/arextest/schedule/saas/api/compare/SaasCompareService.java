@@ -1,6 +1,6 @@
 package com.arextest.schedule.saas.api.compare;
 
-import com.arextest.common.utils.GroupContextUtil;
+import com.arextest.common.utils.TenantContextUtil;
 import com.arextest.diff.model.CompareOptions;
 import com.arextest.diff.model.CompareResult;
 import com.arextest.diff.sdk.CompareSDK;
@@ -63,10 +63,10 @@ public class SaasCompareService implements CompareService {
 
   private CompareResult executeComparison(String baseMsg, String testMsg,
       CompareOptions compareOptions, ComparisonExecutor executor) {
-    String group = GroupContextUtil.getGroup();
-    CompareSDK compareSDK = CompareSDKCache.get(group);
+    String tenantCode = TenantContextUtil.getTenantCode();
+    CompareSDK compareSDK = CompareSDKCache.get(tenantCode);
     if (compareSDK == null) {
-      LOGGER.error("SaasCompareSDK not found, group : {}, action : {}", group, "compare");
+      LOGGER.error("SaasCompareSDK not found, tenantCode : {}, action : {}", tenantCode, "compare");
       return buildNotFoundException(baseMsg, testMsg);
     }
     return executor.execute(compareSDK, baseMsg, testMsg, compareOptions);
