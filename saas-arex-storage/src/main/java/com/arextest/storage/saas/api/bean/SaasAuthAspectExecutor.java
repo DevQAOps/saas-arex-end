@@ -1,7 +1,7 @@
 package com.arextest.storage.saas.api.bean;
 
 import com.arextest.common.jwt.JWTService;
-import com.arextest.common.utils.GroupContextUtil;
+import com.arextest.common.utils.TenantContextUtil;
 import com.arextest.config.repository.impl.ApplicationConfigurationRepositoryImpl;
 import com.arextest.config.repository.impl.SystemConfigurationRepositoryImpl;
 import com.arextest.storage.aspect.AppAuthAspectExecutor;
@@ -51,8 +51,8 @@ public class SaasAuthAspectExecutor extends AppAuthAspectExecutor {
 
   @Override
   protected boolean judgeByAuth() {
-    String group = GroupContextUtil.getGroup();
-    return Boolean.TRUE.equals(authSwitchCache.get(group));
+    String tenantCode = TenantContextUtil.getTenantCode();
+    return Boolean.TRUE.equals(authSwitchCache.get(tenantCode));
   }
 
 

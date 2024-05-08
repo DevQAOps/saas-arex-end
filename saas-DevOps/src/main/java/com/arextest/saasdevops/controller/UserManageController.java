@@ -1,7 +1,7 @@
 package com.arextest.saasdevops.controller;
 
 import com.arextest.common.model.response.Response;
-import com.arextest.common.utils.GroupContextUtil;
+import com.arextest.common.utils.TenantContextUtil;
 import com.arextest.common.utils.ResponseUtils;
 import com.arextest.saasdevops.contract.AddUserRequest;
 import com.arextest.saasdevops.contract.InitSaasUserRequest;
@@ -31,14 +31,14 @@ public class UserManageController {
     @PostMapping("/initSaasUser")
     @ResponseBody
     public Response initSaasUser(@RequestBody InitSaasUserRequest request) {
-        GroupContextUtil.setGroup(request.getCompanyName());
+        TenantContextUtil.setTenantCode(request.getCompanyName());
         return ResponseUtils.successResponse(userManageService.initSaasUser(request.getCompanyName(), request.getEmail()));
     }
 
     @PostMapping("/addUser")
     @ResponseBody
     public Response addUser(@RequestBody AddUserRequest request) {
-        GroupContextUtil.setGroup(request.getCompanyName());
+        TenantContextUtil.setTenantCode(request.getCompanyName());
         return ResponseUtils.successResponse(userManageService.addUser(request.getCompanyName(), request.getEmails()));
     }
 
@@ -46,7 +46,7 @@ public class UserManageController {
     @PostMapping("/removeUser")
     @ResponseBody
     public Response removeUser(@RequestBody RemoveUserRequest request) {
-        GroupContextUtil.setGroup(request.getCompanyName());
+        TenantContextUtil.setTenantCode(request.getCompanyName());
         return ResponseUtils.successResponse(userManageService.removeUser(request.getCompanyName(), request.getEmails()));
     }
 }

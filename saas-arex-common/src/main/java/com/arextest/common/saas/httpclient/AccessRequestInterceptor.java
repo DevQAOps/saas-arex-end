@@ -2,7 +2,7 @@ package com.arextest.common.saas.httpclient;
 
 import com.arextest.common.jwt.JWTService;
 import com.arextest.common.saas.model.Constants;
-import com.arextest.common.utils.GroupContextUtil;
+import com.arextest.common.utils.TenantContextUtil;
 import java.io.IOException;
 import java.net.URI;
 import java.util.Optional;
@@ -38,21 +38,19 @@ public class AccessRequestInterceptor implements ClientHttpRequestInterceptor {
         Optional.ofNullable(uri.getScheme()).orElse(Strings.EMPTY)
             + "://"
             + Optional.ofNullable(uri.getAuthority()).orElse(Strings.EMPTY);
-    LOGGER.info("webSite: {}, path：{}, group:{}", webSite, uri.getPath(),
-        GroupContextUtil.getGroup());
     if (innerServiceAddress.contains(webSite)) {
 
       // todo temporary plan, to solve the problem of starting to read the system configuration
       //  and there is no group
-      if (GroupContextUtil.getGroup() == null) {
-        GroupContextUtil.setGroup(Strings.EMPTY);
+      if (TenantContextUtil.getTenantCode() == null) {
+        TenantContextUtil.setTenantCode(Strings.EMPTY);
       }
 
       // The service currently does not need to pass userName upstream and downstream, so it is left blank.
       // If you want to pass userName later, you can pass threadlocal
       String temporaryToken = jwtService.makeAccessToken("", TEMPORARY_EXPIRATION_MS);
       request.getHeaders().add(TOKEN_KEY_FIELD, temporaryToken);
-      request.getHeaders().add(Constants.AREX_TENANT_CODE, GroupContextUtil.getGroup());
+      request.getHeaders().add(Constants.AREX_TENANT_CODE, TenantContextUtil.getTenantCode());
     }
     return execution.execute(request, body);
   }

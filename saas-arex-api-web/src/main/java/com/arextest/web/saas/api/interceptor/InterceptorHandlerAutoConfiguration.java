@@ -2,7 +2,7 @@ package com.arextest.web.saas.api.interceptor;
 
 import com.arextest.common.interceptor.AbstractInterceptorHandler;
 import com.arextest.common.jwt.JWTService;
-import com.arextest.common.saas.interceptor.GroupInterceptor;
+import com.arextest.common.saas.interceptor.TenantInterceptor;
 import com.arextest.common.saas.interceptor.SaasAuthorizationInterceptor;
 import com.arextest.common.saas.interceptor.SaasRefreshInterceptor;
 import java.util.ArrayList;
@@ -21,8 +21,8 @@ public class InterceptorHandlerAutoConfiguration {
   private String interceptorPatterns;
 
   @Bean
-  public AbstractInterceptorHandler groupInterceptor() {
-    return new GroupInterceptor();
+  public AbstractInterceptorHandler tenantInterceptor() {
+    return new TenantInterceptor();
   }
 
   @Bean

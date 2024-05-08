@@ -1,6 +1,6 @@
 package com.arextest.common.saas.multitenant.database;
 
-import com.arextest.common.utils.GroupContextUtil;
+import com.arextest.common.utils.TenantContextUtil;
 import com.mongodb.client.MongoDatabase;
 import lombok.NonNull;
 import org.springframework.dao.DataAccessException;
@@ -21,7 +21,7 @@ public class MultiTenantMongoDbFactory extends SimpleMongoClientDatabaseFactory 
 
   @Override
   public @NonNull MongoDatabase getMongoDatabase() throws DataAccessException {
-    final String tenant = GroupContextUtil.getGroup();
+    final String tenant = TenantContextUtil.getTenantCode();
     if (tenant != null) {
       return tenantClientProvider.load(tenant).getMongoDatabase();
     } else {
