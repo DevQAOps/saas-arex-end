@@ -28,6 +28,8 @@ public class AgentAccessInterceptorHandler extends AbstractInterceptorHandler {
 
   private final ObjectMapper objectMapper;
 
+  private static final String SPLIT_SYMBOL = ":";
+
   @Override
   public Integer getOrder() {
     return -1;
@@ -60,7 +62,7 @@ public class AgentAccessInterceptorHandler extends AbstractInterceptorHandler {
 
   /**
    * apiToken: arex-api-token:
-   * ctrip-S13V3lnts9q9gnLwDp8w7M32CQtlwkVyUaHs2P+G9lCVpgbcmEsyFUKOlQf3OWfTF1uuS03LaGv40wlgRLCH/Q==
+   * ctrip:S13V3lnts9q9gnLwDp8w7M32CQtlwkVyUaHs2P+G9lCVpgbcmEsyFUKOlQf3OWfTF1uuS03LaGv40wlgRLCH/Q==
    *
    * @param apiToken
    * @return
@@ -71,7 +73,7 @@ public class AgentAccessInterceptorHandler extends AbstractInterceptorHandler {
     }
     CompanyToken companyToken;
     try {
-      String[] split = apiToken.split("-");
+      String[] split = apiToken.split(SPLIT_SYMBOL);
       if (split.length != 2) {
         return null;
       }
