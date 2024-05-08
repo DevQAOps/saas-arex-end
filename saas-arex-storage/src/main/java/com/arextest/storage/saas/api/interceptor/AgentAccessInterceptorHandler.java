@@ -1,9 +1,6 @@
 package com.arextest.storage.saas.api.interceptor;
 
 import com.arextest.common.interceptor.AbstractInterceptorHandler;
-import com.arextest.common.model.response.Response;
-import com.arextest.common.model.response.ResponseCode;
-import com.arextest.common.utils.ResponseUtils;
 import com.arextest.common.utils.TenantContextUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -55,10 +52,6 @@ public class AgentAccessInterceptorHandler extends AbstractInterceptorHandler {
       response.setStatus(HttpStatus.UNAUTHORIZED.value());
       response.setContentType("application/json");
       response.setCharacterEncoding("UTF-8");
-      Response no_permission =
-          ResponseUtils.errorResponse("companyToken verification failed",
-              ResponseCode.AUTHENTICATION_FAILED);
-      response.getWriter().write(objectMapper.writeValueAsString(no_permission));
       return false;
     }
     TenantContextUtil.setTenantCode(tenantCode);
