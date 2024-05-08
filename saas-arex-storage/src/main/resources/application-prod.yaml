@@ -14,6 +14,8 @@ arex:
     config:
       agent:
         url: http://arex-web-api-find.arex-namesapce:8080
+  agent:
+    aesKey: 0EV1iPX7Zsgw22/w+XB7lPBc+bp9ac1ggnmZ49+MzBM=
 #    categoryTypes:
 #      - name: Hi
 #        entryPoint: true
