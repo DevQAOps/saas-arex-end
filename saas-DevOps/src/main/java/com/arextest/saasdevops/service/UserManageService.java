@@ -11,17 +11,17 @@ public interface UserManageService {
      * Initialize the organization's resources including the database, indexes and add admin user.
      * return true if the initialization is successful.
      */
-    boolean initSaasUser(String companyName, String email);
+    boolean initSaasUser(String tenantCode, String email);
 
     /**
      * Add users to the organization.
      * return true if the addition is successful.
      */
-    boolean addUser(String companyName, List<String> emails);
+    boolean addUser(String tenantCode, List<String> emails);
 
     /**
      * Remove users to the organization.
      * return true if the removal is successful.
      */
-    boolean removeUser(String companyName, List<String> emails);
+    boolean removeUser(String tenantCode, List<String> emails);
 }

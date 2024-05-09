@@ -11,3 +11,8 @@ saas:
         default:
           uri: mongodb://arex:iLoveArex@mongo-nlb-2df9ea376fed96d7.elb.us-west-2.amazonaws.com/arex_storage_db
           database: arex_storage_db
+spring:
+  data:
+    mongodb:
+      uri: mongodb://root:S3cret@mongo-nlb-2df9ea376fed96d7.elb.us-west-2.amazonaws.com/
+      database: saas_db

@@ -31,22 +31,22 @@ public class UserManageController {
     @PostMapping("/initSaasUser")
     @ResponseBody
     public Response initSaasUser(@RequestBody InitSaasUserRequest request) {
-        TenantContextUtil.setTenantCode(request.getCompanyName());
-        return ResponseUtils.successResponse(userManageService.initSaasUser(request.getCompanyName(), request.getEmail()));
+        TenantContextUtil.setTenantCode(request.getTenantCode());
+        return ResponseUtils.successResponse(userManageService.initSaasUser(request.getTenantCode(), request.getEmail()));
     }
 
     @PostMapping("/addUser")
     @ResponseBody
     public Response addUser(@RequestBody AddUserRequest request) {
-        TenantContextUtil.setTenantCode(request.getCompanyName());
-        return ResponseUtils.successResponse(userManageService.addUser(request.getCompanyName(), request.getEmails()));
+        TenantContextUtil.setTenantCode(request.getTenantCode());
+        return ResponseUtils.successResponse(userManageService.addUser(request.getTenantCode(), request.getEmails()));
     }
 
 
     @PostMapping("/removeUser")
     @ResponseBody
     public Response removeUser(@RequestBody RemoveUserRequest request) {
-        TenantContextUtil.setTenantCode(request.getCompanyName());
-        return ResponseUtils.successResponse(userManageService.removeUser(request.getCompanyName(), request.getEmails()));
+        TenantContextUtil.setTenantCode(request.getTenantCode());
+        return ResponseUtils.successResponse(userManageService.removeUser(request.getTenantCode(), request.getEmails()));
     }
 }
