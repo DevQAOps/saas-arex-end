@@ -7,12 +7,12 @@ saas:
     database:
       mongo:
         uri:
-          base: mongodb://arex:iLoveArex@mongo-nlb-2df9ea376fed96d7.elb.us-west-2.amazonaws.com/
+          base: mongodb://arex:iLoveArex@mongo-inner-nlb-d5fc37ce9602213c.elb.us-west-2.amazonaws.com/
         default:
-          uri: mongodb://arex:iLoveArex@mongo-nlb-2df9ea376fed96d7.elb.us-west-2.amazonaws.com/arex_storage_db
+          uri: mongodb://arex:iLoveArex@mongo-inner-nlb-d5fc37ce9602213c.elb.us-west-2.amazonaws.com/arex_storage_db
           database: arex_storage_db
 spring:
   data:
     mongodb:
-      uri: mongodb://root:S3cret@mongo-nlb-2df9ea376fed96d7.elb.us-west-2.amazonaws.com/
+      uri: mongodb://root:S3cret@mongo-inner-nlb-d5fc37ce9602213c.elb.us-west-2.amazonaws.com/
       database: saas_db
