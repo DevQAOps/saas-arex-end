@@ -44,7 +44,7 @@ public class TenantInterceptor extends AbstractInterceptorHandler {
       return false;
     }
 
-    // verify airport information, transition status
+    // verify tenant status
     TenantLimitInfo tenantLimitInfo = TenantLimitInfo.builder().tenantCode(tenantCode).build();
     TenantLimitResult tenantLimitResult = limitTenant.limitTenant(tenantLimitInfo);
     if (!tenantLimitResult.isPass()) {
