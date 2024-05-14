@@ -1,4 +1,4 @@
-package com.arextest.saasdevops.contract;
+package com.arextest.saasdevops.model.contract;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

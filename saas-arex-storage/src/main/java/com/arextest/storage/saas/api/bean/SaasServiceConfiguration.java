@@ -23,7 +23,6 @@ public class SaasServiceConfiguration {
     return new SaasJWTService(ACCESS_EXPIRE_TIME, REFRESH_EXPIRE_TIME, mongoTemplate);
   }
 
-
   /**
    * for http request interceptor
    *

@@ -55,6 +55,12 @@
       <artifactId>arex-web-model</artifactId>
       <version>0.6.4.4</version>
       <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <artifactId>mapstruct-jdk8</artifactId>
+          <groupId>org.mapstruct</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.arextest</groupId>
@@ -87,6 +93,16 @@
         <groupId>com.google.guava</groupId>
         <artifactId>guava</artifactId>
         <version>31.1-jre</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mapstruct</groupId>
+        <artifactId>mapstruct</artifactId>
+        <version>1.5.5.Final</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mapstruct</groupId>
+        <artifactId>mapstruct-processor</artifactId>
+        <version>1.5.5.Final</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

@@ -16,3 +16,6 @@ spring:
     mongodb:
       uri: mongodb://root:S3cret@mongo-inner-nlb-d5fc37ce9602213c.elb.us-west-2.amazonaws.com/
       database: saas_db
+arex:
+  redis:
+    uri: redis://redis-inner-nlb-2203a1ba55b82a05.elb.us-west-2.amazonaws.com:6379/

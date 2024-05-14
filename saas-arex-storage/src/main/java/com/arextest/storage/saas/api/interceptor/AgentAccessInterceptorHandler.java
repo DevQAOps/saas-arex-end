@@ -1,6 +1,9 @@
 package com.arextest.storage.saas.api.interceptor;
 
 import com.arextest.common.interceptor.AbstractInterceptorHandler;
+import com.arextest.common.saas.tenant.TenantRedisHandler;
+import com.arextest.common.saas.tenant.TenantStatusRedisInfo;
+import com.arextest.common.saas.utils.ResponseWriterUtil;
 import com.arextest.common.utils.TenantContextUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
@@ -8,6 +11,8 @@ import java.util.Arrays;
 import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -27,6 +32,8 @@ public class AgentAccessInterceptorHandler extends AbstractInterceptorHandler {
   private final String aesKey;
 
   private final ObjectMapper objectMapper;
+
+  private final TenantRedisHandler tenantRedisHandler;
 
   private static final String SPLIT_SYMBOL = ":";
 
@@ -49,46 +56,91 @@ public class AgentAccessInterceptorHandler extends AbstractInterceptorHandler {
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
       Object handler) throws IOException {
     String apiToken = request.getHeader("arex-api-token");
-    String tenantCode = extractTenantCode(apiToken);
-    if (StringUtils.isEmpty(tenantCode)) {
-      response.setStatus(HttpStatus.UNAUTHORIZED.value());
-      response.setContentType("application/json");
-      response.setCharacterEncoding("UTF-8");
-      return false;
-    }
-    TenantContextUtil.setTenantCode(tenantCode);
-    return true;
+
+    AgentTokenContext agentTokenContext = new AgentTokenContext();
+    agentTokenContext.setAgentToken(apiToken);
+
+    return parseApiToken(agentTokenContext)
+        .flatMap(this::extractTenantCode)
+        .flatMap(this::verifyToken)
+        .map(item -> {
+          TenantContextUtil.setTenantCode(item.getTenantCode());
+          return true;
+        })
+        .orElseGet(() -> {
+          ResponseWriterUtil.setDefaultErrorResponse(response, HttpStatus.UNAUTHORIZED, null);
+          return false;
+        });
   }
+
+  @Override
+  public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
+      Object handler, Exception ex) throws Exception {
+    TenantContextUtil.clearAll();
+  }
+
+  /**
+   * parse api token
+   *
+   * @param agentTokenContext
+   * @return
+   */
+  private Optional<AgentTokenContext> parseApiToken(AgentTokenContext agentTokenContext) {
+    String apiToken = agentTokenContext.getAgentToken();
+    if (StringUtils.isEmpty(apiToken)) {
+      return Optional.empty();
+    }
+    String[] split = apiToken.split(SPLIT_SYMBOL);
+    if (split.length != 2) {
+      return Optional.empty();
+    }
+    agentTokenContext.setEncryptedToken(split[1]);
+    return Optional.of(agentTokenContext);
+  }
+
 
   /**
    * apiToken: arex-api-token:
    * ctrip:S13V3lnts9q9gnLwDp8w7M32CQtlwkVyUaHs2P+G9lCVpgbcmEsyFUKOlQf3OWfTF1uuS03LaGv40wlgRLCH/Q==
    *
-   * @param apiToken
+   * @param agentTokenContext
    * @return
    */
-  private String extractTenantCode(String apiToken) {
-    if (StringUtils.isEmpty(apiToken)) {
-      return null;
+  private Optional<AgentTokenContext> extractTenantCode(AgentTokenContext agentTokenContext) {
+    String encryptedToken = agentTokenContext.getEncryptedToken();
+    if (StringUtils.isEmpty(encryptedToken)) {
+      return Optional.empty();
     }
-    CompanyToken companyToken;
+
+    TenantTokenInfo tenantTokenInfo;
     try {
-      String[] split = apiToken.split(SPLIT_SYMBOL);
-      if (split.length != 2) {
-        return null;
-      }
-      String companyTokenJson = decrypt(split[1]);
-      companyToken = objectMapper.readValue(companyTokenJson, CompanyToken.class);
+      String tenantTokenJson = decrypt(encryptedToken);
+      tenantTokenInfo = objectMapper.readValue(tenantTokenJson, TenantTokenInfo.class);
     } catch (Exception e) {
       LOGGER.error("decrypt token error, exception:{}", e.getMessage());
-      return null;
+      return Optional.empty();
     }
 
-    if (companyToken == null || StringUtils.isEmpty(companyToken.getTenantCode())) {
-      return null;
+    if (tenantTokenInfo == null || StringUtils.isEmpty(tenantTokenInfo.getTenantCode())) {
+      return Optional.empty();
     }
+    agentTokenContext.setTenantCode(tenantTokenInfo.getTenantCode());
+    return Optional.of(agentTokenContext);
+  }
 
-    return companyToken.getTenantCode();
+
+  /**
+   * verify the exists of token,
+   *
+   * @param agentTokenContext
+   * @return
+   */
+  private Optional<AgentTokenContext> verifyToken(AgentTokenContext agentTokenContext) {
+    TenantStatusRedisInfo tenantStatus = tenantRedisHandler.getTenantStatus(
+        agentTokenContext.getTenantCode());
+    return Objects.equals(tenantStatus.getTenantToken(), agentTokenContext.getEncryptedToken())
+        ? Optional.of(agentTokenContext)
+        : Optional.empty();
   }
 
   public String decrypt(String s) throws Exception {
@@ -108,9 +160,16 @@ public class AgentAccessInterceptorHandler extends AbstractInterceptorHandler {
     return cipher.doFinal(data);
   }
 
+  @Data
+  private static class AgentTokenContext {
+
+    private String agentToken;
+    private String encryptedToken;
+    private String tenantCode;
+  }
 
   @Data
-  private static class CompanyToken {
+  private static class TenantTokenInfo {
 
     private String tenantCode;
   }
