@@ -1,10 +1,8 @@
 package com.arextest.common.saas.interceptor;
 
 import com.arextest.common.saas.enums.SaasErrorCode;
-import com.arextest.common.saas.enums.TenantStatus;
 import com.arextest.common.saas.tenant.TenantRedisHandler;
 import com.arextest.common.saas.tenant.TenantStatusRedisInfo;
-import java.util.Objects;
 import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +26,7 @@ public class TenantLimitService {
     }
 
     // verify whether the tenant has expired
-    if (Objects.equals(tenantStatus.getTenantStatus(), TenantStatus.INACTIVE.getStatus())) {
+    if (tenantStatus.getExpireTime() < System.currentTimeMillis()) {
       return TenantLimitResult.builder().pass(Boolean.FALSE)
           .errorCode(SaasErrorCode.SAAS_TENANT_EXPIRED).build();
     }

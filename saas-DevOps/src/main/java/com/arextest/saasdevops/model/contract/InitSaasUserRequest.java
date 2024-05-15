@@ -10,7 +10,8 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class InitSaasUserRequest extends BaseRequest {
-    private String email;
-    private String tenantToken;
-    private Integer tenantStatus;
+
+  private String email;
+  private String tenantToken;
+  private Long expireTime;
 }
