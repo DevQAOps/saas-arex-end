@@ -1,4 +1,4 @@
-package com.arextest.saasdevops.contract;
+package com.arextest.saasdevops.model.contract;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,5 +10,8 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class InitSaasUserRequest extends BaseRequest {
-    private String email;
+
+  private String email;
+  private String tenantToken;
+  private Long expireTime;
 }

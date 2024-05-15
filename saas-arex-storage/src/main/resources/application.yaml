@@ -9,6 +9,9 @@ spring:
     active: prod
 # for report
 arex:
+  storage:
+    cache:
+      url: ${arex.redis.url}
   app:
     auth:
       switch: false
