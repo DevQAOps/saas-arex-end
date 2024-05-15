@@ -7,6 +7,7 @@ import com.arextest.common.saas.interceptor.SaasAuthorizationInterceptor;
 import com.arextest.common.saas.interceptor.TenantInterceptor;
 import com.arextest.common.saas.interceptor.TenantLimitService;
 import com.arextest.common.saas.tenant.TenantRedisHandler;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
@@ -21,8 +22,8 @@ import org.springframework.context.annotation.Configuration;
 public class InterceptorHandlerAutoConfiguration {
 
   @Bean
-  public TenantRedisHandler tenantRedisHandler(CacheProvider cacheProvider) {
-    return new TenantRedisHandler(cacheProvider);
+  public TenantRedisHandler tenantRedisHandler(CacheProvider cacheProvider, ObjectMapper objectMapper) {
+    return new TenantRedisHandler(cacheProvider, objectMapper);
   }
 
   @Bean

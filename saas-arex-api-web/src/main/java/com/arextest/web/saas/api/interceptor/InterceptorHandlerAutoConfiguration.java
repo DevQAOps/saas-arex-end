@@ -8,6 +8,7 @@ import com.arextest.common.saas.interceptor.SaasRefreshInterceptor;
 import com.arextest.common.saas.interceptor.TenantInterceptor;
 import com.arextest.common.saas.interceptor.TenantLimitService;
 import com.arextest.common.saas.tenant.TenantRedisHandler;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -29,8 +30,8 @@ public class InterceptorHandlerAutoConfiguration {
   private String interceptorPatterns;
 
   @Bean
-  public TenantRedisHandler tenantRedisHandler(CacheProvider cacheProvider) {
-    return new TenantRedisHandler(cacheProvider);
+  public TenantRedisHandler tenantRedisHandler(CacheProvider cacheProvider, ObjectMapper objectMapper) {
+    return new TenantRedisHandler(cacheProvider, objectMapper);
   }
 
   @Bean

@@ -16,15 +16,16 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * the order of the interceptor
- * AgentAccessInterceptorHandler-> TenantInterceptor -> SaasAuthorizationInterceptor
+ * the order of the interceptor AgentAccessInterceptorHandler-> TenantInterceptor ->
+ * SaasAuthorizationInterceptor
  */
 @Configuration
 public class InterceptorHandlerAutoConfiguration {
 
   @Bean
-  public TenantRedisHandler tenantRedisHandler(CacheProvider cacheProvider) {
-    return new TenantRedisHandler(cacheProvider);
+  public TenantRedisHandler tenantRedisHandler(CacheProvider cacheProvider,
+      ObjectMapper objectMapper) {
+    return new TenantRedisHandler(cacheProvider, objectMapper);
   }
 
   @Bean
