@@ -5,6 +5,8 @@ package com.arextest.common.saas.model;
  * saas_
  */
 public interface SaasSystemConfigurationKeySummary {
+//
+//  String KEY_FIELD = "additional_info";
 
   String SAAS_TENANT_TOKEN = "saas_api_tenant_token";
 
