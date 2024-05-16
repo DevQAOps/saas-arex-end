@@ -59,7 +59,7 @@ public class UserManageServiceImpl implements UserManageService {
     insertJwtSeedToSystemConfiguration(tenantCode, currentTime, mongoDatabase);
 
     // insert tenant to tenant collection
-    insertTenantTokenToSystemConfiguration(request);
+    insertTenantTokenToSystemConfiguration(request.getTenantToken(), currentTime, mongoDatabase);
 
     // insert user to user collection
     insertUserToUserCollection(email, currentTime, mongoDatabase);
@@ -118,16 +118,16 @@ public class UserManageServiceImpl implements UserManageService {
     systemConfigurationCollection.insertOne(systemConfiguration);
   }
 
-  private void insertTenantTokenToSystemConfiguration(String tenantCode, Long currentTime,
-      MongoDatabase mongoDatabase, String tenantToken) {
+  private void insertTenantTokenToSystemConfiguration(String tenantToken, Long currentTime,
+      MongoDatabase mongoDatabase) {
     MongoCollection<SystemConfigurationCollection> systemConfigurationCollection =
         mongoDatabase.getCollection("SystemConfiguration", SystemConfigurationCollection.class);
-    SystemConfigurationCollection systemConfiguration = new SystemConfigurationCollection();
-    systemConfiguration.setJwtSeed(generateRandomCode(tenantCode));
-    systemConfiguration.setKey(SystemConfigurationCollection.KeySummary.JWT_SEED);
-    systemConfiguration.setDataChangeCreateTime(currentTime);
-    systemConfiguration.setDataChangeUpdateTime(currentTime);
-    systemConfigurationCollection.insertOne(systemConfiguration);
+//    SystemConfigurationCollection systemConfiguration = new SystemConfigurationCollection();
+//    systemConfiguration.setJwtSeed(generateRandomCode(tenantCode));
+//    systemConfiguration.setKey(SaasSystemConfigurationKeySummary.SAAS_TENANT_TOKEN);
+//    systemConfiguration.setDataChangeCreateTime(currentTime);
+//    systemConfiguration.setDataChangeUpdateTime(currentTime);
+//    systemConfigurationCollection.insertOne(systemConfiguration);
   }
 
 
