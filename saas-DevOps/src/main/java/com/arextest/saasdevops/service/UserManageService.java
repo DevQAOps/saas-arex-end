@@ -1,5 +1,6 @@
 package com.arextest.saasdevops.service;
 
+import com.arextest.saasdevops.model.contract.FinalizeSaasUserRequest;
 import com.arextest.saasdevops.model.contract.InitSaasUserRequest;
 import java.util.List;
 
@@ -14,6 +15,13 @@ public interface UserManageService {
    * return true if the initialization is successful.
    */
   boolean initSaasUser(InitSaasUserRequest request);
+
+
+  /**
+   * Finalize the organization's resources including the database, indexes and remove admin user.
+   * return true if the finalization is successful.
+   */
+  boolean finalizeSaasUser(FinalizeSaasUserRequest request);
 
   /**
    * Add users to the organization. return true if the addition is successful.

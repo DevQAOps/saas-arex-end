@@ -55,6 +55,18 @@ public class TenantRedisHandler {
     }
   }
 
+  public boolean removeTenant(String tenantCode) {
+    try {
+      byte[] key = RedisKeyBuilder.buildCommonTenantStatusKey(tenantCode);
+      cacheProvider.remove(key);
+    } catch (Exception e) {
+      LOGGER.error("removeTenantStatus error, tenantCode:{}, exception:{}", tenantCode,
+          e.getMessage());
+      return false;
+    }
+    return true;
+  }
+
   private byte[] buildTenantStatusValue(TenantStatusRedisInfo tenantStatusRedisInfo)
       throws JacksonException {
     return objectMapper.writeValueAsString(tenantStatusRedisInfo)

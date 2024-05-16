@@ -1,7 +1,9 @@
 package com.arextest.saasdevops.service.impl;
 
+import com.arextest.common.saas.tenant.TenantRedisHandler;
 import com.arextest.config.model.dao.config.SystemConfigurationCollection;
 import com.arextest.saasdevops.mapper.TenantStatusMapper;
+import com.arextest.saasdevops.model.contract.FinalizeSaasUserRequest;
 import com.arextest.saasdevops.model.contract.InitSaasUserRequest;
 import com.arextest.saasdevops.model.dto.TenantStatusInfo;
 import com.arextest.saasdevops.repository.UserRepository;
@@ -37,6 +39,9 @@ public class UserManageServiceImpl implements UserManageService {
   @Autowired
   private TenantManageService tenantManageService;
 
+  @Autowired
+  private TenantRedisHandler tenantRedisHandler;
+
   @Override
   public boolean initSaasUser(InitSaasUserRequest request) {
     String tenantCode = request.getTenantCode();
@@ -62,6 +67,19 @@ public class UserManageServiceImpl implements UserManageService {
   }
 
   @Override
+  public boolean finalizeSaasUser(FinalizeSaasUserRequest request) {
+    String tenantCode = request.getTenantCode();
+
+    String databaseName = String.format(COMPANY_DATABASE_FORMAT, tenantCode);
+    MongoDatabase mongoDatabase = mongoClient.getDatabase(databaseName);
+    deleteDatabaseAndUser(mongoDatabase);
+
+    tenantRedisHandler.removeTenant(tenantCode);
+
+    return false;
+  }
+
+  @Override
   public boolean addUser(String tenantCode, List<String> emails) {
     return userRepository.addUser(emails);
   }
@@ -77,6 +95,12 @@ public class UserManageServiceImpl implements UserManageService {
         .append("roles", Collections.singletonList(new BasicDBObject("role", "readWrite")
             .append("db", databaseName)));
     mongoDatabase.runCommand(createUserCommand);
+  }
+
+  private void deleteDatabaseAndUser(MongoDatabase mongoDatabase) {
+    BasicDBObject dropUserCommand = new BasicDBObject("dropUser", "arex");
+    mongoDatabase.runCommand(dropUserCommand);
+    mongoDatabase.drop();
   }
 
   private void insertJwtSeedToSystemConfiguration(String tenantCode, Long currentTime,
