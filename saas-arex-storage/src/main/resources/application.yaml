@@ -11,7 +11,7 @@ spring:
 arex:
   storage:
     cache:
-      url: ${arex.redis.url}
+      url: ${arex.redis.uri}
   app:
     auth:
       switch: false
