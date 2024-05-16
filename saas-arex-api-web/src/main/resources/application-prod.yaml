@@ -8,6 +8,8 @@ arex:
       url: http://arex-schedule-discovery.arex-namesapce:8080
   redis:
     uri: redis://redis-inner-nlb-2203a1ba55b82a05.elb.us-west-2.amazonaws.com:6379/
+  mongo:
+    uri: mongodb://arex:iLoveArex@mongo-inner-nlb-d5fc37ce9602213c.elb.us-west-2.amazonaws.com/arex_storage_db
 
 
 saas:
