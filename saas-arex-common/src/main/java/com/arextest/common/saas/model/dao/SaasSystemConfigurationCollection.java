@@ -5,9 +5,10 @@ import lombok.Data;
 import lombok.experimental.FieldNameConstants;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document
-@FieldNameConstants
+
 @Data
+@FieldNameConstants
+@Document("SystemConfiguration")
 public class SaasSystemConfigurationCollection extends SystemConfigurationCollection {
 
   private String tenantToken;

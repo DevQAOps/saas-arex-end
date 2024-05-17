@@ -5,9 +5,11 @@ import com.arextest.common.utils.ResponseUtils;
 import com.arextest.web.saas.api.service.SaasSystemConfigurationService;
 import javax.annotation.Resource;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/api/saas/system")
+@RestController
+@RequestMapping("/api/saas/system")
 public class SaasSystemConfigurationController {
 
   @Resource

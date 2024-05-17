@@ -9,18 +9,18 @@ import com.arextest.config.utils.MongoHelper;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.annotation.Resource;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
-import org.springframework.stereotype.Repository;
 
-@Repository
+@Slf4j
+@RequiredArgsConstructor
 public class SaasSystemConfigurationRepositoryImpl implements SaasSystemConfigurationRepository {
 
-  @Resource
-  private MongoTemplate mongoTemplate;
+  private final MongoTemplate mongoTemplate;
 
   @Override
   public List<SaasSystemConfiguration> query(Collection<String> keys) {
