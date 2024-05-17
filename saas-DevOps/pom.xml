@@ -49,6 +49,12 @@
     <dependency>
       <groupId>com.arextest</groupId>
       <artifactId>saas-arex-common</artifactId>
+<!--      <exclusions>-->
+<!--        <exclusion>-->
+<!--          <artifactId>mapstruct-jdk8</artifactId>-->
+<!--          <groupId>org.mapstruct</groupId>-->
+<!--        </exclusion>-->
+<!--      </exclusions>-->
     </dependency>
     <dependency>
       <groupId>com.arextest</groupId>

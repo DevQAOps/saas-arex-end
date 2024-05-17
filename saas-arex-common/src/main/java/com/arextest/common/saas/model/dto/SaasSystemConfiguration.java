@@ -1,5 +1,7 @@
 package com.arextest.common.saas.model.dto;
 
-public class SaasSystemConfiguration {
+import com.arextest.config.model.dto.system.SystemConfiguration;
+
+public class SaasSystemConfiguration extends SystemConfiguration {
   private String tenantToken;
 }
