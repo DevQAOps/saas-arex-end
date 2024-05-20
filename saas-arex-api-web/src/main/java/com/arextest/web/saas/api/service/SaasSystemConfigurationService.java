@@ -49,9 +49,9 @@ public class SaasSystemConfigurationService {
   public Object getFieldValue(Object object, String fieldName) {
     try {
       Class<?> clazz = object.getClass();
-      Field field = clazz.getDeclaredField(fieldName); // 获取指定字段
-      field.setAccessible(true); // 如果是私有字段，需要设置为可访问
-      return field.get(object); // 获取字段值
+      Field field = clazz.getDeclaredField(fieldName);
+      field.setAccessible(true);
+      return field.get(object);
     } catch (Exception e) {
       LOGGER.error("getFieldValue error, fieldName:{}, exception:{}", fieldName, e.getMessage());
     }
