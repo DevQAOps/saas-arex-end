@@ -77,8 +77,6 @@ public class SaasSystemConfigurationService {
 
     private String key;
     private String fieldName;
-    //    private String setMethod;
-//    private String getMethod;
     private boolean allowUpdate = true;
   }
 
