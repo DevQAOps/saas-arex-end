@@ -5,7 +5,7 @@ arex:
     service:
       api: http://arex-web-api-find.arex-namesapce:8080
   redis:
-    uri: redis://redis-inner-nlb-2203a1ba55b82a05.elb.us-west-2.amazonaws.com:6379/
+    uri: redis://ec2-34-215-227-222.us-west-2.compute.amazonaws.com:6379/
   storage:
     service:
       api: http://arex-storage-discovery.arex-namesapce:8080
@@ -17,7 +17,7 @@ saas:
     database:
       mongo:
         uri:
-          base: mongodb://arex:iLoveArex@mongo-inner-nlb-d5fc37ce9602213c.elb.us-west-2.amazonaws.com/
+          base: mongodb://arex:iLoveArex@mongo-nlb-2df9ea376fed96d7.elb.us-west-2.amazonaws.com/
         default:
-          uri: mongodb://arex:iLoveArex@mongo-inner-nlb-d5fc37ce9602213c.elb.us-west-2.amazonaws.com/arex_storage_db
+          uri: mongodb://arex:iLoveArex@mongo-nlb-2df9ea376fed96d7.elb.us-west-2.amazonaws.com/arex_storage_db
           database: arex_storage_db
