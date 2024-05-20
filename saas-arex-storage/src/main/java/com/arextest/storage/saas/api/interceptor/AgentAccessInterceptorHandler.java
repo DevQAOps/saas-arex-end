@@ -138,7 +138,7 @@ public class AgentAccessInterceptorHandler extends AbstractInterceptorHandler {
   private Optional<AgentTokenContext> verifyToken(AgentTokenContext agentTokenContext) {
     TenantStatusRedisInfo tenantStatus = tenantRedisHandler.getTenantStatus(
         agentTokenContext.getTenantCode());
-    return Objects.equals(tenantStatus.getTenantToken(), agentTokenContext.getEncryptedToken())
+    return Objects.equals(tenantStatus.getTenantToken(), agentTokenContext.getAgentToken())
         ? Optional.of(agentTokenContext)
         : Optional.empty();
   }
@@ -163,8 +163,11 @@ public class AgentAccessInterceptorHandler extends AbstractInterceptorHandler {
   @Data
   private static class AgentTokenContext {
 
+    // ctrip:S13V3lnts9q9gnLwDp8w7M32CQtlwkVyUaHs2P+G9lAst4LRtssybxxWFaKoAkAuF1uuS03LaGv40wlgRLCH/Q==
     private String agentToken;
+    // S13V3lnts9q9gnLwDp8w7M32CQtlwkVyUaHs2P+G9lAst4LRtssybxxWFaKoAkAuF1uuS03LaGv40wlgRLCH/Q==
     private String encryptedToken;
+    // ctrip
     private String tenantCode;
   }
 
