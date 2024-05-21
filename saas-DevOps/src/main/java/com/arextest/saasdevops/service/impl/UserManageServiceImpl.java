@@ -1,6 +1,9 @@
 package com.arextest.saasdevops.service.impl;
 
 import com.arextest.common.saas.tenant.TenantRedisHandler;
+import com.arextest.common.saas.model.SaasSystemConfigurationKeySummary;
+import com.arextest.common.saas.model.dao.SaasSystemConfigurationCollection;
+import com.arextest.common.saas.model.dto.SaasSystemConfiguration;
 import com.arextest.config.model.dao.config.SystemConfigurationCollection;
 import com.arextest.saasdevops.mapper.TenantStatusMapper;
 import com.arextest.saasdevops.model.contract.FinalizeSaasUserRequest;
@@ -58,6 +61,9 @@ public class UserManageServiceImpl implements UserManageService {
     // insert jwt seed to system configuration
     insertJwtSeedToSystemConfiguration(tenantCode, currentTime, mongoDatabase);
 
+    // insert tenant to tenant collection
+    insertTenantTokenToSystemConfiguration(request.getTenantToken(), currentTime, mongoDatabase);
+
     // insert user to user collection
     insertUserToUserCollection(email, currentTime, mongoDatabase);
 
@@ -114,6 +120,19 @@ public class UserManageServiceImpl implements UserManageService {
     systemConfiguration.setDataChangeUpdateTime(currentTime);
     systemConfigurationCollection.insertOne(systemConfiguration);
   }
+
+  public void insertTenantTokenToSystemConfiguration(String tenantToken, Long currentTime,
+      MongoDatabase mongoDatabase) {
+    MongoCollection<SaasSystemConfigurationCollection> saasSystemConfigurationCollection =
+        mongoDatabase.getCollection("SystemConfiguration", SaasSystemConfigurationCollection.class);
+    SaasSystemConfigurationCollection systemConfiguration = new SaasSystemConfigurationCollection();
+    systemConfiguration.setTenantToken(tenantToken);
+    systemConfiguration.setKey(SaasSystemConfigurationKeySummary.SAAS_TENANT_TOKEN);
+    systemConfiguration.setDataChangeCreateTime(currentTime);
+    systemConfiguration.setDataChangeUpdateTime(currentTime);
+    saasSystemConfigurationCollection.insertOne(systemConfiguration);
+  }
+
 
   private void insertUserToUserCollection(String email, Long currentTime,
       MongoDatabase mongoDatabase) {

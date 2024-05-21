@@ -3,6 +3,8 @@ package com.arextest.web.saas.api.bean;
 import com.arextest.common.jwt.JWTService;
 import com.arextest.common.saas.httpclient.AccessRequestInterceptor;
 import com.arextest.common.saas.login.SaasJWTService;
+import com.arextest.common.saas.repository.SaasSystemConfigurationRepository;
+import com.arextest.common.saas.repository.impl.SaasSystemConfigurationRepositoryImpl;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -41,6 +43,11 @@ public class SaasServiceConfiguration {
       InterfaceAddressConfiguration interfaceAddressConfiguration) {
     return new AccessRequestInterceptor(jwtService,
         interfaceAddressConfiguration.getServiceAddressInfos());
+  }
+
+  @Bean
+  public SaasSystemConfigurationRepository saasSystemConfigurationRepository(MongoTemplate mongoTemplate) {
+    return new SaasSystemConfigurationRepositoryImpl(mongoTemplate);
   }
 
 

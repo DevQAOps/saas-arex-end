@@ -26,6 +26,7 @@
     <arex.schedule.version>1.1.25</arex.schedule.version>
     <arex.api.version>0.6.4.7</arex.api.version>
     <caffine.version>2.9.2</caffine.version>
+    <mapstruct.version>1.5.5.Final</mapstruct.version>
   </properties>
 
   <dependencyManagement>
@@ -80,6 +81,16 @@
         <groupId>com.arextest</groupId>
         <artifactId>arex-web-api</artifactId>
         <version>${arex.api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mapstruct</groupId>
+        <artifactId>mapstruct</artifactId>
+        <version>${mapstruct.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.mapstruct</groupId>
+        <artifactId>mapstruct-processor</artifactId>
+        <version>${mapstruct.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
