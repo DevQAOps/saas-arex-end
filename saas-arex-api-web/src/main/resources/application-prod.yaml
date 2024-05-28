@@ -9,7 +9,7 @@ arex:
   redis:
     uri: redis://redis-inner-nlb-2203a1ba55b82a05.elb.us-west-2.amazonaws.com:6379/
   mongo:
-    uri: mongodb://arex:iLoveArex@mongo-inner-nlb-d5fc37ce9602213c.elb.us-west-2.amazonaws.com/arex_storage_db
+    uri: mongodb://arex:iLoveArex@172.31.29.251:27017,172.31.20.184:27017,172.31.27.88:27017/arex_storage_db
 
 
 saas:
@@ -17,7 +17,7 @@ saas:
     database:
       mongo:
         uri:
-          base: mongodb://arex:iLoveArex@mongo-inner-nlb-d5fc37ce9602213c.elb.us-west-2.amazonaws.com/
+          base: mongodb://arex:iLoveArex@172.31.29.251:27017,172.31.20.184:27017,172.31.27.88:27017/
         default:
-          uri: mongodb://arex:iLoveArex@mongo-inner-nlb-d5fc37ce9602213c.elb.us-west-2.amazonaws.com/arex_storage_db
+          uri: mongodb://arex:iLoveArex@172.31.29.251:27017,172.31.20.184:27017,172.31.27.88:27017/arex_storage_db
           database: arex_storage_db
