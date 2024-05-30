@@ -91,6 +91,8 @@ arex:
       url: ${arex.storage.service.api}/api/storage/replay/query/replayResult
     viewRecord:
       url: ${arex.storage.service.api}/api/storage/replay/query/viewRecord
+    clearScene:
+      url: ${arex.storage.service.api}/api/scene/clearReplayPool/
   replay:
     header:
       excludes:
