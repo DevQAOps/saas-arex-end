@@ -25,7 +25,7 @@ saas:
     database:
       mongo:
         uri:
-          base: mongodb://arex:iLoveArex@mongo-inner-nlb-d5fc37ce9602213c.elb.us-west-2.amazonaws.com
+          base: mongodb://arex:iLoveArex@172.31.29.251:27017,172.31.20.184:27017,172.31.27.88:27017
         default:
-          uri: mongodb://arex:iLoveArex@mongo-inner-nlb-d5fc37ce9602213c.elb.us-west-2.amazonaws.comarex_storage_db
+          uri: mongodb://arex:iLoveArex@172.31.29.251:27017,172.31.20.184:27017,172.31.27.88:27017/arex_storage_db
           database: arex_storage_db
