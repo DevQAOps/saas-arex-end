@@ -1,6 +1,6 @@
 package com.arextest.common.saas.multitenant.usage;
 
-import com.arextest.common.saas.dao.UsageStatDao;
+import com.arextest.common.saas.repository.impl.UsageStatDao;
 import com.arextest.common.saas.model.TenantUsageDocument;
 import com.arextest.common.saas.model.TenantUsageDocument.Meta;
 import com.arextest.common.utils.TenantContextUtil;

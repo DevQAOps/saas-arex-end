@@ -1,4 +1,4 @@
-package com.arextest.common.saas.dao;
+package com.arextest.common.saas.repository.impl;
 
 import com.arextest.common.saas.model.TenantUsageDocument;
 import lombok.RequiredArgsConstructor;
