@@ -15,6 +15,7 @@
     <maven.compiler.source>8</maven.compiler.source>
     <maven.compiler.target>8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <redisson.version>3.20.1</redisson.version>
 
   </properties>
 
@@ -37,6 +38,11 @@
     <dependency>
       <groupId>com.arextest</groupId>
       <artifactId>saas-arex-common</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.redisson</groupId>
+      <artifactId>redisson</artifactId>
+      <version>${redisson.version}</version>
     </dependency>
   </dependencies>
 

@@ -1,9 +1,7 @@
 package com.arextest.schedule.saas;
 
-import com.arextest.common.metrics.PrometheusConfiguration;
 import java.awt.Desktop;
 import java.net.URI;
-import javax.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Value;
