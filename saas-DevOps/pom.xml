@@ -49,6 +49,12 @@
     <dependency>
       <groupId>com.arextest</groupId>
       <artifactId>saas-arex-common</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>redisson-spring-boot-starter</artifactId>
+          <groupId>org.redisson</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.arextest</groupId>

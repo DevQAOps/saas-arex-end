@@ -1,5 +1,6 @@
 package com.arextest.saasdevops.config;
 
+import com.arextest.common.saas.model.TenantUsageDocument;
 import com.arextest.common.saas.multitenant.database.DefaultTenantClientProvider;
 import com.arextest.common.saas.multitenant.database.MultiTenantMongoDbFactory;
 import com.arextest.common.saas.multitenant.database.TenantClientProvider;
@@ -47,7 +48,8 @@ public class SaasDatabaseConfiguration {
     public @NonNull MongoClient mongoClient() {
         CodecRegistry pojoCodecRegistry =
             CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
-                CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build()));
+                CodecRegistries.fromProviders(PojoCodecProvider.builder().register(
+                    TenantUsageDocument.class).automatic(true).build()));
         MongoClientSettings settings = MongoClientSettings.builder()
             .codecRegistry(pojoCodecRegistry)
             .applyConnectionString(new ConnectionString(mongoUri))
