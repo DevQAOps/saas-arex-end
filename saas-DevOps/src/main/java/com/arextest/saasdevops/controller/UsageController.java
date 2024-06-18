@@ -2,7 +2,6 @@ package com.arextest.saasdevops.controller;
 
 import com.arextest.common.model.response.Response;
 import com.arextest.common.utils.ResponseUtils;
-import com.arextest.common.utils.TenantContextUtil;
 import com.arextest.saasdevops.model.contract.QueryTenantUsageRequest;
 import com.arextest.saasdevops.model.contract.QueryTenantUsageResponse;
 import com.arextest.saasdevops.service.UsageService;
@@ -29,7 +28,6 @@ public class UsageController {
   @PostMapping("/query")
   @ResponseBody
   public Response queryUsage(@RequestBody QueryTenantUsageRequest request) {
-    TenantContextUtil.setTenantCode(request.getTenantCode());
     QueryTenantUsageResponse response = new QueryTenantUsageResponse();
     response.setTotalBytes(usageService.queryUsage(request.getTenantCode(), request.getIn()));
     return ResponseUtils.successResponse(response);

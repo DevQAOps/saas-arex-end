@@ -10,6 +10,8 @@ arex:
       url: http://arex-schedule-discovery.arex-namesapce:8080
   redis:
     uri: redis://ec2-34-215-227-222.us-west-2.compute.amazonaws.com:6379/
+  mongo:
+    uri: mongodb://arex:iLoveArex@52.88.84.95:27017/arex_storage_db
 
 saas:
   tenant:
