@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 
 @Slf4j
 @Component
-public class IncomingTrafficInterceptor extends AbstractInterceptorHandler {
+public class TrafficInterceptor extends AbstractInterceptorHandler {
 
   @Override
   public Integer getOrder() {
