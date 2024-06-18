@@ -31,3 +31,7 @@ saas:
         default:
           uri: mongodb://arex:iLoveArex@52.88.84.95:27017/arex_storage_db
           database: arex_storage_db
+spring:
+  redis:
+    host: ec2-34-215-227-222.us-west-2.compute.amazonaws.com
+    port: 6379
