@@ -29,7 +29,7 @@ public class UsageController {
   @ResponseBody
   public Response queryUsage(@RequestBody QueryTenantUsageRequest request) {
     QueryTenantUsageResponse response = new QueryTenantUsageResponse();
-    response.setTotalBytes(usageService.queryUsage(request.getTenantCode(), request.getIn()));
+    response.setTotalBytes(usageService.queryUsage(request));
     return ResponseUtils.successResponse(response);
   }
 }

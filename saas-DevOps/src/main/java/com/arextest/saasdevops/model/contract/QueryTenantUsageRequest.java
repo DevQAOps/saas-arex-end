@@ -11,4 +11,6 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class QueryTenantUsageRequest extends BaseRequest {
   private Boolean in;
+  private Long startTime;
+  private Long endTime;
 }

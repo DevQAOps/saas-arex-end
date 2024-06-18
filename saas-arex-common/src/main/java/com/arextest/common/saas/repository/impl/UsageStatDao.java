@@ -34,10 +34,16 @@ public class UsageStatDao {
     mongoTemplate.save(doc);
   }
 
-  public List<TenantUsageDocument> query(String tenantCode, Boolean in) {
+  public List<TenantUsageDocument> query(String tenantCode, Boolean in, Long from, Long to) {
     Criteria criteria = Criteria.where("meta.tenantCode").is(tenantCode);
     if (in != null) {
       criteria.and("meta.in").is(in);
+    }
+    if (from != null) {
+      criteria.and("meta.timestamp").gte(from);
+    }
+    if (to != null) {
+      criteria.and("meta.timestamp").lt(to);
     }
     Query query = new Query(criteria);
     return mongoTemplate.find(query, TenantUsageDocument.class);
