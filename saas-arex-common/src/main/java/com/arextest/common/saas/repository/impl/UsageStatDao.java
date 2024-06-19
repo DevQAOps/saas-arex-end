@@ -39,12 +39,9 @@ public class UsageStatDao {
     if (in != null) {
       criteria.and("meta.in").is(in);
     }
-    if (from != null) {
-      criteria.and("meta.timestamp").gte(from);
-    }
-    if (to != null) {
-      criteria.and("meta.timestamp").lt(to);
-    }
+    from = from == null ? 0 : from;
+    to = to == null ? Long.MAX_VALUE : to;
+    criteria.and("meta.timestamp").gte(from).lt(to);
     Query query = new Query(criteria);
     return mongoTemplate.find(query, TenantUsageDocument.class);
   }
