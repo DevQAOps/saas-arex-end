@@ -9,6 +9,7 @@ import com.arextest.common.saas.interceptor.TenantInterceptor;
 import com.arextest.common.saas.interceptor.TenantLimitService;
 import com.arextest.common.saas.tenant.TenantRedisHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -68,7 +69,7 @@ public class InterceptorHandlerAutoConfiguration {
   }
 
   private List<String> getTenantExcludePathPatterns() {
-    return Collections.emptyList();
+    return Lists.newArrayList("/error", "/favicon.ico");
   }
 
   private List<String> getAuthorizationPathPatterns() {
@@ -85,6 +86,7 @@ public class InterceptorHandlerAutoConfiguration {
     defaultPatterns.add("/images/**");
     defaultPatterns.add("/lib/**");
     defaultPatterns.add("/fonts/**");
+    defaultPatterns.add("/favicon.ico");
     // swagger-ui
     defaultPatterns.add("/swagger-resources/**");
     defaultPatterns.add("/webjars/**");
