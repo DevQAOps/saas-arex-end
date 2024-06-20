@@ -39,7 +39,7 @@ public class UsageCollector {
         .endpoint(endpoint)
         .in(false)
         .build();
-    usageCache.compute(key, (k, v) -> v == null ? in : v + out);
+    usageCache.compute(key, (k, v) -> v == null ? out : v + out);
   }
 
   @Scheduled(fixedRate = 10 * 1000L)
