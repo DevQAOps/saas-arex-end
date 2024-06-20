@@ -1,6 +1,7 @@
 package com.arextest.common.saas.repository.impl;
 
 import com.arextest.common.saas.model.TenantUsageDocument;
+import java.util.Date;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -40,8 +41,8 @@ public class UsageStatDao {
       criteria.and("meta.in").is(in);
     }
     from = from == null ? 0 : from;
-    to = to == null ? Long.MAX_VALUE : to;
-    criteria.and("meta.timestamp").gte(from).lt(to);
+    to = to == null ? System.currentTimeMillis() : to;
+    criteria.and("timestamp").gte(new Date(from)).lt(new Date(to));
     Query query = new Query(criteria);
     return mongoTemplate.find(query, TenantUsageDocument.class);
   }
