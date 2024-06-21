@@ -72,7 +72,6 @@ public class TenantRateLimitInterceptor extends AbstractInterceptorHandler {
       return true;
     } else {
       // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
-      // servlet 标准状态码枚举不知道为什么没有
       httpServletResponse.sendError(429, "Rate limit exceeded");
       return false;
     }
