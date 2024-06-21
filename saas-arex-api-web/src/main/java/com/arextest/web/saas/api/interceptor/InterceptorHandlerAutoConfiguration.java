@@ -7,8 +7,10 @@ import com.arextest.common.saas.interceptor.SaasAuthorizationInterceptor;
 import com.arextest.common.saas.interceptor.SaasRefreshInterceptor;
 import com.arextest.common.saas.interceptor.TenantInterceptor;
 import com.arextest.common.saas.interceptor.TenantLimitService;
+import com.arextest.common.saas.interceptor.TenantRateLimitInterceptor;
 import com.arextest.common.saas.tenant.TenantRedisHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -134,6 +136,14 @@ public class InterceptorHandlerAutoConfiguration {
 
   private List<String> getRefreshExcludePathPatterns() {
     return Collections.emptyList();
+  }
+
+
+  @Bean
+  public AbstractInterceptorHandler rateLimitingInterceptor(CacheProvider cacheProvider) {
+    return new TenantRateLimitInterceptor(cacheProvider, Lists.newArrayList(
+        TenantRateLimitInterceptor.Config.builder().path("/api/ai/generateTestScript").limitPerMinute(10).build()
+    ));
   }
 
 }
