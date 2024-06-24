@@ -68,6 +68,10 @@
       <version>0.6.4.4</version>
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>com.arextest</groupId>
+      <artifactId>arex-storage-web-api</artifactId>
+    </dependency>
     <!--test-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
