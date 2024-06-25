@@ -10,6 +10,7 @@
   </parent>
 
   <artifactId>saas-arex-storage</artifactId>
+  <packaging>${packagingType}</packaging>
 
   <properties>
     <maven.compiler.source>8</maven.compiler.source>
@@ -29,6 +30,21 @@
   </dependencies>
 
   <profiles>
+    <profile>
+      <id>war</id>
+      <properties>
+        <packagingType>war</packagingType>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.3.1</version>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
     <profile>
       <build>
         <finalName>storage</finalName>
@@ -78,6 +94,9 @@
       <properties>
         <packagingType>jar</packagingType>
       </properties>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
     </profile>
   </profiles>
 
