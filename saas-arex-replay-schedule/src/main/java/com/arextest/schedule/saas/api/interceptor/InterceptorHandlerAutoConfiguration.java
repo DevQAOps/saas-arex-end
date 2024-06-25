@@ -9,20 +9,21 @@ import com.arextest.common.saas.interceptor.TenantLimitService;
 import com.arextest.common.saas.tenant.TenantRedisHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * the order of the interceptor
- * TenantInterceptor -> SaasAuthorizationInterceptor
+ * the order of the interceptor TenantInterceptor -> SaasAuthorizationInterceptor
  */
 @Configuration
 public class InterceptorHandlerAutoConfiguration {
 
   @Bean
-  public TenantRedisHandler tenantRedisHandler(CacheProvider cacheProvider, ObjectMapper objectMapper) {
+  public TenantRedisHandler tenantRedisHandler(CacheProvider cacheProvider,
+      ObjectMapper objectMapper) {
     return new TenantRedisHandler(cacheProvider, objectMapper);
   }
 
@@ -51,7 +52,7 @@ public class InterceptorHandlerAutoConfiguration {
   }
 
   private List<String> getTenantExcludePathPatterns() {
-    return Collections.emptyList();
+    return Lists.newArrayList("/error", "/favicon.ico");
   }
 
   public List<String> getAuthorizationPathPatterns() {
@@ -59,6 +60,6 @@ public class InterceptorHandlerAutoConfiguration {
   }
 
   public List<String> getAuthorizationExcludePathPatterns() {
-    return Lists.newArrayList("/vi/health");
+    return Lists.newArrayList("/error", "/favicon.ico", "/vi/health");
   }
 }
