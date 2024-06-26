@@ -70,7 +70,7 @@ public class InterceptorHandlerAutoConfiguration {
   }
 
   private List<String> getTenantExcludePathPatterns() {
-    return Collections.emptyList();
+    return Lists.newArrayList("/error", "/favicon.ico");
   }
 
   private List<String> getAuthorizationPathPatterns() {
@@ -87,6 +87,7 @@ public class InterceptorHandlerAutoConfiguration {
     defaultPatterns.add("/images/**");
     defaultPatterns.add("/lib/**");
     defaultPatterns.add("/fonts/**");
+    defaultPatterns.add("/favicon.ico");
     // swagger-ui
     defaultPatterns.add("/swagger-resources/**");
     defaultPatterns.add("/webjars/**");

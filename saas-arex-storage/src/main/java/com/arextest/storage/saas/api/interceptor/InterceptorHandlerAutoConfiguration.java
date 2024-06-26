@@ -8,7 +8,7 @@ import com.arextest.common.saas.interceptor.TenantInterceptor;
 import com.arextest.common.saas.interceptor.TenantLimitService;
 import com.arextest.common.saas.tenant.TenantRedisHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.ArrayList;
+import com.google.common.collect.Lists;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
@@ -60,7 +60,7 @@ public class InterceptorHandlerAutoConfiguration {
   }
 
   private List<String> getTenantExcludePathPatterns() {
-    return Collections.emptyList();
+    return Lists.newArrayList("/error", "/favicon.ico");
   }
 
   private List<String> getAuthorizationPathPatterns() {
@@ -68,11 +68,7 @@ public class InterceptorHandlerAutoConfiguration {
   }
 
   private List<String> getAuthorizationExcludePathPatterns() {
-    List<String> defaultPatterns = new ArrayList<>(5);
-    // for agent
-    defaultPatterns.add("/api/config/agent/**");
-    defaultPatterns.add("/api/storage/record/**");
-    defaultPatterns.add("/vi/health");
-    return defaultPatterns;
+    return Lists.newArrayList("/error", "/favicon.ico", "/vi/health", "/api/config/agent/**",
+        "/api/storage/record/**");
   }
 }

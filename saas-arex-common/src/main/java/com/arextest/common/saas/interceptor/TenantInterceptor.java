@@ -7,6 +7,7 @@ import com.arextest.common.saas.model.Constants;
 import com.arextest.common.saas.utils.ResponseWriterUtil;
 import com.arextest.common.utils.TenantContextUtil;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
@@ -35,12 +36,30 @@ public class TenantInterceptor extends AbstractInterceptorHandler {
   @Getter
   private final List<String> excludePathPatterns;
 
+  private static final String HEALTH_CHECK_PATH = "/vi/health";
+
+  /**
+   * 进行租户校验 对于/vi/health接口，没有tenantCode，进行系统状态校验。存在tenantCode，进行租户状态校验
+   *
+   * @param request
+   * @param response
+   * @param handler
+   * @return
+   */
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
       Object handler) {
     String tenantCode = extractTenantCode(request);
+
+    // verify system status
+    String requestURI = request.getRequestURI();
+    if (StringUtils.isEmpty(tenantCode) && Objects.equals(requestURI, HEALTH_CHECK_PATH)) {
+      return false;
+    }
+
+    // reject the request if tenantCode is empty
     if (StringUtils.isEmpty(tenantCode)) {
-      LOGGER.error("tenantCode is empty, reject the request");
+      LOGGER.error("tenantCode is empty, reject the request, path:{}", request.getRequestURI());
       return false;
     }
 
