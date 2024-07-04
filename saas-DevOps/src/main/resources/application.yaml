@@ -19,6 +19,3 @@ spring:
   redis:
     host: redis-inner-nlb-2203a1ba55b82a05.elb.us-west-2.amazonaws.com
     port: 6379
-arex:
-  redis:
-    uri: redis://redis-inner-nlb-2203a1ba55b82a05.elb.us-west-2.amazonaws.com:6379/
