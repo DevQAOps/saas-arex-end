@@ -1,8 +1,12 @@
 package com.arextest.saasdevops.service.impl;
 
+import com.arextest.common.saas.model.SaasSystemConfigurationKeySummary;
 import com.arextest.common.saas.model.TenantUsageDocument;
+import com.arextest.common.saas.model.dto.SaasSystemConfiguration;
+import com.arextest.common.saas.repository.SaasSystemConfigurationRepository;
 import com.arextest.common.saas.repository.impl.UsageStatDao;
 import com.arextest.saasdevops.model.contract.QueryTenantUsageRequest;
+import com.arextest.saasdevops.model.contract.UpdateTrafficLimitRequest;
 import com.arextest.saasdevops.service.UsageService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +20,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UsageServiceImpl implements UsageService {
   private final UsageStatDao usageStatDao;
+  private final SaasSystemConfigurationRepository saasSystemConfigurationRepository;
 
   @Override
   public Long queryUsage(QueryTenantUsageRequest request) {
@@ -26,5 +31,16 @@ public class UsageServiceImpl implements UsageService {
       sum += tenantUsageDocument.getContentLengthSum();
     }
     return sum;
+  }
+
+  @Override
+  public boolean updateTrafficLimit(UpdateTrafficLimitRequest request) {
+    if (request.getTrafficLimit() == null) {
+      return false;
+    }
+    SaasSystemConfiguration saasSystemConfiguration = new SaasSystemConfiguration();
+    saasSystemConfiguration.setKey(SaasSystemConfigurationKeySummary.SAAS_TRAFFIC_LIMIT);
+    saasSystemConfiguration.setTrafficLimit(request.getTrafficLimit());
+    return saasSystemConfigurationRepository.save(saasSystemConfiguration);
   }
 }

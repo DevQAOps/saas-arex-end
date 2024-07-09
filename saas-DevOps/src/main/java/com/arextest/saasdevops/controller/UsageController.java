@@ -2,9 +2,12 @@ package com.arextest.saasdevops.controller;
 
 import com.arextest.common.model.response.Response;
 import com.arextest.common.utils.ResponseUtils;
+import com.arextest.common.utils.TenantContextUtil;
 import com.arextest.saasdevops.model.contract.QueryTenantUsageRequest;
 import com.arextest.saasdevops.model.contract.QueryTenantUsageResponse;
+import com.arextest.saasdevops.model.contract.UpdateTrafficLimitRequest;
 import com.arextest.saasdevops.service.UsageService;
+import com.arextest.web.model.contract.contracts.SuccessResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,6 +33,15 @@ public class UsageController {
   public Response queryUsage(@RequestBody QueryTenantUsageRequest request) {
     QueryTenantUsageResponse response = new QueryTenantUsageResponse();
     response.setTotalBytes(usageService.queryUsage(request));
+    return ResponseUtils.successResponse(response);
+  }
+
+  @PostMapping("/update/limit")
+  @ResponseBody
+  public Response queryUsage(@RequestBody UpdateTrafficLimitRequest request) {
+    TenantContextUtil.setTenantCode(request.getTenantCode());
+    SuccessResponse response = new SuccessResponse();
+    response.setSuccess(usageService.updateTrafficLimit(request));
     return ResponseUtils.successResponse(response);
   }
 }

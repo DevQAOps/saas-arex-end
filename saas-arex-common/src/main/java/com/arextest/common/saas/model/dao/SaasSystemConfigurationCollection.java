@@ -12,4 +12,5 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class SaasSystemConfigurationCollection extends SystemConfigurationCollection {
 
   private String tenantToken;
+  private Long trafficLimit;
 }

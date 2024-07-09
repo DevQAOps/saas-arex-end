@@ -6,6 +6,10 @@ import com.arextest.common.jwt.JWTService;
 import com.arextest.common.saas.interceptor.SaasAuthorizationInterceptor;
 import com.arextest.common.saas.interceptor.TenantInterceptor;
 import com.arextest.common.saas.interceptor.TenantLimitService;
+import com.arextest.common.saas.interceptor.TenantTrafficLimitInterceptor;
+import com.arextest.common.saas.repository.SaasSystemConfigurationRepository;
+import com.arextest.common.saas.repository.impl.SaasSystemConfigurationRepositoryImpl;
+import com.arextest.common.saas.repository.impl.UsageStatDao;
 import com.arextest.common.saas.tenant.TenantRedisHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
@@ -14,6 +18,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.core.MongoTemplate;
 
 /**
  * the order of the interceptor AgentAccessInterceptorHandler-> TenantInterceptor ->
@@ -70,5 +75,26 @@ public class InterceptorHandlerAutoConfiguration {
   private List<String> getAuthorizationExcludePathPatterns() {
     return Lists.newArrayList("/error", "/favicon.ico", "/vi/health", "/api/config/agent/**",
         "/api/storage/record/**");
+  }
+
+
+  @Bean
+  public UsageStatDao usageStatDao(MongoTemplate mongoTemplate) {
+    return new UsageStatDao(mongoTemplate);
+  }
+
+  @Bean
+  public SaasSystemConfigurationRepository saasSystemConfigurationRepository(
+      MongoTemplate mongoTemplate) {
+    return new SaasSystemConfigurationRepositoryImpl(mongoTemplate);
+  }
+
+  @Bean
+  public AbstractInterceptorHandler trafficLimitInterceptor(
+      UsageStatDao usageStatDao,
+      CacheProvider cacheProvider,
+      SaasSystemConfigurationRepository saasSystemConfigurationRepository) {
+    return new TenantTrafficLimitInterceptor(usageStatDao, cacheProvider,
+        saasSystemConfigurationRepository);
   }
 }
