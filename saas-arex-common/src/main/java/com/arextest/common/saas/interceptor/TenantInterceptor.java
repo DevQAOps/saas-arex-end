@@ -80,7 +80,7 @@ public class TenantInterceptor extends AbstractInterceptorHandler {
   @Override
   public void afterCompletion(HttpServletRequest request, HttpServletResponse response,
       Object handler, Exception ex) throws Exception {
-    TenantContextUtil.clearAll();
+    TenantContextUtil.clear();
   }
 
   private String extractTenantCode(HttpServletRequest request) {
