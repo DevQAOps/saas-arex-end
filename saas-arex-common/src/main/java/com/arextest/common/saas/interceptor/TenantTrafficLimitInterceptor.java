@@ -2,12 +2,19 @@ package com.arextest.common.saas.interceptor;
 
 import com.arextest.common.cache.CacheProvider;
 import com.arextest.common.interceptor.AbstractInterceptorHandler;
+import com.arextest.common.model.response.Response;
+import com.arextest.common.model.response.ResponseCode;
 import com.arextest.common.saas.model.SaasSystemConfigurationKeySummary;
 import com.arextest.common.saas.model.dto.SaasSystemConfiguration;
 import com.arextest.common.saas.repository.SaasSystemConfigurationRepository;
 import com.arextest.common.saas.repository.impl.UsageStatDao;
 import com.arextest.common.saas.utils.TenantUtil;
+import com.arextest.common.utils.ResponseUtils;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -16,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 
 /**
  * @author wildeslam.
@@ -25,13 +33,17 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 public class TenantTrafficLimitInterceptor extends AbstractInterceptorHandler {
 
+  private final ObjectMapper mapper = new ObjectMapper();
   private final UsageStatDao usageStatDao;
 
   private final CacheProvider cacheProvider;
 
   private final SaasSystemConfigurationRepository saasSystemConfigurationRepository;
 
-  private static final String TENANT_TRAFFIC_LIMIT_KEY = "tenant_traffic_limit_%s";
+  private static final String TENANT_TRAFFIC_LIMIT_KEY = "tenant_traffic_limit_%s_%s";
+
+  @Value("${arex.saas.traffic.limit.enable}")
+  private boolean enable;
 
   public TenantTrafficLimitInterceptor(
       UsageStatDao usageStatDao,
@@ -58,25 +70,41 @@ public class TenantTrafficLimitInterceptor extends AbstractInterceptorHandler {
   }
 
   @Override
-  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+  public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+      throws IOException {
+    if (!enable) {
+      return true;
+    }
     String tenantCode = TenantUtil.extractTenantCode(request);
     if (tenantCode == null) {
       LOGGER.error("tenantCode is empty, reject the request, path:{}", request.getRequestURI());
       return false;
     }
-    byte[] key = String.format(TENANT_TRAFFIC_LIMIT_KEY, tenantCode)
+    LocalDate date = LocalDate.now();
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    String formattedDate = date.format(formatter);
+    byte[] key = String.format(TENANT_TRAFFIC_LIMIT_KEY, formattedDate, tenantCode)
         .getBytes(StandardCharsets.UTF_8);
     byte[] value = cacheProvider.get(key);
     long trafficStats = value == null ? 0L : Long.parseLong(new String(value));
 
     List<String> keys = Collections.singletonList(
         SaasSystemConfigurationKeySummary.SAAS_TRAFFIC_LIMIT);
-    List<SaasSystemConfiguration> systemConfigurations = saasSystemConfigurationRepository.query(keys);
-    Long trafficLimit = Optional.ofNullable(systemConfigurations)
+    List<SaasSystemConfiguration> systemConfigurations = saasSystemConfigurationRepository.query(
+        keys);
+    long trafficLimit = Optional.ofNullable(systemConfigurations)
         .map(configurations -> configurations.get(0))
         .map(SaasSystemConfiguration::getTrafficLimit)
         .orElse(0L);
 
-    return trafficLimit >= trafficStats;
+    if (trafficLimit < trafficStats) {
+      Response no_permission = ResponseUtils.errorResponse("Traffic Limited",
+          ResponseCode.AUTHENTICATION_FAILED);
+      response.getWriter().write(mapper.writeValueAsString(no_permission));
+      LOGGER.info(
+          String.format("Traffic Limited; path: %s", request.getServletPath()));
+      return false;
+    }
+    return true;
   }
 }
