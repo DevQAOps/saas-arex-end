@@ -12,6 +12,7 @@ import com.arextest.common.saas.repository.SaasSystemConfigurationRepository;
 import com.arextest.common.saas.repository.impl.UsageStatDao;
 import com.arextest.common.saas.utils.TenantUtil;
 import com.arextest.common.utils.ResponseUtils;
+import com.arextest.common.utils.TenantContextUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -76,7 +77,7 @@ public class TenantTrafficLimitInterceptor extends AbstractInterceptorHandler {
     if (!enable) {
       return true;
     }
-    String tenantCode = TenantUtil.extractTenantCode(request);
+    String tenantCode = TenantContextUtil.getTenantCode();
     if (tenantCode == null) {
       LOGGER.error("tenantCode is empty, reject the request, path:{}", request.getRequestURI());
       return false;
