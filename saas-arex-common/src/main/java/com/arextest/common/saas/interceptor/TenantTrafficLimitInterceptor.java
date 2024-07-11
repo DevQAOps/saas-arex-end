@@ -4,7 +4,9 @@ import com.arextest.common.cache.CacheProvider;
 import com.arextest.common.interceptor.AbstractInterceptorHandler;
 import com.arextest.common.model.response.Response;
 import com.arextest.common.model.response.ResponseCode;
+import com.arextest.common.saas.model.Constants;
 import com.arextest.common.saas.model.SaasSystemConfigurationKeySummary;
+import com.arextest.common.saas.model.dao.SaasSystemConfigurationCollection.SubscribeInfo;
 import com.arextest.common.saas.model.dto.SaasSystemConfiguration;
 import com.arextest.common.saas.repository.SaasSystemConfigurationRepository;
 import com.arextest.common.saas.repository.impl.UsageStatDao;
@@ -23,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Value;
 
 /**
@@ -39,8 +42,6 @@ public class TenantTrafficLimitInterceptor extends AbstractInterceptorHandler {
   private final CacheProvider cacheProvider;
 
   private final SaasSystemConfigurationRepository saasSystemConfigurationRepository;
-
-  private static final String TENANT_TRAFFIC_LIMIT_KEY = "tenant_traffic_limit_%s_%s";
 
   @Value("${arex.saas.traffic.limit.enable}")
   private boolean enable;
@@ -83,18 +84,22 @@ public class TenantTrafficLimitInterceptor extends AbstractInterceptorHandler {
     LocalDate date = LocalDate.now();
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     String formattedDate = date.format(formatter);
-    byte[] key = String.format(TENANT_TRAFFIC_LIMIT_KEY, formattedDate, tenantCode)
+    byte[] key = String.format(Constants.TENANT_TRAFFIC_LIMIT_KEY, formattedDate, tenantCode)
         .getBytes(StandardCharsets.UTF_8);
     byte[] value = cacheProvider.get(key);
     long trafficStats = value == null ? 0L : Long.parseLong(new String(value));
 
     List<String> keys = Collections.singletonList(
-        SaasSystemConfigurationKeySummary.SAAS_TRAFFIC_LIMIT);
+        SaasSystemConfigurationKeySummary.SAAS_SUBSCRIBE_INFO);
     List<SaasSystemConfiguration> systemConfigurations = saasSystemConfigurationRepository.query(
         keys);
-    long trafficLimit = Optional.ofNullable(systemConfigurations)
-        .map(configurations -> configurations.get(0))
-        .map(SaasSystemConfiguration::getTrafficLimit)
+    SubscribeInfo subscribeInfo = Optional.ofNullable(systemConfigurations)
+        .map(configurations -> CollectionUtils.isEmpty(configurations) ? null
+            : configurations.get(0))
+        .map(SaasSystemConfiguration::getSubscribeInfo)
+        .orElse(null);
+    long trafficLimit = Optional.ofNullable(subscribeInfo)
+        .map(SubscribeInfo::getTrafficLimit)
         .orElse(0L);
 
     if (trafficLimit < trafficStats) {

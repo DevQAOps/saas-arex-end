@@ -4,9 +4,13 @@ import com.arextest.common.saas.model.TenantUsageDocument;
 import java.util.Date;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.bson.Document;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.GroupOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
@@ -19,6 +23,7 @@ import org.springframework.stereotype.Repository;
 @RequiredArgsConstructor
 public class UsageStatDao {
   private final MongoTemplate mongoTemplate;
+  private static final String TOTAL_LENGTH = "total_length";
 
   @EventListener(ApplicationReadyEvent.class)
   public void ensureCollection() {
@@ -45,5 +50,30 @@ public class UsageStatDao {
     criteria.and("timestamp").gte(new Date(from)).lt(new Date(to));
     Query query = new Query(criteria);
     return mongoTemplate.find(query, TenantUsageDocument.class);
+  }
+
+  // 查出所有满足条件的数据，对contentLengthSum求和
+  public Long statistics(String tenantCode, Long from, Long to) {
+    Criteria criteria = Criteria.where("meta.tenantCode").is(tenantCode);
+    from = from == null ? 0 : from;
+    to = to == null ? System.currentTimeMillis() : to;
+    criteria.and("timestamp").gte(new Date(from)).lt(new Date(to));
+
+    GroupOperation groupOperation = Aggregation.group().sum("contentLengthSum").as(TOTAL_LENGTH);
+    Aggregation aggregation = Aggregation.newAggregation(
+        Aggregation.match(criteria),
+        groupOperation
+    );
+    AggregationResults<Document> result = mongoTemplate.aggregate(
+        aggregation, "TenantUsage" , Document.class
+    );
+
+    List<Document> documents = result.getMappedResults();
+    if (documents.isEmpty()) {
+      return 0L;
+    }
+
+    Document document = documents.get(0);
+    return document.getLong(TOTAL_LENGTH);
   }
 }

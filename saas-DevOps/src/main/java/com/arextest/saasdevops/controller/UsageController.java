@@ -5,7 +5,7 @@ import com.arextest.common.utils.ResponseUtils;
 import com.arextest.common.utils.TenantContextUtil;
 import com.arextest.saasdevops.model.contract.QueryTenantUsageRequest;
 import com.arextest.saasdevops.model.contract.QueryTenantUsageResponse;
-import com.arextest.saasdevops.model.contract.UpdateTrafficLimitRequest;
+import com.arextest.saasdevops.model.contract.UpdateSubScribeRequest;
 import com.arextest.saasdevops.service.UsageService;
 import com.arextest.web.model.contract.contracts.SuccessResponse;
 import lombok.extern.slf4j.Slf4j;
@@ -36,12 +36,12 @@ public class UsageController {
     return ResponseUtils.successResponse(response);
   }
 
-  @PostMapping("/update/limit")
+  @PostMapping("/update/subscribe")
   @ResponseBody
-  public Response queryUsage(@RequestBody UpdateTrafficLimitRequest request) {
+  public Response queryUsage(@RequestBody UpdateSubScribeRequest request) {
     TenantContextUtil.setTenantCode(request.getTenantCode());
     SuccessResponse response = new SuccessResponse();
-    response.setSuccess(usageService.updateTrafficLimit(request));
+    response.setSuccess(usageService.updateSubScribe(request));
     return ResponseUtils.successResponse(response);
   }
 }

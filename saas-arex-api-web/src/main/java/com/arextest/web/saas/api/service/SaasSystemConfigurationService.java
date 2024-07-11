@@ -67,8 +67,8 @@ public class SaasSystemConfigurationService {
           .fieldName(Fields.tenantToken).build();
 
       SystemConfigRule rule2 = SystemConfigRule.builder()
-          .key(SaasSystemConfigurationKeySummary.SAAS_TRAFFIC_LIMIT)
-          .fieldName(Fields.trafficLimit).build();
+          .key(SaasSystemConfigurationKeySummary.SAAS_SUBSCRIBE_INFO)
+          .fieldName(Fields.subscribeInfo).build();
 
       return ImmutableMap.of(rule1.getKey(), rule1, rule2.getKey(), rule2);
     }

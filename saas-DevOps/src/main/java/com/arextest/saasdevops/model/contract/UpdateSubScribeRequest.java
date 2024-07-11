@@ -9,6 +9,8 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class UpdateTrafficLimitRequest extends BaseRequest {
+public class UpdateSubScribeRequest extends BaseRequest {
   private Long trafficLimit;
+  private Long start;
+  private Long end;
 }

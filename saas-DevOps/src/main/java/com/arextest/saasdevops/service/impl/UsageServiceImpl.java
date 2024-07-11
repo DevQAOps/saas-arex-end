@@ -2,11 +2,12 @@ package com.arextest.saasdevops.service.impl;
 
 import com.arextest.common.saas.model.SaasSystemConfigurationKeySummary;
 import com.arextest.common.saas.model.TenantUsageDocument;
+import com.arextest.common.saas.model.dao.SaasSystemConfigurationCollection.SubscribeInfo;
 import com.arextest.common.saas.model.dto.SaasSystemConfiguration;
 import com.arextest.common.saas.repository.SaasSystemConfigurationRepository;
 import com.arextest.common.saas.repository.impl.UsageStatDao;
 import com.arextest.saasdevops.model.contract.QueryTenantUsageRequest;
-import com.arextest.saasdevops.model.contract.UpdateTrafficLimitRequest;
+import com.arextest.saasdevops.model.contract.UpdateSubScribeRequest;
 import com.arextest.saasdevops.service.UsageService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -34,13 +35,15 @@ public class UsageServiceImpl implements UsageService {
   }
 
   @Override
-  public boolean updateTrafficLimit(UpdateTrafficLimitRequest request) {
-    if (request.getTrafficLimit() == null) {
+  public boolean updateSubScribe(UpdateSubScribeRequest request) {
+    if (request.getTrafficLimit() == null && request.getStart() == null
+        && request.getEnd() == null) {
       return false;
     }
-    SaasSystemConfiguration saasSystemConfiguration = new SaasSystemConfiguration();
-    saasSystemConfiguration.setKey(SaasSystemConfigurationKeySummary.SAAS_TRAFFIC_LIMIT);
-    saasSystemConfiguration.setTrafficLimit(request.getTrafficLimit());
-    return saasSystemConfigurationRepository.save(saasSystemConfiguration);
+    SaasSystemConfiguration subscribeConfig = new SaasSystemConfiguration();
+    subscribeConfig.setKey(SaasSystemConfigurationKeySummary.SAAS_SUBSCRIBE_INFO);
+    subscribeConfig.setSubscribeInfo(
+        new SubscribeInfo(request.getTrafficLimit(), request.getStart(), request.getEnd()));
+    return saasSystemConfigurationRepository.save(subscribeConfig);
   }
 }
