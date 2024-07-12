@@ -6,6 +6,9 @@ import com.arextest.common.jwt.JWTService;
 import com.arextest.common.saas.interceptor.SaasAuthorizationInterceptor;
 import com.arextest.common.saas.interceptor.TenantInterceptor;
 import com.arextest.common.saas.interceptor.TenantLimitService;
+import com.arextest.common.saas.interceptor.TenantTrafficLimitInterceptor;
+import com.arextest.common.saas.repository.SaasSystemConfigurationRepository;
+import com.arextest.common.saas.repository.impl.UsageStatDao;
 import com.arextest.common.saas.tenant.TenantRedisHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
@@ -70,5 +73,14 @@ public class InterceptorHandlerAutoConfiguration {
   private List<String> getAuthorizationExcludePathPatterns() {
     return Lists.newArrayList("/error", "/favicon.ico", "/vi/health", "/api/config/agent/**",
         "/api/storage/record/**");
+  }
+
+  @Bean
+  public AbstractInterceptorHandler trafficLimitInterceptor(
+      UsageStatDao usageStatDao,
+      CacheProvider cacheProvider,
+      SaasSystemConfigurationRepository saasSystemConfigurationRepository) {
+    return new TenantTrafficLimitInterceptor(usageStatDao, cacheProvider,
+        saasSystemConfigurationRepository);
   }
 }

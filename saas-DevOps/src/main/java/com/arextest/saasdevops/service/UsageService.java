@@ -1,6 +1,7 @@
 package com.arextest.saasdevops.service;
 
 import com.arextest.saasdevops.model.contract.QueryTenantUsageRequest;
+import com.arextest.saasdevops.model.contract.UpdateSubScribeRequest;
 
 /**
  * @author wildeslam.
@@ -8,4 +9,6 @@ import com.arextest.saasdevops.model.contract.QueryTenantUsageRequest;
  */
 public interface UsageService {
   Long queryUsage(QueryTenantUsageRequest request);
+
+  boolean updateSubScribe(UpdateSubScribeRequest request);
 }

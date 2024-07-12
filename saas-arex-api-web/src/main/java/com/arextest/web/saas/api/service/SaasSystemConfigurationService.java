@@ -66,8 +66,11 @@ public class SaasSystemConfigurationService {
           .key(SaasSystemConfigurationKeySummary.SAAS_TENANT_TOKEN)
           .fieldName(Fields.tenantToken).build();
 
-      return ImmutableMap.of(
-          rule1.getKey(), rule1);
+      SystemConfigRule rule2 = SystemConfigRule.builder()
+          .key(SaasSystemConfigurationKeySummary.SAAS_SUBSCRIBE_INFO)
+          .fieldName(Fields.subscribeInfo).build();
+
+      return ImmutableMap.of(rule1.getKey(), rule1, rule2.getKey(), rule2);
     }
   }
 

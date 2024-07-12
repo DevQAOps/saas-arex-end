@@ -1,8 +1,8 @@
 package com.arextest.common.saas.multitenant.usage;
 
-import com.arextest.common.saas.repository.impl.UsageStatDao;
 import com.arextest.common.saas.model.TenantUsageDocument;
 import com.arextest.common.saas.model.TenantUsageDocument.Meta;
+import com.arextest.common.saas.repository.impl.UsageStatDao;
 import com.arextest.common.utils.TenantContextUtil;
 import java.sql.Timestamp;
 import java.util.Map;
@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @Slf4j
 public class UsageCollector {
+
   private static volatile Map<UsageCacheKey, Long> usageCache = new ConcurrentHashMap<>(8);
   private final UsageStatDao usageStatDao;
 

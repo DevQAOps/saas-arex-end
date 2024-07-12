@@ -50,5 +50,9 @@ arex:
       payload:
         with:
           metric: false
+  saas:
+    traffic:
+      limit:
+        enable: false
 pom:
   version: ""
