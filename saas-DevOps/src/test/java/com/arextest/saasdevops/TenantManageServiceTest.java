@@ -24,16 +24,16 @@ public class TenantManageServiceTest {
   @Test
   public void testInitTenantStatus() {
     TenantStatusInfo tenantStatusInfo = new TenantStatusInfo();
-    tenantStatusInfo.setTenantCode("whb1");
+    tenantStatusInfo.setTenantCode("ylftest");
     tenantStatusInfo.setTenantToken(
-        "a+aBZI466WklECMCkWte4lYBfWOxC95hOKHUmXXJxFsv93SdyHtmp0RLIunpoRfVypTloF4o9OTFlhTVRlLXmw==");
+        "ylftest:4G+/pmjT3Tg/6xOYbRCVrX2qYDjC4IpFFI7k5pimOdR17QHlgDgjksWEuhJhVL8xfF3ovCJhiWDc9WQCsMN1hw==");
     tenantStatusInfo.setExpireTime(
         getExpireTime(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 30));
     tenantManageService.initTenantStatus(tenantStatusInfo);
 
-    TenantStatusRedisInfo test = tenantRedisHandler.getTenantStatus("whb1");
+    TenantStatusRedisInfo test = tenantRedisHandler.getTenantStatus("ylftest");
     Assertions.assertEquals(
-        "a+aBZI466WklECMCkWte4lYBfWOxC95hOKHUmXXJxFsv93SdyHtmp0RLIunpoRfVypTloF4o9OTFlhTVRlLXmw==",
+        "ylftest:4G+/pmjT3Tg/6xOYbRCVrX2qYDjC4IpFFI7k5pimOdR17QHlgDgjksWEuhJhVL8xfF3ovCJhiWDc9WQCsMN1hw==",
         test.getTenantToken());
 
   }
