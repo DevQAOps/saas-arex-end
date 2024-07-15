@@ -83,7 +83,7 @@ public class UsageServiceImpl implements UsageService {
     TenantContextUtil.setTenantCode(tenant);
     List<SaasSystemConfiguration> systemConfigurations = saasSystemConfigurationRepository.query(
         keys);
-    TenantContextUtil.clearAll();
+    TenantContextUtil.clear();
 
     SubscribeInfo subscribeInfo = Optional.ofNullable(systemConfigurations)
         .map(configurations -> CollectionUtils.isEmpty(configurations) ? null
