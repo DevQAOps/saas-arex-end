@@ -21,10 +21,10 @@
     <maven.compiler.target>8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <springboot.version>2.7.18</springboot.version>
-    <arex-common.version>0.1.28</arex-common.version>
-    <arex.storage.version>1.2.4</arex.storage.version>
+    <arex-common.version>0.2.2</arex-common.version>
+    <arex.storage.version>1.2.12</arex.storage.version>
     <arex.schedule.version>1.2.8</arex.schedule.version>
-    <arex.api.version>0.6.4.12</arex.api.version>
+    <arex.api.version>0.6.5</arex.api.version>
     <caffine.version>2.9.2</caffine.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
   </properties>

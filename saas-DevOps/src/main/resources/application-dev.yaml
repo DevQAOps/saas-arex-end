@@ -1,16 +1,5 @@
-# test
 logging:
   config: classpath:log4j2-dev.xml
-arex:
-  storage:
-    service:
-      url: http://arex-storage.fat3.tripqate.com
-  schedule:
-    service:
-      url: http://arex-schedule.fat3.tripqate.com
-  mongo:
-    uri: mongodb://arex:iLoveArex@10.118.1.217:37017/arex_storage_db
-
 saas:
   tenant:
     database:
@@ -21,6 +10,10 @@ saas:
           uri: mongodb://arex:iLoveArex@10.118.1.217:37017/arex_storage_db
           database: arex_storage_db
 spring:
+  data:
+    mongodb:
+      uri: mongodb://citizix:S3cret@10.118.1.217:37017/
+      database: saas_db
   redis:
     host: 10.118.1.217
     port: 6379

@@ -7,5 +7,5 @@ package com.arextest.common.saas.model;
 public interface SaasSystemConfigurationKeySummary {
 
   String SAAS_TENANT_TOKEN = "saas_api_tenant_token";
-
+  String SAAS_SUBSCRIBE_INFO = "saas_subscribe_info";
 }

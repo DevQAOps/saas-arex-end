@@ -9,15 +9,14 @@ spring:
     active: prod
 # for report
 arex:
-  storage:
-    cache:
-      uri: ${arex.redis.uri}
   app:
     auth:
       switch: false
   query:
     config:
       url: ${arex.api.service.api:http://arex-api-service:8080}/api/config/comparison/summary/queryConfigOfCategory
+    schedule:
+      url: ${arex.api.service.api:http://arex-api-service:8080}/api/config/schedule/useResult/appId/%s
   config:
     # default for application settings
     application:
@@ -48,5 +47,9 @@ arex:
       payload:
         with:
           metric: false
+  saas:
+    traffic:
+      limit:
+        enable: false
 pom:
   version: ""

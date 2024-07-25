@@ -3,17 +3,15 @@ logging:
 arex:
   api:
     service:
-      api: http://arex-web-api-find.arex-namesapce:8080
-  redis:
-    uri: redis://ec2-34-215-227-222.us-west-2.compute.amazonaws.com:6379/
+      api: http://arex-web-api.fat3.tripqate.com
   mongo:
     uri: mongodb://arex:iLoveArex@52.88.84.95:27017/arex_storage_db
   storage:
     service:
-      api: http://arex-storage-discovery.arex-namesapce:8080
+      api: http://arex-storage.fat3.tripqate.com
   schedule:
     service:
-      api: http://arex-schedule-discovery.arex-namesapce:8080
+      api: http://arex-schedule.fat3.tripqate.com
 saas:
   tenant:
     database:
@@ -25,5 +23,5 @@ saas:
           database: arex_storage_db
 spring:
   redis:
-    host: ec2-34-215-227-222.us-west-2.compute.amazonaws.com
+    host: 10.118.1.217
     port: 6379

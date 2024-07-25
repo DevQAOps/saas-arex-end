@@ -8,6 +8,9 @@ arex:
       ConfigFile: 3456000000
     defaultExpirationDuration: 345600000
     allowReRunDays: 1
+  config:
+    mockerConvert:
+      enabled: false
   api:
     service:
       api: http://arex-web-api-find.arex-namesapce:8080
