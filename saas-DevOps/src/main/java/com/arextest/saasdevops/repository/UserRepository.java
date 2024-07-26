@@ -1,5 +1,6 @@
 package com.arextest.saasdevops.repository;
 
+import com.arextest.saasdevops.model.contract.UserType;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ public interface UserRepository {
      * Add users to the organization.
      * return true if the addition is successful.
      */
-    boolean addUser(List<String> emails);
+    boolean addUser(List<UserType> emails);
 
     /**
      * Remove users to the organization.

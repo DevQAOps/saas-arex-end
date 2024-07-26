@@ -2,6 +2,7 @@ package com.arextest.saasdevops.service;
 
 import com.arextest.saasdevops.model.contract.FinalizeSaasUserRequest;
 import com.arextest.saasdevops.model.contract.InitSaasUserRequest;
+import com.arextest.saasdevops.model.contract.UserType;
 import java.util.List;
 
 /**
@@ -26,7 +27,7 @@ public interface UserManageService {
   /**
    * Add users to the organization. return true if the addition is successful.
    */
-  boolean addUser(String tenantCode, List<String> emails);
+  boolean addUser(String tenantCode, List<UserType> emails);
 
   /**
    * Remove users to the organization. return true if the removal is successful.
