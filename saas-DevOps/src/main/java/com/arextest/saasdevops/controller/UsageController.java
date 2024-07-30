@@ -31,6 +31,7 @@ public class UsageController {
   @PostMapping("/query")
   @ResponseBody
   public Response queryUsage(@RequestBody QueryTenantUsageRequest request) {
+    TenantContextUtil.clear();
     QueryTenantUsageResponse response = new QueryTenantUsageResponse();
     response.setTotalBytes(usageService.queryUsage(request));
     return ResponseUtils.successResponse(response);
