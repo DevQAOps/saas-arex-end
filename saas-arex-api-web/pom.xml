@@ -10,6 +10,7 @@
   </parent>
 
   <artifactId>saas-arex-api-web</artifactId>
+  <packaging>${packagingType}</packaging>
 
   <properties>
     <maven.compiler.source>8</maven.compiler.source>
@@ -73,6 +74,21 @@
 
   <profiles>
     <profile>
+      <id>war</id>
+      <properties>
+        <packagingType>war</packagingType>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.3.1</version>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
       <build>
         <finalName>web-api</finalName>
         <resources>
@@ -120,6 +136,9 @@
       <properties>
         <packagingType>jar</packagingType>
       </properties>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
     </profile>
   </profiles>
 

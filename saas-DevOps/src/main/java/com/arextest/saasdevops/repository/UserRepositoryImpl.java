@@ -1,7 +1,9 @@
 package com.arextest.saasdevops.repository;
 
+import com.arextest.saasdevops.model.contract.UserType;
 import com.arextest.web.core.repository.mongo.util.MongoHelper;
 import com.arextest.web.model.dao.mongodb.UserCollection;
+import com.arextest.web.model.dao.mongodb.UserCollection.Fields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.BulkOperations;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -23,12 +25,14 @@ public class UserRepositoryImpl implements UserRepository {
     private MongoTemplate mongoTemplate;
 
     @Override
-    public boolean addUser(List<String> emails) {
+    public boolean addUser(List<UserType> emails) {
         BulkOperations bulkOps = mongoTemplate.bulkOps(BulkOperations.BulkMode.UNORDERED, UserCollection.class);
-        for (String email : emails) {
+        for (UserType email : emails) {
             Query query = Query.query(Criteria.where(UserCollection.Fields.userName).is(email));
             Update update = MongoHelper.getUpdate();
-            update.set(UserCollection.Fields.userName, email);
+            update.set(UserCollection.Fields.userName, email.getUserName());
+            update.set(UserCollection.Fields.verificationCode, email.getVerificationCode());
+            update.set(UserCollection.Fields.verificationTime, System.currentTimeMillis());
             bulkOps.upsert(query, update);
         }
         bulkOps.execute();

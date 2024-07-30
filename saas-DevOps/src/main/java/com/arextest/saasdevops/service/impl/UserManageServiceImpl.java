@@ -9,6 +9,7 @@ import com.arextest.model.mock.MockCategoryType;
 import com.arextest.saasdevops.mapper.TenantStatusMapper;
 import com.arextest.saasdevops.model.contract.FinalizeSaasUserRequest;
 import com.arextest.saasdevops.model.contract.InitSaasUserRequest;
+import com.arextest.saasdevops.model.contract.UserType;
 import com.arextest.saasdevops.model.dto.TenantStatusInfo;
 import com.arextest.saasdevops.repository.UserRepository;
 import com.arextest.saasdevops.service.TenantManageService;
@@ -108,7 +109,7 @@ public class UserManageServiceImpl implements UserManageService {
   }
 
   @Override
-  public boolean addUser(String tenantCode, List<String> emails) {
+  public boolean addUser(String tenantCode, List<UserType> emails) {
     return userRepository.addUser(emails);
   }
 

@@ -15,5 +15,5 @@ public class AddUserRequest extends BaseRequest {
     /**
      * Invited users' emails.
      */
-    List<String> emails;
+    List<UserType> emails;
 }
