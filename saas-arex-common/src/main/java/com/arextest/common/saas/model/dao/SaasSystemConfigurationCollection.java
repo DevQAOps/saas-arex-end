@@ -18,6 +18,7 @@ public class SaasSystemConfigurationCollection extends SystemConfigurationCollec
   @Data
   @AllArgsConstructor
   public static class SubscribeInfo {
+
     private Long trafficLimit;
     private Long start;
     private Long end;

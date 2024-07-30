@@ -27,17 +27,16 @@ public class SaasJWTService extends JWTServiceImpl {
   private static final String SEED_KEY = "jwtSeed";
 
   private MongoTemplate mongoTemplate;
+  private LoadingCache<String, JWTServiceImpl> JWTServiceImplCache =
+      Caffeine.newBuilder().maximumSize(100).removalListener(((key, value, cause) -> {
+        LOGGER.info("JWTServiceImpl expire, key : {}, cause : {}", key, cause);
+      })).expireAfterWrite(2, TimeUnit.HOURS).build(new JWTServiceImplCacheLoader());
 
   public SaasJWTService(long accessExpireTime, long refreshExpireTime,
       MongoTemplate mongoTemplate) {
     super(accessExpireTime, refreshExpireTime, null);
     this.mongoTemplate = mongoTemplate;
   }
-
-  private LoadingCache<String, JWTServiceImpl> JWTServiceImplCache =
-      Caffeine.newBuilder().maximumSize(100).removalListener(((key, value, cause) -> {
-        LOGGER.info("JWTServiceImpl expire, key : {}, cause : {}", key, cause);
-      })).expireAfterWrite(2, TimeUnit.HOURS).build(new JWTServiceImplCacheLoader());
 
   @Override
   public String makeAccessToken(String username) {
@@ -80,7 +79,8 @@ public class SaasJWTService extends JWTServiceImpl {
     String tenantCode = TenantContextUtil.getTenantCode();
     JWTServiceImpl jwtServiceImpl = JWTServiceImplCache.get(tenantCode);
     if (jwtServiceImpl == null) {
-      LOGGER.error("JWTServiceImpl not found, tenantCode : {}, action : {}", tenantCode, "verifyToken");
+      LOGGER.error("JWTServiceImpl not found, tenantCode : {}, action : {}", tenantCode,
+          "verifyToken");
       return false;
     }
     return jwtServiceImpl.verifyToken(field);
@@ -90,7 +90,8 @@ public class SaasJWTService extends JWTServiceImpl {
     String tenantCode = TenantContextUtil.getTenantCode();
     JWTServiceImpl jwtServiceImpl = JWTServiceImplCache.get(tenantCode);
     if (jwtServiceImpl == null) {
-      LOGGER.error("JWTServiceImpl not found, tenantCode : {}, action : {}", tenantCode, "getUserName");
+      LOGGER.error("JWTServiceImpl not found, tenantCode : {}, action : {}", tenantCode,
+          "getUserName");
       return null;
     }
     return jwtServiceImpl.getUserName(token);

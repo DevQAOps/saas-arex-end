@@ -8,15 +8,14 @@ import java.util.List;
  * @create 2024/4/7 17:32
  */
 public interface UserRepository {
-    /**
-     * Add users to the organization.
-     * return true if the addition is successful.
-     */
-    boolean addUser(List<UserType> emails);
 
-    /**
-     * Remove users to the organization.
-     * return true if the removal is successful.
-     */
-    boolean removeUser(List<String> emails);
+  /**
+   * Add users to the organization. return true if the addition is successful.
+   */
+  boolean addUser(List<UserType> emails);
+
+  /**
+   * Remove users to the organization. return true if the removal is successful.
+   */
+  boolean removeUser(List<String> emails);
 }

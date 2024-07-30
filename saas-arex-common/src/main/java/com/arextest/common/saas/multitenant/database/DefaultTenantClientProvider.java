@@ -13,16 +13,15 @@ import org.springframework.beans.factory.annotation.Value;
  * @date: 2024/3/29 10:50
  */
 public class DefaultTenantClientProvider implements TenantClientProvider {
+
+  private static final String tenantDBUriSuffix = "_arex_storage_db";
+  private static final String DEFAULT_TENANT = "arex_internal_default";
   @Value("${saas.tenant.database.mongo.default.uri}")
   private String defaultUri;
   @Value("${saas.tenant.database.mongo.default.database}")
   private String defaultDatabaseName;
   @Value("${saas.tenant.database.mongo.uri.base}")
   private String tenantDBUriBase;
-
-  private static final String tenantDBUriSuffix = "_arex_storage_db";
-  private static final String DEFAULT_TENANT = "arex_internal_default";
-
   private final LoadingCache<String, TenantMongoClientHolder> cache = Caffeine.newBuilder()
       .maximumSize(100)
       .build((k) -> {

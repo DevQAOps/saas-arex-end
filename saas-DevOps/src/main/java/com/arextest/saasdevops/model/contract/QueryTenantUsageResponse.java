@@ -8,5 +8,6 @@ import lombok.Data;
  */
 @Data
 public class QueryTenantUsageResponse {
+
   private Long totalBytes;
 }

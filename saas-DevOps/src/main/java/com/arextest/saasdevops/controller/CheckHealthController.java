@@ -3,7 +3,6 @@ package com.arextest.saasdevops.controller;
 import com.arextest.common.model.response.Response;
 import com.arextest.common.utils.ResponseUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;

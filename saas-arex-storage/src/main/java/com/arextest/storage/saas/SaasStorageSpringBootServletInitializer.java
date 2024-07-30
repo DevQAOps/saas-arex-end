@@ -8,7 +8,8 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.retry.annotation.EnableRetry;
 
 @EnableRetry
-@SpringBootApplication(scanBasePackages = {"com.arextest.storage", "com.arextest.common.saas"}, exclude = {
+@SpringBootApplication(scanBasePackages = {"com.arextest.storage",
+    "com.arextest.common.saas"}, exclude = {
     MongoAutoConfiguration.class})
 public class SaasStorageSpringBootServletInitializer extends SpringBootServletInitializer {
 

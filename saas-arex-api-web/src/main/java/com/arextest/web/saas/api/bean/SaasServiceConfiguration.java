@@ -34,7 +34,7 @@ public class SaasServiceConfiguration {
   /**
    * for http request interceptor
    *
-   * @param jwtService: the multi-source for the JWTService
+   * @param jwtService:                   the multi-source for the JWTService
    * @param interfaceAddressConfiguration
    * @return
    */
@@ -46,7 +46,8 @@ public class SaasServiceConfiguration {
   }
 
   @Bean
-  public SaasSystemConfigurationRepository saasSystemConfigurationRepository(MongoTemplate mongoTemplate) {
+  public SaasSystemConfigurationRepository saasSystemConfigurationRepository(
+      MongoTemplate mongoTemplate) {
     return new SaasSystemConfigurationRepositoryImpl(mongoTemplate);
   }
 

@@ -26,6 +26,7 @@ import org.redisson.api.RedissonClient;
 @Slf4j
 @Getter
 public class TenantRateLimitInterceptor extends AbstractInterceptorHandler {
+
   private final CacheProvider cacheProvider;
   private final List<Config> configs;
   private final Map<String, Config> configMap;
@@ -34,13 +35,6 @@ public class TenantRateLimitInterceptor extends AbstractInterceptorHandler {
     this.cacheProvider = cacheProvider;
     this.configs = configs;
     this.configMap = configs.stream().collect(Collectors.toMap(Config::getPath, config -> config));
-  }
-
-  @Data
-  @Builder
-  public static class Config {
-    private String path;
-    private Integer limitPerMinute;
   }
 
   @Override
@@ -75,5 +69,13 @@ public class TenantRateLimitInterceptor extends AbstractInterceptorHandler {
       httpServletResponse.sendError(429, "Rate limit exceeded");
       return false;
     }
+  }
+
+  @Data
+  @Builder
+  public static class Config {
+
+    private String path;
+    private Integer limitPerMinute;
   }
 }

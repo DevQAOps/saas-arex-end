@@ -8,6 +8,7 @@ import lombok.Data;
  */
 @Data
 public class UserType {
+
   private String userName;
   private String verificationCode;
 }
