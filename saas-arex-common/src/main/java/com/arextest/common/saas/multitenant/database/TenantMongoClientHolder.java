@@ -16,6 +16,7 @@ import lombok.ToString;
 @Builder
 @ToString
 public class TenantMongoClientHolder {
+
   private MongoClient mongoClient;
   private MongoDatabase mongoDatabase;
   private String databaseName;

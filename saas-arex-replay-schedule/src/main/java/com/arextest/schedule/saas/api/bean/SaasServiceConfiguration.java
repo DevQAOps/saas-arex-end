@@ -1,11 +1,8 @@
 package com.arextest.schedule.saas.api.bean;
 
 import com.arextest.common.jwt.JWTService;
-import com.arextest.common.model.classloader.RemoteJarClassLoader;
 import com.arextest.common.saas.httpclient.AccessRequestInterceptor;
 import com.arextest.common.saas.login.SaasJWTService;
-import com.arextest.common.utils.RemoteJarLoaderUtils;
-import com.arextest.config.model.dto.system.DesensitizationJar;
 import com.arextest.extension.desensitization.DataDesensitization;
 import com.arextest.extension.desensitization.DefaultDataDesensitization;
 import com.arextest.schedule.comparer.CompareConfigService;
@@ -13,15 +10,12 @@ import com.arextest.schedule.comparer.CompareService;
 import com.arextest.schedule.saas.api.compare.SaasCompareService;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.util.CollectionUtils;
 
 @Configuration
 public class SaasServiceConfiguration {
@@ -67,7 +61,7 @@ public class SaasServiceConfiguration {
 
   @Bean
   DataDesensitization desensitizationService() {
-      return new DefaultDataDesensitization();
+    return new DefaultDataDesensitization();
   }
 
   @Configuration

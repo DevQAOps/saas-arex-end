@@ -43,6 +43,21 @@ public class UsageCollector {
     usageCache.compute(key, (k, v) -> v == null ? out : v + out);
   }
 
+  private static TenantUsageDocument buildStatItem(Entry<UsageCacheKey, Long> entry) {
+    UsageCacheKey k = entry.getKey();
+    Long v = entry.getValue();
+    TenantUsageDocument statItem = new TenantUsageDocument();
+    Meta statMeta = new Meta();
+    statMeta.setTenantCode(k.getTenant());
+    statMeta.setIn(k.isIn());
+    statMeta.setEndpoint(k.getEndpoint());
+
+    statItem.setMeta(statMeta);
+    statItem.setContentLengthSum(v);
+    statItem.setTimestamp(new Timestamp(System.currentTimeMillis()));
+    return statItem;
+  }
+
   @Scheduled(fixedRate = 10 * 1000L)
   public void report() {
     Map<UsageCacheKey, Long> old;
@@ -59,20 +74,5 @@ public class UsageCollector {
     } catch (Exception e) {
       LOGGER.error("Failed to save usage stat", e);
     }
-  }
-
-  private static TenantUsageDocument buildStatItem(Entry<UsageCacheKey, Long> entry) {
-    UsageCacheKey k = entry.getKey();
-    Long v = entry.getValue();
-    TenantUsageDocument statItem = new TenantUsageDocument();
-    Meta statMeta = new Meta();
-    statMeta.setTenantCode(k.getTenant());
-    statMeta.setIn(k.isIn());
-    statMeta.setEndpoint(k.getEndpoint());
-
-    statItem.setMeta(statMeta);
-    statItem.setContentLengthSum(v);
-    statItem.setTimestamp(new Timestamp(System.currentTimeMillis()));
-    return statItem;
   }
 }

@@ -14,6 +14,7 @@ import org.springframework.data.mongodb.core.timeseries.Granularity;
 @Getter
 @Setter
 public class TenantUsageDocument {
+
   private Timestamp timestamp;
   private Long contentLengthSum;
   private Meta meta;
@@ -21,6 +22,7 @@ public class TenantUsageDocument {
   @Getter
   @Setter
   public static class Meta {
+
     private String tenantCode;
     private boolean in;
     private String endpoint;

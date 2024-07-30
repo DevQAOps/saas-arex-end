@@ -21,9 +21,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * the order of the interceptor
- * AgentAccessInterceptorHandler-> TenantInterceptor -> SaasAuthorizationInterceptor
- * SaasRefreshInterceptor
+ * the order of the interceptor AgentAccessInterceptorHandler-> TenantInterceptor ->
+ * SaasAuthorizationInterceptor SaasRefreshInterceptor
  */
 @Configuration
 public class InterceptorHandlerAutoConfiguration {
@@ -32,7 +31,8 @@ public class InterceptorHandlerAutoConfiguration {
   private String interceptorPatterns;
 
   @Bean
-  public TenantRedisHandler tenantRedisHandler(CacheProvider cacheProvider, ObjectMapper objectMapper) {
+  public TenantRedisHandler tenantRedisHandler(CacheProvider cacheProvider,
+      ObjectMapper objectMapper) {
     return new TenantRedisHandler(cacheProvider, objectMapper);
   }
 
@@ -143,7 +143,8 @@ public class InterceptorHandlerAutoConfiguration {
   @Bean
   public AbstractInterceptorHandler rateLimitingInterceptor(CacheProvider cacheProvider) {
     return new TenantRateLimitInterceptor(cacheProvider, Lists.newArrayList(
-        TenantRateLimitInterceptor.Config.builder().path("/api/ai/generateTestScript").limitPerMinute(10).build()
+        TenantRateLimitInterceptor.Config.builder().path("/api/ai/generateTestScript")
+            .limitPerMinute(10).build()
     ));
   }
 

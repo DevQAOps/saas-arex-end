@@ -19,14 +19,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public class SaasCompareService implements CompareService {
 
   private CompareConfigService compareConfigService;
-
-  public SaasCompareService() {
-  }
-
-  public SaasCompareService(CompareConfigService compareConfigService) {
-    this.compareConfigService = compareConfigService;
-  }
-
   private LoadingCache<String, CompareSDK> CompareSDKCache =
       Caffeine.newBuilder()
           .maximumSize(100)
@@ -36,6 +28,12 @@ public class SaasCompareService implements CompareService {
           .expireAfterWrite(2, TimeUnit.HOURS)
           .build(new CompareSDKCacheLoader());
 
+  public SaasCompareService() {
+  }
+
+  public SaasCompareService(CompareConfigService compareConfigService) {
+    this.compareConfigService = compareConfigService;
+  }
 
   @Override
   public CompareResult compare(String baseMsg, String testMsg) {
@@ -72,6 +70,10 @@ public class SaasCompareService implements CompareService {
     return executor.execute(compareSDK, baseMsg, testMsg, compareOptions);
   }
 
+  private CompareResult buildNotFoundException(String baseMsg, String testMsg) {
+    return CompareSDK.fromException(baseMsg, testMsg, "CompareSDK not found");
+  }
+
   @FunctionalInterface
   private interface ComparisonExecutor {
 
@@ -99,10 +101,6 @@ public class SaasCompareService implements CompareService {
           .putIpIgnore(comparisonSystemConfig.getIpIgnore());
       return compareSDK;
     }
-  }
-
-  private CompareResult buildNotFoundException(String baseMsg, String testMsg) {
-    return CompareSDK.fromException(baseMsg, testMsg, "CompareSDK not found");
   }
 
 }

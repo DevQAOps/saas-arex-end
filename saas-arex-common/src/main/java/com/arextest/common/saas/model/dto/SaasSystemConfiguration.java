@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class SaasSystemConfiguration extends SystemConfiguration {
+
   private String tenantToken;
   private SubscribeInfo subscribeInfo;
 }

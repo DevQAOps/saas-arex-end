@@ -9,7 +9,6 @@ import com.arextest.common.saas.interceptor.TenantLimitService;
 import com.arextest.common.saas.tenant.TenantRedisHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.springframework.context.annotation.Bean;

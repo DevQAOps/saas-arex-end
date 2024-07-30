@@ -3,41 +3,35 @@ package com.arextest.common.saas.interceptor;
 import com.arextest.common.interceptor.AbstractInterceptorHandler;
 import com.arextest.common.saas.interceptor.TenantLimitService.TenantLimitInfo;
 import com.arextest.common.saas.interceptor.TenantLimitService.TenantLimitResult;
-import com.arextest.common.saas.model.Constants;
 import com.arextest.common.saas.utils.ResponseWriterUtil;
 import com.arextest.common.saas.utils.TenantUtil;
 import com.arextest.common.utils.TenantContextUtil;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.http.HttpStatus;
 
 @Slf4j
 @RequiredArgsConstructor
 public class TenantInterceptor extends AbstractInterceptorHandler {
 
+  private static final String HEALTH_CHECK_PATH = "/vi/health";
   private final TenantLimitService limitTenant;
-
-  @Override
-  public Integer getOrder() {
-    return 0;
-  }
-
   @Getter
   private final List<String> pathPatterns;
 
   @Getter
   private final List<String> excludePathPatterns;
 
-  private static final String HEALTH_CHECK_PATH = "/vi/health";
+  @Override
+  public Integer getOrder() {
+    return 0;
+  }
 
   /**
    * 进行租户校验 对于/vi/health接口，没有tenantCode，进行系统状态校验。存在tenantCode，进行租户状态校验

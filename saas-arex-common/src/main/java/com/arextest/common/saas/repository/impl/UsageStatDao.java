@@ -23,12 +23,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 @RequiredArgsConstructor
 public class UsageStatDao {
-  private final MongoTemplate mongoTemplate;
+
   private static final String TOTAL_LENGTH = "total_length";
   private static final String TIMESTAMP = "timestamp";
   private static final String TENANT_CODE = "meta.tenantCode";
   private static final String IN = "meta.in";
   private static final String COLLECTION_NAME = "TenantUsage";
+  private final MongoTemplate mongoTemplate;
 
   @EventListener(ApplicationReadyEvent.class)
   public void ensureCollection() {
@@ -70,7 +71,7 @@ public class UsageStatDao {
         groupOperation
     );
     AggregationResults<Document> result = mongoTemplate.aggregate(
-        aggregation, COLLECTION_NAME , Document.class
+        aggregation, COLLECTION_NAME, Document.class
     );
 
     List<Document> documents = result.getMappedResults();

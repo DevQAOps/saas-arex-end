@@ -29,13 +29,10 @@ import org.springframework.http.HttpStatus;
 @RequiredArgsConstructor
 public class AgentAccessInterceptorHandler extends AbstractInterceptorHandler {
 
-  private final String aesKey;
-
-  private final ObjectMapper objectMapper;
-
-  private final TenantRedisHandler tenantRedisHandler;
-
   private static final String SPLIT_SYMBOL = ":";
+  private final String aesKey;
+  private final ObjectMapper objectMapper;
+  private final TenantRedisHandler tenantRedisHandler;
 
   @Override
   public Integer getOrder() {

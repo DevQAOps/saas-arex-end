@@ -31,50 +31,51 @@ import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
 @Configuration
 public class SaasDatabaseConfiguration {
 
-    @Value("${spring.data.mongodb.uri}")
-    private String mongoUri;
+  @Value("${spring.data.mongodb.uri}")
+  private String mongoUri;
 
-    @Bean
-    public TenantClientProvider tenantClientProvider() {
-        return new DefaultTenantClientProvider();
-    }
+  @Bean
+  public TenantClientProvider tenantClientProvider() {
+    return new DefaultTenantClientProvider();
+  }
 
-    @Bean
-    public MongoDatabaseFactory mongoDatabaseFactory(TenantClientProvider tenantClientProvider) {
-        return new MultiTenantMongoDbFactory(tenantClientProvider);
-    }
+  @Bean
+  public MongoDatabaseFactory mongoDatabaseFactory(TenantClientProvider tenantClientProvider) {
+    return new MultiTenantMongoDbFactory(tenantClientProvider);
+  }
 
-    @Bean
-    public MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDatabaseFactory, MongoConverter converter) {
-        MongoTemplate mongoTemplate = new MongoTemplate(mongoDatabaseFactory, converter);
-        MappingMongoConverter mongoMapping = (MappingMongoConverter) mongoTemplate.getConverter();
-        mongoMapping.setCustomConversions(customConversions());
-        mongoMapping.afterPropertiesSet();
-        return new MongoTemplate(mongoDatabaseFactory, converter);
-    }
+  @Bean
+  public MongoTemplate mongoTemplate(MongoDatabaseFactory mongoDatabaseFactory,
+      MongoConverter converter) {
+    MongoTemplate mongoTemplate = new MongoTemplate(mongoDatabaseFactory, converter);
+    MappingMongoConverter mongoMapping = (MappingMongoConverter) mongoTemplate.getConverter();
+    mongoMapping.setCustomConversions(customConversions());
+    mongoMapping.afterPropertiesSet();
+    return new MongoTemplate(mongoDatabaseFactory, converter);
+  }
 
-    @Bean(name = "saasMongoTemplate")
-    public MongoTemplate saasMongoTemplate(MongoClient mongoClient) {
-        return new MongoTemplate(mongoClient, "saas_db");
-    }
+  @Bean(name = "saasMongoTemplate")
+  public MongoTemplate saasMongoTemplate(MongoClient mongoClient) {
+    return new MongoTemplate(mongoClient, "saas_db");
+  }
 
-    @Bean
-    public @NonNull MongoClient mongoClient() {
-        CodecRegistry pojoCodecRegistry =
-            CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
-                CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-        MongoClientSettings settings = MongoClientSettings.builder()
-            .codecRegistry(pojoCodecRegistry)
-            .applyConnectionString(new ConnectionString(mongoUri))
-            .build();
-        return MongoClients.create(settings);
-    }
+  @Bean
+  public @NonNull MongoClient mongoClient() {
+    CodecRegistry pojoCodecRegistry =
+        CodecRegistries.fromRegistries(MongoClientSettings.getDefaultCodecRegistry(),
+            CodecRegistries.fromProviders(PojoCodecProvider.builder().automatic(true).build()));
+    MongoClientSettings settings = MongoClientSettings.builder()
+        .codecRegistry(pojoCodecRegistry)
+        .applyConnectionString(new ConnectionString(mongoUri))
+        .build();
+    return MongoClients.create(settings);
+  }
 
-    @Bean
-    public CustomConversions customConversions() {
-        List<Converter<?,?>> converters = new ArrayList<>();
-        converters.add(new TimestampConverter());
-        return new MongoCustomConversions(converters);
-    }
+  @Bean
+  public CustomConversions customConversions() {
+    List<Converter<?, ?>> converters = new ArrayList<>();
+    converters.add(new TimestampConverter());
+    return new MongoCustomConversions(converters);
+  }
 
 }

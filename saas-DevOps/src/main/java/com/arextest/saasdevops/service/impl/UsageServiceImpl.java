@@ -31,11 +31,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UsageServiceImpl implements UsageService {
 
+  private static final Long TWO_DAYS_MILLIS = 2 * 24 * 60 * 60 * 1000L;
+  private static final Long ONE_MONTH_MILLIS = 30 * 24 * 60 * 60 * 1000L;
   private final UsageStatDao usageStatDao;
   private final SaasSystemConfigurationRepository saasSystemConfigurationRepository;
   private final CacheProvider cacheProvider;
-  private static final Long TWO_DAYS_MILLIS = 2 * 24 * 60 * 60 * 1000L;
-  private static final Long ONE_MONTH_MILLIS = 30 * 24 * 60 * 60 * 1000L;
 
   @Override
   public Long queryUsage(QueryTenantUsageRequest request) {
@@ -63,7 +63,8 @@ public class UsageServiceImpl implements UsageService {
 
   @Scheduled(cron = "0 0 23 * * ?")
   public void statistics() {
-    List<String> recentTenantCodes = usageStatDao.queryTenantCodes(System.currentTimeMillis() - ONE_MONTH_MILLIS);
+    List<String> recentTenantCodes = usageStatDao.queryTenantCodes(
+        System.currentTimeMillis() - ONE_MONTH_MILLIS);
     recentTenantCodes.forEach(tenant -> {
       Long totalLength = getTotalLength(tenant);
       // T+1

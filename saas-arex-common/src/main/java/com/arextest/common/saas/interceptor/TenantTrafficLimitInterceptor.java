@@ -10,7 +10,6 @@ import com.arextest.common.saas.model.dao.SaasSystemConfigurationCollection.Subs
 import com.arextest.common.saas.model.dto.SaasSystemConfiguration;
 import com.arextest.common.saas.repository.SaasSystemConfigurationRepository;
 import com.arextest.common.saas.repository.impl.UsageStatDao;
-import com.arextest.common.saas.utils.TenantUtil;
 import com.arextest.common.utils.ResponseUtils;
 import com.arextest.common.utils.TenantContextUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;

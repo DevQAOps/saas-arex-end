@@ -29,7 +29,8 @@ public class UserManageServiceTest {
     // create company database and user
     String databaseName = String.format(COMPANY_DATABASE_FORMAT, tenantCode);
     MongoDatabase mongoDatabase = mongoClient.getDatabase(databaseName);
-    userManageService.insertTenantTokenToSystemConfiguration(tenantToken, System.currentTimeMillis(),
+    userManageService.insertTenantTokenToSystemConfiguration(tenantToken,
+        System.currentTimeMillis(),
         mongoDatabase);
   }
 

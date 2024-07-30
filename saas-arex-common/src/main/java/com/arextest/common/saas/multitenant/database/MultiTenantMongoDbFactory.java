@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.SimpleMongoClientDatabaseFactory;
  * @date: 2024/3/28 20:29
  */
 public class MultiTenantMongoDbFactory extends SimpleMongoClientDatabaseFactory {
+
   private final TenantClientProvider tenantClientProvider;
 
   public MultiTenantMongoDbFactory(final TenantClientProvider tenantClientProvider) {

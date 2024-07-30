@@ -15,9 +15,11 @@ import org.bson.codecs.pojo.PojoCodecProvider;
  * @date: 2024/4/2 16:41
  */
 public class DBUtils {
+
   public static CodecRegistry customCodecRegistry(List<CodecProvider> additionalCodecProviders) {
     List<CodecProvider> codecProviders =
-        new ArrayList<>(Optional.ofNullable(additionalCodecProviders).orElse(Collections.emptyList()));
+        new ArrayList<>(
+            Optional.ofNullable(additionalCodecProviders).orElse(Collections.emptyList()));
 
     codecProviders.add(PojoCodecProvider.builder().automatic(true).build());
 

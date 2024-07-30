@@ -8,5 +8,6 @@ import lombok.Data;
  */
 @Data
 public class BaseRequest {
-    private String tenantCode;
+
+  private String tenantCode;
 }

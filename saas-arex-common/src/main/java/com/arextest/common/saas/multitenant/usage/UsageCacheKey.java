@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 @Builder
 public class UsageCacheKey {
+
   private String tenant;
   private String endpoint;
   private boolean in;

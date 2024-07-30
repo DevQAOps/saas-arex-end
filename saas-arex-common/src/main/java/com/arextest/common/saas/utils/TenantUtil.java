@@ -13,6 +13,7 @@ import org.apache.logging.log4j.util.Strings;
  * @create 2024/7/9 15:27
  */
 public class TenantUtil {
+
   public static String extractTenantCode(HttpServletRequest request) {
     String tenantCode = TenantContextUtil.getTenantCode();
     if (StringUtils.isNotEmpty(tenantCode)) {
