@@ -14,6 +14,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 
 @Slf4j
@@ -57,6 +58,8 @@ public class TenantInterceptor extends AbstractInterceptorHandler {
       LOGGER.error("tenantCode is empty, reject the request, path:{}", request.getRequestURI());
       return false;
     }
+
+    MDC.put("tenant", tenantCode);
 
     // verify tenant status
     TenantLimitInfo tenantLimitInfo = TenantLimitInfo.builder().tenantCode(tenantCode).build();
