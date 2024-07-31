@@ -3,11 +3,11 @@
   <Appenders>
     <Console name="Console" target="SYSTEM_OUT">
       <!--AWS cloudwatch required format-->
-      <!--<JSONLayout>-->
+      <!--<JSONLayout compact="true" eventEol="true">-->
       <!--  <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd'T'HH:mm:ss.SSSZ}" />-->
       <!--</JSONLayout>-->
+      <!--<PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>-->
 
-      <PatternLayout pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
     </Console>
   </Appenders>
 
