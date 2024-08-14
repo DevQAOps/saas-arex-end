@@ -39,6 +39,11 @@
         <version>31.1-jre</version>
       </dependency>
       <dependency>
+        <groupId>com.google.guava</groupId>
+        <artifactId>failureaccess</artifactId>
+        <version>1.0.2</version>
+      </dependency>
+      <dependency>
         <groupId>net.java.dev.jna</groupId>
         <artifactId>jna-platform</artifactId>
         <version>${jna.version}</version>
@@ -55,6 +60,12 @@
     <dependency>
       <groupId>com.arextest</groupId>
       <artifactId>arex-web-api</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>arex-storage-config</artifactId>
+          <groupId>com.arextest</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.arextest</groupId>

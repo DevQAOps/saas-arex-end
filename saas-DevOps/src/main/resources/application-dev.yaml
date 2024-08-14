@@ -16,4 +16,4 @@ spring:
       database: saas_db
   redis:
     host: 10.118.1.217
-    port: 6379
+    port: 16379

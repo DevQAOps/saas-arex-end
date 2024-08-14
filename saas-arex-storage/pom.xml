@@ -18,10 +18,27 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.arextest</groupId>
+        <artifactId>arex-model</artifactId>
+        <version>${arex.model.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
   <dependencies>
     <dependency>
       <groupId>com.arextest</groupId>
       <artifactId>arex-storage-web-api</artifactId>
+      <exclusions>
+        <exclusion>
+          <artifactId>arex-storage-config</artifactId>
+          <groupId>com.arextest</groupId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>com.arextest</groupId>

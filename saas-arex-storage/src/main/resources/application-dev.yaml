@@ -32,4 +32,4 @@ saas:
 spring:
   redis:
     host: 10.118.1.217
-    port: 6379
+    port: 16379

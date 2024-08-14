@@ -19,6 +19,7 @@
     <java.version>1.8</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <arex.extension.version>0.0.3</arex.extension.version>
   </properties>
 
 
@@ -50,24 +51,17 @@
     <dependency>
       <groupId>com.arextest</groupId>
       <artifactId>saas-arex-common</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.arextest</groupId>
-      <artifactId>arex-web-model</artifactId>
-      <version>0.6.4.4</version>
-      <scope>compile</scope>
       <exclusions>
         <exclusion>
-          <artifactId>mapstruct-jdk8</artifactId>
-          <groupId>org.mapstruct</groupId>
+          <artifactId>commons-io</artifactId>
+          <groupId>commons-io</groupId>
         </exclusion>
       </exclusions>
     </dependency>
     <dependency>
       <groupId>com.arextest</groupId>
       <artifactId>arex-web-core</artifactId>
-      <version>0.6.4.4</version>
-      <scope>compile</scope>
+      <version>${arex.api.version}</version>
     </dependency>
     <dependency>
       <groupId>com.arextest</groupId>
@@ -84,6 +78,21 @@
 
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>com.arextest</groupId>
+        <artifactId>arex-storage-config</artifactId>
+        <version>${arex.storage.config.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.arextest</groupId>
+        <artifactId>arex-model</artifactId>
+        <version>${arex.model.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.arextest</groupId>
+        <artifactId>arex-extension</artifactId>
+        <version>${arex.extension.version}</version>
+      </dependency>
       <dependency>
         <groupId>com.google.http-client</groupId>
         <artifactId>google-http-client</artifactId>
