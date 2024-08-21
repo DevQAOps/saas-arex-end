@@ -14,6 +14,9 @@ arex:
     config:
       agent:
         url: http://arex-web-api.fat3.tripqate.com
+      schedule:
+        service:
+          url: http://arex-schedule.fat3.tripqate.com
   agent:
     aesKey: 0EV1iPX7Zsgw22/w+XB7lPBc+bp9ac1ggnmZ49+MzBM=
 #    categoryTypes:
