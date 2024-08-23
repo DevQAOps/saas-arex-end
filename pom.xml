@@ -23,12 +23,12 @@
     <springboot.version>2.7.18</springboot.version>
     <!--arex-common-version-->
     <arex-common.version>0.2.4</arex-common.version>
-    <arex.storage.config.version>1.2.26</arex.storage.config.version>
-    <arex.model.version>1.2.26</arex.model.version>
+    <arex.storage.config.version>1.2.27</arex.storage.config.version>
+    <arex.model.version>1.2.27</arex.model.version>
     <!--arex-service-->
-    <arex.storage.version>1.2.12</arex.storage.version>
-    <arex.schedule.version>1.2.8</arex.schedule.version>
-    <arex.api.version>0.6.5</arex.api.version>
+    <arex.storage.version>1.2.28</arex.storage.version>
+    <arex.schedule.version>1.2.15</arex.schedule.version>
+    <arex.api.version>0.6.5.3</arex.api.version>
     <!--third-jar-->
     <caffine.version>2.9.2</caffine.version>
     <mapstruct.version>1.5.5.Final</mapstruct.version>
