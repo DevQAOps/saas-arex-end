@@ -26,8 +26,8 @@
     <arex.storage.config.version>1.2.27</arex.storage.config.version>
     <arex.model.version>1.2.27</arex.model.version>
     <!--arex-service-->
-    <arex.storage.version>1.2.27</arex.storage.version>
-    <arex.schedule.version>1.2.13</arex.schedule.version>
+    <arex.storage.version>1.2.28</arex.storage.version>
+    <arex.schedule.version>1.2.15</arex.schedule.version>
     <arex.api.version>0.6.5.3</arex.api.version>
     <!--third-jar-->
     <caffine.version>2.9.2</caffine.version>
