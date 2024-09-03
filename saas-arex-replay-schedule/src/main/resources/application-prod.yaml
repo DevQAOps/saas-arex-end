@@ -4,8 +4,6 @@ arex:
       api: http://arex-web-api-find.arex-namesapce:8080
   mongo:
     uri: mongodb://arex:iLoveArex@172.31.29.251:27017,172.31.20.184:27017,172.31.27.88:27017/arex_storage_db
-  redis:
-    uri: redis://redis-inner-nlb-2203a1ba55b82a05.elb.us-west-2.amazonaws.com:6379/
   storage:
     service:
       api: http://arex-storage-discovery.arex-namesapce:8080
@@ -23,5 +21,11 @@ saas:
           database: arex_storage_db
 spring:
   redis:
-    host: redis-inner-nlb-2203a1ba55b82a05.elb.us-west-2.amazonaws.com
-    port: 6379
+    sentinel:
+      nodes:
+        - redis-nlb-sentinel-1-21717d5991fbd117.elb.us-west-2.amazonaws.com:26379
+        - redis-nlb-sentinel-2-12f4a4f090826b5b.elb.us-west-2.amazonaws.com:26379
+        - redis-nlb-sentinel-3-5157a7ca4208d84a.elb.us-west-2.amazonaws.com:26379
+      password: Arex@raD#is
+      master: mymaster
+    password: Arex@raD#is
