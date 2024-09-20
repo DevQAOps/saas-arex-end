@@ -11,6 +11,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import javax.annotation.Resource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
@@ -46,12 +47,14 @@ public class SaasLoginService {
   @Component
   static class TicketTokenJwtService {
 
-    private final static String TOKEN_SECRET_AREX_API_AUTH = "arex_secret_arex_api_auth";
     private final static String EMAIL = "email";
+
+    @Value("${arex.client.login.tokenSecret}")
+    private String clientLoginSecret;
 
     public String getUserName(String ticket) {
       try {
-        Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET_AREX_API_AUTH);
+        Algorithm algorithm = Algorithm.HMAC256(clientLoginSecret);
         JWTVerifier build = JWT.require(algorithm).build();
         DecodedJWT verify = build.verify(ticket);
         return verify.getClaim(EMAIL).asString();

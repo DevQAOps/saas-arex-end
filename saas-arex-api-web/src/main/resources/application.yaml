@@ -87,6 +87,10 @@ arex:
       secret: ""
       redirecturi: ""
       uri: ""
+  # client
+  client:
+    login:
+      tokenSecret: arex_secret_arex_api_auth
   # monitor metrics
   prometheus:
     port: 20090
