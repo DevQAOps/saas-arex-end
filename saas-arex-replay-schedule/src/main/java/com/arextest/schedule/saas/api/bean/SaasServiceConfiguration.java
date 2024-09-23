@@ -2,7 +2,9 @@ package com.arextest.schedule.saas.api.bean;
 
 import com.arextest.common.jwt.JWTService;
 import com.arextest.common.saas.httpclient.AccessRequestInterceptor;
+import com.arextest.common.saas.httpclient.SaasServiceRequestInterceptor;
 import com.arextest.common.saas.login.SaasJWTService;
+import com.arextest.common.saas.login.SaasServiceJWTService;
 import com.arextest.extension.desensitization.DataDesensitization;
 import com.arextest.extension.desensitization.DefaultDataDesensitization;
 import com.arextest.schedule.comparer.CompareConfigService;
@@ -32,6 +34,29 @@ public class SaasServiceConfiguration {
   @Bean
   public JWTService saasJWTService(MongoTemplate mongoTemplate) {
     return new SaasJWTService(ACCESS_EXPIRE_TIME, REFRESH_EXPIRE_TIME, mongoTemplate);
+  }
+
+  /**
+   * for producing jwttoken to access arex-saas-service
+   *
+   * @param tokenSecret the multi-source token secret
+   * @return
+   */
+  @Bean
+  public SaasServiceJWTService saasServiceJWTService(
+      @Value("${saas.service.accessSecret}") String tokenSecret) {
+    return new SaasServiceJWTService(tokenSecret);
+  }
+
+  /*
+   * for saas service request interceptor
+   */
+  @Bean
+  public ClientHttpRequestInterceptor saasServiceRequestInterceptor(
+      SaasServiceJWTService jwtService,
+      InterfaceAddressConfiguration interfaceAddressConfiguration) {
+    return new SaasServiceRequestInterceptor(jwtService,
+        interfaceAddressConfiguration.getSaasServiceAddressInfos());
   }
 
   /**
@@ -77,8 +102,17 @@ public class SaasServiceConfiguration {
     @Value("${arex.schedule.service.api}")
     private String scheduleServiceUrl;
 
+    @Value("${saas.service.domain}")
+    private String saasServiceDomain;
+
+
     public Set<String> getServiceAddressInfos() {
       return new HashSet<>(Arrays.asList(apiServiceUrl, storageServiceUrl, scheduleServiceUrl));
     }
+
+    public Set<String> getSaasServiceAddressInfos() {
+      return new HashSet<>(Arrays.asList(saasServiceDomain));
+    }
+
   }
 }

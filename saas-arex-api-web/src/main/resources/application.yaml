@@ -94,5 +94,12 @@ arex:
   # monitor metrics
   prometheus:
     port: 20090
+
+saas:
+  service:
+    queryTenantStatus:
+      url: ${saas.service.domain}/api/subsystem/queryTenantStatus
+    accessSecret: arex_secret_sub
+
 pom:
   version: ""

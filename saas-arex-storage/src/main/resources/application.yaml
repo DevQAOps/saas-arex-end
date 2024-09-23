@@ -54,5 +54,10 @@ arex:
     traffic:
       limit:
         enable: false
+saas:
+  service:
+    queryTenantStatus:
+      url: ${saas.service.domain}/api/subsystem/queryTenantStatus
+    accessSecret: arex_secret_sub
 pom:
   version: ""

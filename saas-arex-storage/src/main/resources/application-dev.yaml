@@ -32,6 +32,9 @@ saas:
         default:
           uri: mongodb://arex:iLoveArex@10.118.1.217:37017/arex_storage_db
           database: arex_storage_db
+  service:
+    domain: http://arex-saasservice.fat3.tripqate.com
+
 spring:
   redis:
     host: 10.118.1.217

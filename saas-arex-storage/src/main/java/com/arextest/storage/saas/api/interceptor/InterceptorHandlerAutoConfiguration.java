@@ -6,6 +6,7 @@ import com.arextest.common.jwt.JWTService;
 import com.arextest.common.saas.interceptor.SaasAuthorizationInterceptor;
 import com.arextest.common.saas.interceptor.TenantInterceptor;
 import com.arextest.common.saas.interceptor.TenantLimitService;
+import com.arextest.common.saas.interceptor.TenantStatusProvider;
 import com.arextest.common.saas.interceptor.TenantTrafficLimitInterceptor;
 import com.arextest.common.saas.repository.SaasSystemConfigurationRepository;
 import com.arextest.common.saas.repository.impl.UsageStatDao;
@@ -32,8 +33,9 @@ public class InterceptorHandlerAutoConfiguration {
   }
 
   @Bean
-  public TenantLimitService tenantLimitService(TenantRedisHandler tenantRedisHandler) {
-    return new TenantLimitService(tenantRedisHandler);
+  public TenantLimitService tenantLimitService(TenantRedisHandler tenantRedisHandler,
+      TenantStatusProvider tenantStatusProvider) {
+    return new TenantLimitService(tenantRedisHandler, tenantStatusProvider);
   }
 
   @Bean

@@ -1,0 +1,48 @@
+package com.arextest.common.saas.httpclient;
+
+import com.arextest.common.saas.login.SaasServiceJWTService;
+import java.io.IOException;
+import java.net.URI;
+import java.util.Optional;
+import java.util.Set;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.ClientHttpRequestExecution;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+import org.springframework.http.client.ClientHttpResponse;
+
+@Slf4j
+@RequiredArgsConstructor
+public class SaasServiceRequestInterceptor implements ClientHttpRequestInterceptor {
+
+  private final long TEMPORARY_EXPIRATION_MS = 20;
+
+  private final String TOKEN_KEY_FIELD = "access-token";
+
+  final SaasServiceJWTService jwtService;
+
+  /**
+   * http://inner-service-address
+   */
+  final Set<String> innerServiceAddress;
+
+  @Override
+  public ClientHttpResponse intercept(HttpRequest request, byte[] body,
+      ClientHttpRequestExecution execution) throws IOException {
+    URI uri = request.getURI();
+    String webSite =
+        Optional.ofNullable(uri.getScheme()).orElse(Strings.EMPTY)
+            + "://"
+            + Optional.ofNullable(uri.getAuthority()).orElse(Strings.EMPTY);
+    if (innerServiceAddress.contains(webSite)) {
+
+      // The service currently does not need to pass userName upstream and downstream, so it is left blank.
+      // If you want to pass userName later, you can pass threadlocal
+      String temporaryToken = jwtService.makeAccessToken("", TEMPORARY_EXPIRATION_MS);
+      request.getHeaders().add(TOKEN_KEY_FIELD, temporaryToken);
+    }
+    return execution.execute(request, body);
+  }
+}

@@ -2,7 +2,9 @@ package com.arextest.storage.saas.api.bean;
 
 import com.arextest.common.jwt.JWTService;
 import com.arextest.common.saas.httpclient.AccessRequestInterceptor;
+import com.arextest.common.saas.httpclient.SaasServiceRequestInterceptor;
 import com.arextest.common.saas.login.SaasJWTService;
+import com.arextest.common.saas.login.SaasServiceJWTService;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -24,6 +26,18 @@ public class SaasServiceConfiguration {
   }
 
   /**
+   * for producing jwttoken to access arex-saas-service
+   *
+   * @param tokenSecret the multi-source token secret
+   * @return
+   */
+  @Bean
+  public SaasServiceJWTService saasServiceJWTService(
+      @Value("${saas.service.accessSecret}") String tokenSecret) {
+    return new SaasServiceJWTService(tokenSecret);
+  }
+
+  /**
    * for http request interceptor
    *
    * @param jwtService
@@ -37,6 +51,17 @@ public class SaasServiceConfiguration {
         interfaceAddressConfiguration.getServiceAddressInfos());
   }
 
+  /*
+   * for saas service request interceptor
+   */
+  @Bean
+  public ClientHttpRequestInterceptor saasServiceRequestInterceptor(
+      SaasServiceJWTService jwtService,
+      InterfaceAddressConfiguration interfaceAddressConfiguration) {
+    return new SaasServiceRequestInterceptor(jwtService,
+        interfaceAddressConfiguration.getSaasServiceAddressInfos());
+  }
+
 
   @Configuration
   public class InterfaceAddressConfiguration {
@@ -44,9 +69,17 @@ public class SaasServiceConfiguration {
     @Value("${arex.api.service.api}")
     private String apiServiceUrl;
 
+    @Value("${saas.service.domain}")
+    private String saasServiceDomain;
+
     public Set<String> getServiceAddressInfos() {
       return new HashSet<>(Arrays.asList(apiServiceUrl));
     }
+
+    public Set<String> getSaasServiceAddressInfos() {
+      return new HashSet<>(Arrays.asList(saasServiceDomain));
+    }
+
   }
 
 }

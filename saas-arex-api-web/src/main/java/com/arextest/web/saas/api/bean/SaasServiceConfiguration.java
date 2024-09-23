@@ -2,7 +2,9 @@ package com.arextest.web.saas.api.bean;
 
 import com.arextest.common.jwt.JWTService;
 import com.arextest.common.saas.httpclient.AccessRequestInterceptor;
+import com.arextest.common.saas.httpclient.SaasServiceRequestInterceptor;
 import com.arextest.common.saas.login.SaasJWTService;
+import com.arextest.common.saas.login.SaasServiceJWTService;
 import com.arextest.common.saas.repository.SaasSystemConfigurationRepository;
 import com.arextest.common.saas.repository.impl.SaasSystemConfigurationRepositoryImpl;
 import java.util.Arrays;
@@ -32,6 +34,18 @@ public class SaasServiceConfiguration {
   }
 
   /**
+   * for producing jwttoken to access arex-saas-service
+   *
+   * @param tokenSecret the multi-source token secret
+   * @return
+   */
+  @Bean
+  public SaasServiceJWTService saasServiceJWTService(
+      @Value("${saas.service.accessSecret}") String tokenSecret) {
+    return new SaasServiceJWTService(tokenSecret);
+  }
+
+  /**
    * for http request interceptor
    *
    * @param jwtService:                   the multi-source for the JWTService
@@ -44,6 +58,18 @@ public class SaasServiceConfiguration {
     return new AccessRequestInterceptor(jwtService,
         interfaceAddressConfiguration.getServiceAddressInfos());
   }
+
+  /*
+   * for saas service request interceptor
+   */
+  @Bean
+  public ClientHttpRequestInterceptor saasServiceRequestInterceptor(
+      SaasServiceJWTService jwtService,
+      InterfaceAddressConfiguration interfaceAddressConfiguration) {
+    return new SaasServiceRequestInterceptor(jwtService,
+        interfaceAddressConfiguration.getSaasServiceAddressInfos());
+  }
+
 
   @Bean
   public SaasSystemConfigurationRepository saasSystemConfigurationRepository(
@@ -62,9 +88,19 @@ public class SaasServiceConfiguration {
     @Value("${arex.schedule.service.url}")
     private String scheduleServiceUrl;
 
+    @Value("${saas.service.domain}")
+    private String saasServiceDomain;
+
+
     public Set<String> getServiceAddressInfos() {
       return new HashSet<>(Arrays.asList(storageServiceUrl, scheduleServiceUrl));
     }
+
+    public Set<String> getSaasServiceAddressInfos() {
+      return new HashSet<>(Arrays.asList(saasServiceDomain));
+    }
+
+
   }
 
 }

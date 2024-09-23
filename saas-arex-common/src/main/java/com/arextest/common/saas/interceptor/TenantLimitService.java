@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -14,13 +15,28 @@ public class TenantLimitService {
 
   private final TenantRedisHandler tenantRedisHandler;
 
+  private final TenantStatusProvider tenantStatusProvider;
+
   public TenantLimitResult limitTenant(TenantLimitInfo tenantLimitInfo) throws RuntimeException {
 
     TenantStatusRedisInfo tenantStatus = tenantRedisHandler.getTenantStatus(
         tenantLimitInfo.getTenantCode());
 
-    // verify whether tenant exists
+    // if redis not found, query from saasDb by arex-saas-service
     if (tenantStatus == null) {
+      tenantStatus = tenantStatusProvider.fetchTenantStatus(tenantLimitInfo.getTenantCode());
+    }
+
+    // save to redis
+    if (tenantStatus == null) {
+      tenantStatus = new TenantStatusRedisInfo();
+      tenantRedisHandler.saveTenantStatusExpire(tenantLimitInfo.getTenantCode(), tenantStatus);
+    } else {
+      tenantRedisHandler.saveTenantStatus(tenantLimitInfo.getTenantCode(), tenantStatus);
+    }
+
+    // verify whether tenant exists
+    if (StringUtils.isEmpty(tenantStatus.getTenantToken())) {
       return TenantLimitResult.builder().pass(Boolean.FALSE)
           .errorCode(SaasErrorCode.SAAS_TENANT_NOT_FOUND).build();
     }
@@ -47,6 +63,5 @@ public class TenantLimitService {
     private boolean pass;
     private SaasErrorCode errorCode;
   }
-
 
 }
