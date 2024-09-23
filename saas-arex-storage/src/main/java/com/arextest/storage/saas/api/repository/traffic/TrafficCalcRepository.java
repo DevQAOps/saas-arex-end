@@ -2,13 +2,9 @@ package com.arextest.storage.saas.api.repository.traffic;
 
 import com.arextest.model.mock.MockCategoryType;
 import com.arextest.storage.saas.api.models.traffic.TrafficCase;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;

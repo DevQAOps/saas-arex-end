@@ -1,5 +1,6 @@
 package com.arextest.storage.saas.api.models.traffic;
 
+import com.arextest.config.model.dto.application.InstancesConfiguration;
 import com.arextest.model.response.Response;
 import com.arextest.model.response.ResponseStatusType;
 import java.util.HashSet;
@@ -13,6 +14,7 @@ import lombok.Data;
  */
 @Data
 public class TrafficSummaryResponse {
+  private List<InstancesConfiguration> instances;
   // traffic dependency summary
   private List<Endpoint> endpoints;
 

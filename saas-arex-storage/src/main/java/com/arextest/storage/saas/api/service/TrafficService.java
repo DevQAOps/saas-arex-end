@@ -1,5 +1,8 @@
 package com.arextest.storage.saas.api.service;
 
+import com.arextest.config.model.dto.application.ApplicationServiceConfiguration;
+import com.arextest.config.model.dto.application.InstancesConfiguration;
+import com.arextest.config.repository.ConfigRepositoryProvider;
 import com.arextest.model.mock.MockCategoryType;
 import com.arextest.model.replay.PagedRequestType;
 import com.arextest.storage.saas.api.models.traffic.TrafficCase;
@@ -23,6 +26,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 @Service
 public class TrafficService {
+  private final ConfigRepositoryProvider<InstancesConfiguration> instanceProvider;
   private final TrafficCalcRepository trafficCalcRepository;
   private final TrafficRelationService trafficRelationService;
   private final Set<MockCategoryType> entryPointTypes;
@@ -44,6 +48,7 @@ public class TrafficService {
     res.setCases(cases);
     res.setTotal(casesSummary.getLeft());
     res.setEndpoints(endpoints);
+    res.setInstances(instanceProvider.listBy(req.getAppId()));
     return res;
   }
 }
