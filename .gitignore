@@ -41,3 +41,4 @@ logs/
 .idea/
 ### service-jar ###
 saas-end-jar
+/dubboInvoker.jar

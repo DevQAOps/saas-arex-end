@@ -123,6 +123,9 @@ public class InterceptorHandlerAutoConfiguration {
     // invite to workspace
     defaultPatterns.add("/api/filesystem/validInvitation");
 
+    // saas
+    defaultPatterns.add("/api/saas/login/verify");
+
     // add custom patterns
     if (StringUtils.isNotBlank(interceptorPatterns)) {
       String[] patterns = interceptorPatterns.split(",");
