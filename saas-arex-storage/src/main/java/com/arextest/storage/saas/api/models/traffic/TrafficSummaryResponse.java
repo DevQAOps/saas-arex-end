@@ -2,6 +2,7 @@ package com.arextest.storage.saas.api.models.traffic;
 
 import com.arextest.model.response.Response;
 import com.arextest.model.response.ResponseStatusType;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import lombok.Data;
@@ -34,7 +35,7 @@ public class TrafficSummaryResponse {
     private String endpoint;
     // eg: HTTP
     private String type;
-    private Set<Dependency> dependencies;
+    private Set<Dependency> dependencies = new HashSet<>();
   }
 
   @Data

@@ -2,11 +2,13 @@ package com.arextest.storage.saas.api.repository.traffic;
 
 import com.arextest.model.mock.MockCategoryType;
 import com.arextest.storage.saas.api.models.traffic.TrafficCase;
-import com.arextest.storage.saas.api.models.traffic.TrafficCase.Fields;
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
@@ -25,14 +27,15 @@ import org.springframework.util.CollectionUtils;
 @RequiredArgsConstructor
 public class TrafficCalcRepository {
   private final MongoTemplate mongoTemplate;
-  private final Set<MockCategoryType> entryPointTypes;
-
-  public Pair<Long, List<TrafficCase>> queryCaseBrief(Date from, Date to, int limit, int skip) {
+  public Pair<Long, List<TrafficCase>> queryCaseBrief(Set<MockCategoryType> entryPointTypes, String appId,
+      Date from, Date to,
+      int limit, int skip) {
     for (MockCategoryType entry : entryPointTypes) {
       String categoryName = entry.getName();
 
       Query query = new Query()
           .addCriteria(Criteria.where(TrafficCase.Fields.creationTime).gte(from).lt(to))
+          .addCriteria(Criteria.where("appId").is(appId))
           .with(Sort.by(TrafficCase.Fields.creationTime).descending())
           .limit(limit)
           .skip(skip);
