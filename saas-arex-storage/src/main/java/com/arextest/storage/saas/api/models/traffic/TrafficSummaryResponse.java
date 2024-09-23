@@ -19,6 +19,7 @@ public class TrafficSummaryResponse {
   private List<Shard> shards;
 
   private List<TrafficCase> cases;
+  private Long total;
 
 
   @Data

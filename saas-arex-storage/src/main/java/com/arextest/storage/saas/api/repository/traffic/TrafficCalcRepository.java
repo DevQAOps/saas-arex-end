@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -26,7 +27,7 @@ public class TrafficCalcRepository {
   private final MongoTemplate mongoTemplate;
   private final Set<MockCategoryType> entryPointTypes;
 
-  public List<TrafficCase> queryCaseBrief(Date from, Date to, int limit, int skip) {
+  public Pair<Long, List<TrafficCase>> queryCaseBrief(Date from, Date to, int limit, int skip) {
     for (MockCategoryType entry : entryPointTypes) {
       String categoryName = entry.getName();
 
@@ -36,13 +37,18 @@ public class TrafficCalcRepository {
           .limit(limit)
           .skip(skip);
 
+      long count = mongoTemplate.count(query, TrafficCase.class, getCollectionName(entry));
+      if (count == 0) {
+        continue;
+      }
+
       List<TrafficCase> cases = mongoTemplate.find(query, TrafficCase.class, getCollectionName(entry));
       if (!CollectionUtils.isEmpty(cases)) {
         cases.forEach(c -> c.setType(categoryName));
-        return cases;
+        return Pair.of(count, cases);
       }
     }
-    return Collections.emptyList();
+    return Pair.of(0L, Collections.emptyList());
   }
 
   private String getCollectionName(MockCategoryType category) {

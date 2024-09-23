@@ -7,6 +7,7 @@ import com.arextest.storage.saas.api.repository.traffic.TrafficCalcRepository;
 import java.util.Date;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,10 +24,11 @@ public class TrafficService {
     Date from = new Date(req.getBeginTime());
     Date to = new Date(req.getEndTime());
 
-    List<TrafficCase> cases = trafficCalcRepository.queryCaseBrief(from, to,
-        req.getPageSize(), (req.getPageIndex() - 1) * req.getPageSize());
+    Pair<Long, List<TrafficCase>> casesSummary = trafficCalcRepository.queryCaseBrief(
+        from, to, req.getPageSize(), (req.getPageIndex() - 1) * req.getPageSize());
 
-    res.setCases(cases);
+    res.setCases(casesSummary.getRight());
+    res.setTotal(casesSummary.getLeft());
     return res;
   }
 }
