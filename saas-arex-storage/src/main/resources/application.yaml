@@ -6,7 +6,7 @@ spring:
       FAIL_ON_EMPTY_BEANS: false
     default-property-inclusion: non_null
   profiles:
-    active: prod
+    active: dev
 # for report
 arex:
   app:
