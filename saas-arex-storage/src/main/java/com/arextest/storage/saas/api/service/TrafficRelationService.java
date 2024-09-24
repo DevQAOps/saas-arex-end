@@ -27,6 +27,7 @@ public class TrafficRelationService {
           Endpoint endpointDto = new Endpoint();
           endpointDto.setEndpoint(endpoint.getOperationName());
           endpointDto.setType(type);
+          endpointDto.setOperationId(endpoint.getId());
           res.add(endpointDto);
         }
       }

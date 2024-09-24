@@ -22,6 +22,7 @@ public class AppSummaryResponse {
     private String endpoint;
     // eg: HTTP
     private String type;
+    private String operationId;
     private Set<Dependency> dependencies = new HashSet<>();
   }
 
