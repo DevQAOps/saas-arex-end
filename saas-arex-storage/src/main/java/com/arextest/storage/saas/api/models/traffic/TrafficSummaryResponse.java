@@ -1,11 +1,6 @@
 package com.arextest.storage.saas.api.models.traffic;
 
-import com.arextest.config.model.dto.application.InstancesConfiguration;
-import com.arextest.model.response.Response;
-import com.arextest.model.response.ResponseStatusType;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import lombok.Data;
 
 /**
@@ -14,10 +9,6 @@ import lombok.Data;
  */
 @Data
 public class TrafficSummaryResponse {
-  private List<InstancesConfiguration> instances;
-  // traffic dependency summary
-  private List<Endpoint> endpoints;
-
   // traffic distribution over time
   private List<Shard> shards;
 
@@ -29,15 +20,6 @@ public class TrafficSummaryResponse {
   public static class Shard {
     private String time;
     private Long count;
-  }
-
-  @Data
-  public static class Endpoint {
-    // eg: /api/xxx
-    private String endpoint;
-    // eg: HTTP
-    private String type;
-    private Set<Dependency> dependencies = new HashSet<>();
   }
 
   @Data

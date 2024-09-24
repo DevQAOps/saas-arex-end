@@ -1,10 +1,9 @@
 package com.arextest.storage.saas.api.service;
-import com.arextest.config.model.dto.application.ApplicationOperationConfiguration;
-import com.google.common.collect.Sets;
 
+import com.arextest.config.model.dto.application.ApplicationOperationConfiguration;
 import com.arextest.config.model.dto.application.ApplicationServiceConfiguration;
 import com.arextest.config.repository.ConfigRepositoryProvider;
-import com.arextest.storage.saas.api.models.traffic.TrafficSummaryResponse.Endpoint;
+import com.arextest.storage.saas.api.models.traffic.AppSummaryResponse.Endpoint;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
