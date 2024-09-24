@@ -32,16 +32,14 @@ public class TrafficCalcRepository {
       Query query = new Query()
           .addCriteria(Criteria.where(TrafficCase.Fields.creationTime).gte(from).lt(to))
           .addCriteria(Criteria.where("appId").is(appId))
-          .with(Sort.by(TrafficCase.Fields.creationTime).descending())
-          .limit(limit)
-          .skip(skip);
+          .with(Sort.by(TrafficCase.Fields.creationTime).descending());
 
       long count = mongoTemplate.count(query, TrafficCase.class, getCollectionName(entry));
       if (count == 0) {
         continue;
       }
 
-      List<TrafficCase> cases = mongoTemplate.find(query, TrafficCase.class, getCollectionName(entry));
+      List<TrafficCase> cases = mongoTemplate.find(query.limit(limit).skip(skip), TrafficCase.class, getCollectionName(entry));
       if (!CollectionUtils.isEmpty(cases)) {
         cases.forEach(c -> c.setType(categoryName));
         return Pair.of(count, cases);
