@@ -1,5 +1,6 @@
 package com.arextest.storage.saas.api.service;
 
+import com.arextest.config.model.dto.application.ApplicationConfiguration;
 import com.arextest.config.model.dto.application.InstancesConfiguration;
 import com.arextest.config.repository.ConfigRepositoryProvider;
 import com.arextest.model.mock.MockCategoryType;
@@ -25,15 +26,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class TrafficService {
   private final ConfigRepositoryProvider<InstancesConfiguration> instanceProvider;
+  private final ConfigRepositoryProvider<ApplicationConfiguration> appProvider;
+
   private final TrafficCalcRepository trafficCalcRepository;
   private final TrafficRelationService trafficRelationService;
-  private final Set<MockCategoryType> entryPointTypes;
 
   public AppSummaryResponse appSummary(String appId) {
     AppSummaryResponse res = new AppSummaryResponse();
     List<Endpoint> endpoints = trafficRelationService.getEndpointsByAppId(appId);
     res.setInstances(instanceProvider.listBy(appId));
     res.setEndpoints(endpoints);
+    res.setAppName(appProvider.listBy(appId).get(0).getAppName());
     return res;
   }
 

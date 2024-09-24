@@ -12,6 +12,7 @@ import lombok.Data;
  */
 @Data
 public class AppSummaryResponse {
+  private String appName;
   private List<InstancesConfiguration> instances;
   // traffic dependency summary
   private List<Endpoint> endpoints;
