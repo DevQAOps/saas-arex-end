@@ -3,17 +3,18 @@ package com.arextest.storage.saas.api.service;
 import com.arextest.config.model.dto.application.ApplicationConfiguration;
 import com.arextest.config.model.dto.application.InstancesConfiguration;
 import com.arextest.config.repository.ConfigRepositoryProvider;
-import com.arextest.model.mock.MockCategoryType;
 import com.arextest.model.replay.PagedRequestType;
 import com.arextest.storage.saas.api.models.traffic.AppSummaryResponse;
 import com.arextest.storage.saas.api.models.traffic.AppSummaryResponse.Endpoint;
+import com.arextest.storage.saas.api.models.traffic.TrafficAggregationResult;
 import com.arextest.storage.saas.api.models.traffic.TrafficCase;
 import com.arextest.storage.saas.api.models.traffic.TrafficSummaryResponse;
+import com.arextest.storage.saas.api.models.traffic.TrafficSummaryResponse.TimeSeriesResult;
 import com.arextest.storage.saas.api.repository.traffic.TrafficCalcRepository;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.stereotype.Service;
@@ -51,6 +52,32 @@ public class TrafficService {
 
     res.setCases(cases);
     res.setTotal(casesSummary.getLeft());
+    res.setTimeSeriesResult(calculateTimeSeries(req));
     return res;
+  }
+
+  private TimeSeriesResult calculateTimeSeries(PagedRequestType req) {
+    Date from = new Date(req.getBeginTime());
+    Date to = new Date(req.getEndTime());
+
+    Integer step;
+    long range = req.getEndTime() - req.getBeginTime();
+    if (range <= 1000L * 60 * 60) {
+      step = 1000 * 30;
+    } else if (range <= 1000L * 60 * 60 * 6) {
+      step = 1000 * 60 * 5;
+    } else {
+      step = 1000 * 60 * 10;
+    }
+
+    List<TrafficAggregationResult> countByTimeShards = trafficCalcRepository.countCasesByRange(
+        req.getCategory(), req.getAppId(), from, to, step);
+
+    TimeSeriesResult timeSeries = new TimeSeriesResult();
+    timeSeries.setFrom(req.getBeginTime());
+    timeSeries.setTo(req.getEndTime());
+    timeSeries.setStep(step);
+    timeSeries.setShards(countByTimeShards.stream().collect(Collectors.toMap(TrafficAggregationResult::getSeq, TrafficAggregationResult::getCount)));
+    return timeSeries;
   }
 }

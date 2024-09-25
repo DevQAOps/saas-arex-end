@@ -1,6 +1,7 @@
 package com.arextest.storage.saas.api.models.traffic;
 
 import java.util.List;
+import java.util.Map;
 import lombok.Data;
 
 /**
@@ -9,17 +10,17 @@ import lombok.Data;
  */
 @Data
 public class TrafficSummaryResponse {
-  // traffic distribution over time
-  private List<Shard> shards;
-
   private List<TrafficCase> cases;
   private Long total;
 
+  private TimeSeriesResult timeSeriesResult;
 
   @Data
-  public static class Shard {
-    private String time;
-    private Long count;
+  public static class TimeSeriesResult {
+    private Long from;
+    private Long to;
+    private Integer step;
+    private Map<Integer, Long> shards;
   }
 
   @Data

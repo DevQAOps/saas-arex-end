@@ -1,6 +1,7 @@
 package com.arextest.storage.saas.api.repository.traffic;
 
 import com.arextest.model.mock.MockCategoryType;
+import com.arextest.storage.saas.api.models.traffic.TrafficAggregationResult;
 import com.arextest.storage.saas.api.models.traffic.TrafficCase;
 import java.util.Collections;
 import java.util.Date;
@@ -10,6 +11,13 @@ import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.ArithmeticOperators;
+import org.springframework.data.mongodb.core.aggregation.ConvertOperators;
+import org.springframework.data.mongodb.core.aggregation.GroupOperation;
+import org.springframework.data.mongodb.core.aggregation.MatchOperation;
+import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
@@ -46,6 +54,35 @@ public class TrafficCalcRepository {
       }
     }
     return Pair.of(0L, Collections.emptyList());
+  }
+
+  public List<TrafficAggregationResult> countCasesByRange(MockCategoryType category, String appId, Date from, Date to, Integer step) {
+    // Match operation
+    MatchOperation matchOperation = Aggregation.match(
+        Criteria.where("appId").is(appId)
+            .and("creationTime").gte(from).lt(to)
+    );
+
+    // Projection operation to create a new field
+    ProjectionOperation projectionOperation = Aggregation.project()
+        .and(
+            ArithmeticOperators.Ceil.ceilValueOf(
+                ArithmeticOperators.Divide.valueOf(
+                    ConvertOperators.ToDecimal.toDecimal("$creationTime")
+                ).divideBy(step)
+            )
+        ).as("creationTimeCeil");
+
+    // Group operation
+    GroupOperation groupOperation = Aggregation.group("creationTimeCeil")
+        .count().as("count");
+
+    // Create aggregation
+    Aggregation aggregation = Aggregation.newAggregation(matchOperation, projectionOperation, groupOperation);
+
+    // Execute aggregation
+    AggregationResults<TrafficAggregationResult> queryResult = mongoTemplate.aggregate(aggregation, getCollectionName(category), TrafficAggregationResult.class);
+    return queryResult.getMappedResults();
   }
 
   private String getCollectionName(MockCategoryType category) {
