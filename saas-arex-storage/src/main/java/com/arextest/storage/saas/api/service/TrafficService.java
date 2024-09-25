@@ -60,9 +60,11 @@ public class TrafficService {
     Date from = new Date(req.getBeginTime());
     Date to = new Date(req.getEndTime());
 
-    Integer step;
+    int step;
     long range = req.getEndTime() - req.getBeginTime();
-    if (range <= 1000L * 60 * 60) {
+    if (range <= 1000L * 60 * 30) {
+      step = 1000 * 10;
+    } else if (range <= 1000L * 60 * 60) {
       step = 1000 * 30;
     } else if (range <= 1000L * 60 * 60 * 6) {
       step = 1000 * 60 * 5;
