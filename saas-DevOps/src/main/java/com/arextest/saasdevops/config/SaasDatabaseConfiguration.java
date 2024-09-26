@@ -54,11 +54,6 @@ public class SaasDatabaseConfiguration {
     return new MongoTemplate(mongoDatabaseFactory, converter);
   }
 
-//  @Bean(name = "saasMongoTemplate")
-//  public MongoTemplate saasMongoTemplate(MongoClient mongoClient) {
-//    return new MongoTemplate(mongoClient, "saas_db");
-//  }
-
   @Bean
   public @NonNull MongoClient mongoClient() {
     CodecRegistry pojoCodecRegistry =
