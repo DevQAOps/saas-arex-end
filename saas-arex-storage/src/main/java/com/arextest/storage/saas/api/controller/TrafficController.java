@@ -4,6 +4,7 @@ import com.arextest.common.model.response.Response;
 import com.arextest.common.utils.ResponseUtils;
 import com.arextest.model.mock.MockCategoryType;
 import com.arextest.model.replay.PagedRequestType;
+import com.arextest.storage.saas.api.models.traffic.CaseSummaryRequest;
 import com.arextest.storage.saas.api.service.TrafficService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +31,7 @@ public class TrafficController {
 
   @PostMapping(value = "/caseSummary")
   @ResponseBody
-  public Response caseSummary(@RequestBody PagedRequestType req) {
+  public Response caseSummary(@RequestBody CaseSummaryRequest req) {
     if (req.getPageSize() == 0) {
       req.setPageSize(20);
     }

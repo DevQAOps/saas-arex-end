@@ -1,12 +1,16 @@
 package com.arextest.storage.saas.api.repository.traffic;
 
 import com.arextest.model.mock.MockCategoryType;
+import com.arextest.storage.saas.api.models.traffic.CaseSummaryRequest;
+import com.arextest.storage.saas.api.models.traffic.CaseSummaryRequest.Filter;
+import com.arextest.storage.saas.api.models.traffic.CaseSummaryRequest.FilterType;
 import com.arextest.storage.saas.api.models.traffic.TrafficAggregationResult;
 import com.arextest.storage.saas.api.models.traffic.TrafficCase;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.data.domain.Sort;
@@ -31,17 +35,35 @@ import org.springframework.util.CollectionUtils;
 @RequiredArgsConstructor
 public class TrafficCalcRepository {
   private final MongoTemplate mongoTemplate;
-  public Pair<Long, List<TrafficCase>> queryCaseBrief(Set<MockCategoryType> entryPointTypes, String appId,
-      Date from, Date to,
-      int limit, int skip) {
+  public Pair<Long, List<TrafficCase>> queryCaseBrief(CaseSummaryRequest req) {
+    Set<MockCategoryType> entryPointTypes = Collections.singleton(req.getCategory());
+    Date from = new Date(req.getBeginTime());
+    Date to = new Date(req.getEndTime());
+    String appId = req.getAppId();
+    int limit = req.getPageSize();
+    int skip = (req.getPageIndex() - 1) * limit;
+
+    // base query
+    Query query = new Query()
+        .addCriteria(Criteria.where(TrafficCase.Fields.creationTime).gte(from).lt(to))
+        .addCriteria(Criteria.where("appId").is(appId));
+
+    // dynamic conditions
+    if (!CollectionUtils.isEmpty(req.getFilters())) {
+      List<Filter> filters = req.getFilters();
+      List<String> endpoints = filters.stream()
+          .filter(f -> f.getFilterType() == FilterType.ENDPOINT)
+          .map(Filter::getValue)
+          .collect(Collectors.toList());
+      if (!CollectionUtils.isEmpty(endpoints)) {
+        query.addCriteria(Criteria.where(TrafficCase.Fields.operationName).in(endpoints));
+      }
+    }
+
+    query.with(Sort.by(TrafficCase.Fields.creationTime).descending());
+
     for (MockCategoryType entry : entryPointTypes) {
       String categoryName = entry.getName();
-
-      Query query = new Query()
-          .addCriteria(Criteria.where(TrafficCase.Fields.creationTime).gte(from).lt(to))
-          .addCriteria(Criteria.where("appId").is(appId))
-          .with(Sort.by(TrafficCase.Fields.creationTime).descending());
-
       long count = mongoTemplate.count(query, TrafficCase.class, getCollectionName(entry));
       if (count == 0) {
         continue;

@@ -6,6 +6,7 @@ import com.arextest.config.repository.ConfigRepositoryProvider;
 import com.arextest.model.replay.PagedRequestType;
 import com.arextest.storage.saas.api.models.traffic.AppSummaryResponse;
 import com.arextest.storage.saas.api.models.traffic.AppSummaryResponse.Endpoint;
+import com.arextest.storage.saas.api.models.traffic.CaseSummaryRequest;
 import com.arextest.storage.saas.api.models.traffic.TrafficAggregationResult;
 import com.arextest.storage.saas.api.models.traffic.TrafficCase;
 import com.arextest.storage.saas.api.models.traffic.TrafficSummaryResponse;
@@ -41,13 +42,9 @@ public class TrafficService {
     return res;
   }
 
-  public TrafficSummaryResponse trafficSummary(PagedRequestType req) {
+  public TrafficSummaryResponse trafficSummary(CaseSummaryRequest req) {
     TrafficSummaryResponse res = new TrafficSummaryResponse();
-    Date from = new Date(req.getBeginTime());
-    Date to = new Date(req.getEndTime());
-
-    Pair<Long, List<TrafficCase>> casesSummary = trafficCalcRepository.queryCaseBrief(Collections.singleton(req.getCategory()),
-        req.getAppId(), from, to, req.getPageSize(), (req.getPageIndex() - 1) * req.getPageSize());
+    Pair<Long, List<TrafficCase>> casesSummary = trafficCalcRepository.queryCaseBrief(req);
     List<TrafficCase> cases = casesSummary.getRight();
 
     res.setCases(cases);
