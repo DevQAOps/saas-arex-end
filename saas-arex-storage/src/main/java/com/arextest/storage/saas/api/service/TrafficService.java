@@ -53,10 +53,7 @@ public class TrafficService {
     return res;
   }
 
-  private TimeSeriesResult calculateTimeSeries(PagedRequestType req) {
-    Date from = new Date(req.getBeginTime());
-    Date to = new Date(req.getEndTime());
-
+  private TimeSeriesResult calculateTimeSeries(CaseSummaryRequest req) {
     int step;
     long range = req.getEndTime() - req.getBeginTime();
     if (range <= 1000L * 60 * 30) {
@@ -69,8 +66,7 @@ public class TrafficService {
       step = 1000 * 60 * 10;
     }
 
-    List<TrafficAggregationResult> countByTimeShards = trafficCalcRepository.countCasesByRange(
-        req.getCategory(), req.getAppId(), from, to, step);
+    List<TrafficAggregationResult> countByTimeShards = trafficCalcRepository.countCasesByRange(req, step);
 
     TimeSeriesResult timeSeries = new TimeSeriesResult();
     timeSeries.setFrom(req.getBeginTime());

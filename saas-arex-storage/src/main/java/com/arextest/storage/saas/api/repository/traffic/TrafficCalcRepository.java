@@ -37,29 +37,9 @@ public class TrafficCalcRepository {
   private final MongoTemplate mongoTemplate;
   public Pair<Long, List<TrafficCase>> queryCaseBrief(CaseSummaryRequest req) {
     Set<MockCategoryType> entryPointTypes = Collections.singleton(req.getCategory());
-    Date from = new Date(req.getBeginTime());
-    Date to = new Date(req.getEndTime());
-    String appId = req.getAppId();
     int limit = req.getPageSize();
     int skip = (req.getPageIndex() - 1) * limit;
-
-    // base query
-    Query query = new Query()
-        .addCriteria(Criteria.where(TrafficCase.Fields.creationTime).gte(from).lt(to))
-        .addCriteria(Criteria.where("appId").is(appId));
-
-    // dynamic conditions
-    if (!CollectionUtils.isEmpty(req.getFilters())) {
-      List<Filter> filters = req.getFilters();
-      List<String> endpoints = filters.stream()
-          .filter(f -> f.getFilterType() == FilterType.ENDPOINT)
-          .map(Filter::getValue)
-          .collect(Collectors.toList());
-      if (!CollectionUtils.isEmpty(endpoints)) {
-        query.addCriteria(Criteria.where(TrafficCase.Fields.operationName).in(endpoints));
-      }
-    }
-
+    Query query = new Query(buildBaseQuery(req));
     query.with(Sort.by(TrafficCase.Fields.creationTime).descending());
 
     for (MockCategoryType entry : entryPointTypes) {
@@ -78,12 +58,11 @@ public class TrafficCalcRepository {
     return Pair.of(0L, Collections.emptyList());
   }
 
-  public List<TrafficAggregationResult> countCasesByRange(MockCategoryType category, String appId, Date from, Date to, Integer step) {
+  public List<TrafficAggregationResult> countCasesByRange(CaseSummaryRequest req, int step) {
+    Criteria query = buildBaseQuery(req);
+    MockCategoryType category = req.getCategory();
     // Match operation
-    MatchOperation matchOperation = Aggregation.match(
-        Criteria.where("appId").is(appId)
-            .and("creationTime").gte(from).lt(to)
-    );
+    MatchOperation matchOperation = Aggregation.match(query);
 
     // Projection operation to create a new field
     ProjectionOperation projectionOperation = Aggregation.project()
@@ -105,6 +84,29 @@ public class TrafficCalcRepository {
     // Execute aggregation
     AggregationResults<TrafficAggregationResult> queryResult = mongoTemplate.aggregate(aggregation, getCollectionName(category), TrafficAggregationResult.class);
     return queryResult.getMappedResults();
+  }
+
+  private Criteria buildBaseQuery(CaseSummaryRequest req) {
+    Date from = new Date(req.getBeginTime());
+    Date to = new Date(req.getEndTime());
+    String appId = req.getAppId();
+    // base query
+    Criteria criteria = Criteria
+        .where(TrafficCase.Fields.creationTime).gte(from).lt(to)
+        .and("appId").is(appId);
+
+    // dynamic conditions
+    if (!CollectionUtils.isEmpty(req.getFilters())) {
+      List<Filter> filters = req.getFilters();
+      List<String> endpoints = filters.stream()
+          .filter(f -> f.getFilterType() == FilterType.ENDPOINT)
+          .map(Filter::getValue)
+          .collect(Collectors.toList());
+      if (!CollectionUtils.isEmpty(endpoints)) {
+        criteria = criteria.and(TrafficCase.Fields.operationName).in(endpoints);
+      }
+    }
+    return criteria;
   }
 
   private String getCollectionName(MockCategoryType category) {
