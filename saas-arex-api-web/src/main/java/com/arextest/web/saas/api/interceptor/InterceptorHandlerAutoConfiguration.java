@@ -8,6 +8,7 @@ import com.arextest.common.saas.interceptor.SaasRefreshInterceptor;
 import com.arextest.common.saas.interceptor.TenantInterceptor;
 import com.arextest.common.saas.interceptor.TenantLimitService;
 import com.arextest.common.saas.interceptor.TenantRateLimitInterceptor;
+import com.arextest.common.saas.repository.SaasSystemConfigurationRepository;
 import com.arextest.common.saas.tenant.TenantRedisHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Lists;
@@ -37,8 +38,9 @@ public class InterceptorHandlerAutoConfiguration {
   }
 
   @Bean
-  public TenantLimitService tenantLimitService(TenantRedisHandler tenantRedisHandler) {
-    return new TenantLimitService(tenantRedisHandler);
+  public TenantLimitService tenantLimitService(TenantRedisHandler tenantRedisHandler,
+      SaasSystemConfigurationRepository saasSystemConfigurationRepository) {
+    return new TenantLimitService(tenantRedisHandler, saasSystemConfigurationRepository);
   }
 
   @Bean

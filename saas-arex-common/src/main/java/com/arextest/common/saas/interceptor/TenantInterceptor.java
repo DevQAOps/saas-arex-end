@@ -61,6 +61,7 @@ public class TenantInterceptor extends AbstractInterceptorHandler {
 
     MDC.put("tenant", tenantCode);
 
+    TenantContextUtil.setTenantCode(tenantCode);
     // verify tenant status
     TenantLimitInfo tenantLimitInfo = TenantLimitInfo.builder().tenantCode(tenantCode).build();
     TenantLimitResult tenantLimitResult = limitTenant.limitTenant(tenantLimitInfo);
@@ -70,8 +71,6 @@ public class TenantInterceptor extends AbstractInterceptorHandler {
           tenantLimitResult.getErrorCode());
       return false;
     }
-
-    TenantContextUtil.setTenantCode(tenantCode);
     return true;
   }
 
