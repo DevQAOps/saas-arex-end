@@ -13,17 +13,20 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class TenantRedisHandler {
 
+  private static final long TENANT_STATUS_EXPIRE_SECONDS = 2 * 60 * 60;
+
   private final CacheProvider cacheProvider;
 
   private final ObjectMapper objectMapper;
 
-  public boolean saveTenantStatus(String tenantCode, TenantStatusRedisInfo tenantStatusRedisInfo) {
+  public boolean saveTenantStatusExpire(String tenantCode,
+      TenantStatusRedisInfo tenantStatusRedisInfo) {
     try {
       byte[] key = RedisKeyBuilder.buildCommonTenantStatusKey(tenantCode);
       byte[] value = buildTenantStatusValue(tenantStatusRedisInfo);
-      cacheProvider.put(key, value);
+      cacheProvider.putIfAbsent(key, TENANT_STATUS_EXPIRE_SECONDS, value);
     } catch (Exception e) {
-      LOGGER.error("saveTenantStatus error, tenantCode:{}, exception:{}", tenantCode,
+      LOGGER.error("saveTenantStatusExpire error, tenantCode:{}, exception:{}", tenantCode,
           e.getMessage());
       return false;
     }

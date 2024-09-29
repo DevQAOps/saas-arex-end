@@ -32,8 +32,9 @@ public class InterceptorHandlerAutoConfiguration {
   }
 
   @Bean
-  public TenantLimitService tenantLimitService(TenantRedisHandler tenantRedisHandler) {
-    return new TenantLimitService(tenantRedisHandler);
+  public TenantLimitService tenantLimitService(TenantRedisHandler tenantRedisHandler,
+      SaasSystemConfigurationRepository saasSystemConfigurationRepository) {
+    return new TenantLimitService(tenantRedisHandler, saasSystemConfigurationRepository);
   }
 
   @Bean

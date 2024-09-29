@@ -5,7 +5,7 @@ arex:
     service:
       api: http://arex-web-api.fat3.tripqate.com
   mongo:
-    uri: mongodb://arex:iLoveArex@52.88.84.95:27017/arex_storage_db
+    uri: mongodb://arex:iLoveArex@10.118.1.217:37017/arex_storage_db
   storage:
     service:
       api: http://arex-storage.fat3.tripqate.com
@@ -17,9 +17,9 @@ saas:
     database:
       mongo:
         uri:
-          base: mongodb://arex:iLoveArex@52.88.84.95:27017/
+          base: mongodb://arex:iLoveArex@10.118.1.217:37017/
         default:
-          uri: mongodb://arex:iLoveArex@52.88.84.95:27017/arex_storage_db
+          uri: mongodb://arex:iLoveArex@10.118.1.217:37017/arex_storage_db
           database: arex_storage_db
 spring:
   redis:

@@ -25,7 +25,7 @@ public class TenantManageServiceImpl implements TenantManageService {
     }
     TenantStatusRedisInfo tenantRedisInfo = TenantStatusMapper.INSTANCE.toTenantRedisInfo(
         tenantStatusInfo);
-    return tenantRedisHandler.saveTenantStatus(tenantCode, tenantRedisInfo);
+    return tenantRedisHandler.saveTenantStatusExpire(tenantCode, tenantRedisInfo);
   }
 
 
