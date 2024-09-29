@@ -4,6 +4,7 @@ import com.arextest.common.saas.model.SaasSystemConfigurationKeySummary;
 import com.arextest.common.saas.model.dao.SaasSystemConfigurationCollection;
 import com.arextest.common.saas.tenant.TenantRedisHandler;
 import com.arextest.config.model.dao.config.SystemConfigurationCollection;
+import com.arextest.config.model.dto.system.ComparePluginInfo;
 import com.arextest.model.mock.AREXMocker;
 import com.arextest.model.mock.MockCategoryType;
 import com.arextest.saasdevops.mapper.TenantStatusMapper;
@@ -27,6 +28,7 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.IndexOptions;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +38,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.bson.Document;
 import org.bson.conversions.Bson;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 /**
@@ -50,6 +53,9 @@ public class UserManageServiceImpl implements UserManageService {
   private static final String MONGO_DATABASE_PASSWORD = "iLoveArex";
   private static final String COLLECTION_SUFFIX = "Mocker";
   private static final String EXPIRATION_TIME_COLUMN_NAME = "expirationTime";
+
+  @Value("${saas.tenant.systemConfig.comparePluginJarUrl}")
+  private String systemConfigComparePluginJarUrl;
 
 
   @Autowired
@@ -81,7 +87,7 @@ public class UserManageServiceImpl implements UserManageService {
     createCollectionAndIndex(mongoDatabase);
 
     // insert jwt seed to system configuration
-    insertJwtSeedToSystemConfiguration(tenantCode, currentTime, mongoDatabase);
+    insertInfoToSystemConfiguration(tenantCode, currentTime, mongoDatabase);
 
     // insert tenant to tenant collection
     insertTenantTokenToSystemConfiguration(request.getTenantToken(), currentTime, mongoDatabase);
@@ -236,16 +242,38 @@ public class UserManageServiceImpl implements UserManageService {
     }
   }
 
-  private void insertJwtSeedToSystemConfiguration(String tenantCode, Long currentTime,
+
+  private void insertInfoToSystemConfiguration(String tenantCode, Long currentTime,
       MongoDatabase mongoDatabase) {
     MongoCollection<SystemConfigurationCollection> systemConfigurationCollection =
         mongoDatabase.getCollection("SystemConfiguration", SystemConfigurationCollection.class);
-    SystemConfigurationCollection systemConfiguration = new SystemConfigurationCollection();
-    systemConfiguration.setJwtSeed(generateRandomCode(tenantCode));
-    systemConfiguration.setKey(SystemConfigurationCollection.KeySummary.JWT_SEED);
-    systemConfiguration.setDataChangeCreateTime(currentTime);
-    systemConfiguration.setDataChangeUpdateTime(currentTime);
-    systemConfigurationCollection.insertOne(systemConfiguration);
+    // jwd seed
+    SystemConfigurationCollection jwtSeedConfiguration = new SystemConfigurationCollection();
+    jwtSeedConfiguration.setJwtSeed(generateRandomCode(tenantCode));
+    jwtSeedConfiguration.setKey(SystemConfigurationCollection.KeySummary.JWT_SEED);
+    jwtSeedConfiguration.setDataChangeCreateTime(currentTime);
+    jwtSeedConfiguration.setDataChangeUpdateTime(currentTime);
+
+    // auth switch, control app auth
+    SystemConfigurationCollection authSwitchConfiguration = new SystemConfigurationCollection();
+    authSwitchConfiguration.setAuthSwitch(true);
+    jwtSeedConfiguration.setKey(SystemConfigurationCollection.KeySummary.AUTH_SWITCH);
+    jwtSeedConfiguration.setDataChangeCreateTime(currentTime);
+    jwtSeedConfiguration.setDataChangeUpdateTime(currentTime);
+
+    // compare plugin jar, load conversion method in comparison function
+    SystemConfigurationCollection comparePluginJarConfiguration = new SystemConfigurationCollection();
+    ComparePluginInfo comparePluginInfo = new ComparePluginInfo();
+    comparePluginInfo.setComparePluginUrl(systemConfigComparePluginJarUrl);
+    comparePluginJarConfiguration.setComparePluginInfo(comparePluginInfo);
+    comparePluginJarConfiguration.setKey(
+        SystemConfigurationCollection.KeySummary.COMPARE_PLUGIN_INFO);
+    comparePluginJarConfiguration.setDataChangeCreateTime(currentTime);
+    comparePluginJarConfiguration.setDataChangeUpdateTime(currentTime);
+
+    systemConfigurationCollection.insertMany(
+        Arrays.asList(jwtSeedConfiguration, authSwitchConfiguration,
+            comparePluginJarConfiguration));
   }
 
   public void insertTenantTokenToSystemConfiguration(String tenantToken, Long currentTime,
