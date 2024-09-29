@@ -19,20 +19,8 @@ public class TenantRedisHandler {
 
   private final ObjectMapper objectMapper;
 
-  public boolean saveTenantStatus(String tenantCode, TenantStatusRedisInfo tenantStatusRedisInfo) {
-    try {
-      byte[] key = RedisKeyBuilder.buildCommonTenantStatusKey(tenantCode);
-      byte[] value = buildTenantStatusValue(tenantStatusRedisInfo);
-      cacheProvider.put(key, value);
-    } catch (Exception e) {
-      LOGGER.error("saveTenantStatus error, tenantCode:{}, exception:{}", tenantCode,
-          e.getMessage());
-      return false;
-    }
-    return true;
-  }
-
-  public boolean saveTenantStatusExpire(String tenantCode, TenantStatusRedisInfo tenantStatusRedisInfo) {
+  public boolean saveTenantStatusExpire(String tenantCode,
+      TenantStatusRedisInfo tenantStatusRedisInfo) {
     try {
       byte[] key = RedisKeyBuilder.buildCommonTenantStatusKey(tenantCode);
       byte[] value = buildTenantStatusValue(tenantStatusRedisInfo);
@@ -44,7 +32,6 @@ public class TenantRedisHandler {
     }
     return true;
   }
-
 
   public TenantStatusRedisInfo getTenantStatus(String tenantCode) {
     try {

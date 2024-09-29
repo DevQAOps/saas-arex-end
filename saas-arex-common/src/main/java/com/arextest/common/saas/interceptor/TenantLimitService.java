@@ -36,14 +36,8 @@ public class TenantLimitService {
     // if redis not found, query from saasDb by arex-saas-service
     if (tenantStatus == null) {
       tenantStatus = getTenantStatusFromDB();
-    }
-
-    // save to redis
-    if (tenantStatus == null) {
-      tenantStatus = new TenantStatusRedisInfo();
+      // save to redis
       tenantRedisHandler.saveTenantStatusExpire(tenantCode, tenantStatus);
-    } else {
-      tenantRedisHandler.saveTenantStatus(tenantCode, tenantStatus);
     }
 
     // verify whether tenant exists
@@ -70,11 +64,11 @@ public class TenantLimitService {
     List<SaasSystemConfiguration> systemConfigurations = saasSystemConfigurationRepository.query(
         keys);
 
+    TenantStatusRedisInfo tenantStatusRedisInfo = new TenantStatusRedisInfo();
     if (CollectionUtils.isEmpty(systemConfigurations)) {
-      return null;
+      return tenantStatusRedisInfo;
     }
 
-    TenantStatusRedisInfo tenantStatusRedisInfo = new TenantStatusRedisInfo();
     systemConfigurations.forEach(config -> {
       if (Objects.equals(SaasSystemConfigurationKeySummary.SAAS_TENANT_TOKEN, config.getKey())) {
         tenantStatusRedisInfo.setTenantToken(config.getTenantToken());
