@@ -11,8 +11,6 @@ import lombok.Data;
 @Data
 public class TrafficSummaryResponse {
   private List<TrafficCase> cases;
-  private Long total;
-
   private TimeSeriesResult timeSeriesResult;
 
   @Data
@@ -21,6 +19,7 @@ public class TrafficSummaryResponse {
     private Long to;
     private Integer step;
     private Map<Integer, Long> shards;
+    private Long total;
   }
 
   @Data

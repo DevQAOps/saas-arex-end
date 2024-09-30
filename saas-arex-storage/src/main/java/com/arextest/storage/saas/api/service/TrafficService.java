@@ -11,7 +11,9 @@ import com.arextest.storage.saas.api.models.traffic.TrafficCase;
 import com.arextest.storage.saas.api.models.traffic.TrafficSummaryResponse;
 import com.arextest.storage.saas.api.models.traffic.TrafficSummaryResponse.TimeSeriesResult;
 import com.arextest.storage.saas.api.repository.traffic.TrafficCalcRepository;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.tuple.Pair;
@@ -41,12 +43,12 @@ public class TrafficService {
 
   public TrafficSummaryResponse trafficSummary(CaseSummaryRequest req) {
     TrafficSummaryResponse res = new TrafficSummaryResponse();
-    Pair<Long, List<TrafficCase>> casesSummary = trafficCalcRepository.queryCaseBrief(req);
-    List<TrafficCase> cases = casesSummary.getRight();
+    List<TrafficCase> cases = trafficCalcRepository.queryCaseBrief(req);;
 
     res.setCases(cases);
-    res.setTotal(casesSummary.getLeft());
-    res.setTimeSeriesResult(calculateTimeSeries(req));
+
+    TimeSeriesResult timeSeriesResult = calculateTimeSeries(req);
+    res.setTimeSeriesResult(timeSeriesResult);
     return res;
   }
 
@@ -69,7 +71,16 @@ public class TrafficService {
     timeSeries.setFrom(req.getBeginTime());
     timeSeries.setTo(req.getEndTime());
     timeSeries.setStep(step);
-    timeSeries.setShards(countByTimeShards.stream().collect(Collectors.toMap(TrafficAggregationResult::getSeq, TrafficAggregationResult::getCount)));
+
+    Map<Integer, Long> shardMap = new HashMap<>(countByTimeShards.size());
+    Long total = 0L;
+    timeSeries.setShards(shardMap);
+
+    for (TrafficAggregationResult shard : countByTimeShards) {
+      shardMap.put(shard.getSeq(), shard.getCount());
+      total += shard.getCount();
+    }
+    timeSeries.setTotal(total);
     return timeSeries;
   }
 }

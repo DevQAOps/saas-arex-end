@@ -6,13 +6,10 @@ import com.arextest.storage.saas.api.models.traffic.CaseSummaryRequest.Filter;
 import com.arextest.storage.saas.api.models.traffic.CaseSummaryRequest.FilterType;
 import com.arextest.storage.saas.api.models.traffic.TrafficAggregationResult;
 import com.arextest.storage.saas.api.models.traffic.TrafficCase;
-import java.util.Collections;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.apache.commons.lang3.tuple.Pair;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -35,27 +32,20 @@ import org.springframework.util.CollectionUtils;
 @RequiredArgsConstructor
 public class TrafficCalcRepository {
   private final MongoTemplate mongoTemplate;
-  public Pair<Long, List<TrafficCase>> queryCaseBrief(CaseSummaryRequest req) {
-    Set<MockCategoryType> entryPointTypes = Collections.singleton(req.getCategory());
+  public List<TrafficCase> queryCaseBrief(CaseSummaryRequest req) {
+    MockCategoryType category = req.getCategory();
+    String categoryName = category.getName();
     int limit = req.getPageSize();
     int skip = (req.getPageIndex() - 1) * limit;
+
     Query query = new Query(buildBaseQuery(req));
     query.with(Sort.by(TrafficCase.Fields.creationTime).descending());
 
-    for (MockCategoryType entry : entryPointTypes) {
-      String categoryName = entry.getName();
-      long count = mongoTemplate.count(query, TrafficCase.class, getCollectionName(entry));
-      if (count == 0) {
-        continue;
-      }
-
-      List<TrafficCase> cases = mongoTemplate.find(query.limit(limit).skip(skip), TrafficCase.class, getCollectionName(entry));
-      if (!CollectionUtils.isEmpty(cases)) {
-        cases.forEach(c -> c.setType(categoryName));
-        return Pair.of(count, cases);
-      }
+    List<TrafficCase> cases = mongoTemplate.find(query.limit(limit).skip(skip), TrafficCase.class, getCollectionName(category));
+    if (!CollectionUtils.isEmpty(cases)) {
+      cases.forEach(c -> c.setType(categoryName));
     }
-    return Pair.of(0L, Collections.emptyList());
+    return cases;
   }
 
   public List<TrafficAggregationResult> countCasesByRange(CaseSummaryRequest req, int step) {
