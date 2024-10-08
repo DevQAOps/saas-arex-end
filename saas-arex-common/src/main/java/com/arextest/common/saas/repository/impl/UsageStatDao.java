@@ -13,7 +13,6 @@ import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.aggregation.GroupOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -27,7 +26,6 @@ public class UsageStatDao {
   private static final String TOTAL_LENGTH = "total_length";
   private static final String TIMESTAMP = "timestamp";
   private static final String TENANT_CODE = "meta.tenantCode";
-  private static final String IN = "meta.in";
   private static final String COLLECTION_NAME = "TenantUsage";
   private final MongoTemplate mongoTemplate;
 
@@ -44,18 +42,6 @@ public class UsageStatDao {
 
   public void save(TenantUsageDocument doc) {
     mongoTemplate.save(doc);
-  }
-
-  public List<TenantUsageDocument> query(String tenantCode, Boolean in, Long from, Long to) {
-    Criteria criteria = Criteria.where(TENANT_CODE).is(tenantCode);
-    if (in != null) {
-      criteria.and(IN).is(in);
-    }
-    from = from == null ? 0 : from;
-    to = to == null ? System.currentTimeMillis() : to;
-    criteria.and(TIMESTAMP).gte(new Date(from)).lt(new Date(to));
-    Query query = new Query(criteria);
-    return mongoTemplate.find(query, TenantUsageDocument.class);
   }
 
   // 查出所有满足条件的数据，对contentLengthSum求和

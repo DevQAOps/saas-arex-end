@@ -39,13 +39,7 @@ public class UsageServiceImpl implements UsageService {
 
   @Override
   public Long queryUsage(QueryTenantUsageRequest request) {
-    List<TenantUsageDocument> tenantUsageDocuments = usageStatDao.query(
-        request.getTenantCode(), request.getIn(), request.getStartTime(), request.getEndTime());
-    Long sum = 0L;
-    for (TenantUsageDocument tenantUsageDocument : tenantUsageDocuments) {
-      sum += tenantUsageDocument.getContentLengthSum();
-    }
-    return sum;
+    return usageStatDao.statistics(request.getTenantCode(), request.getStartTime(), request.getEndTime());
   }
 
   @Override
