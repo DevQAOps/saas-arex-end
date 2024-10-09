@@ -61,10 +61,10 @@ public class SaasServiceConfiguration {
     return new SaasCompareService(compareConfigService);
   }
 
-  @Bean
-  DataDesensitization desensitizationService() {
-    return new DefaultDataDesensitization();
-  }
+//  @Bean
+//  DataDesensitization desensitizationService() {
+//    return new DefaultDataDesensitization();
+//  }
 
   /*
    * for saas system configuration repository
