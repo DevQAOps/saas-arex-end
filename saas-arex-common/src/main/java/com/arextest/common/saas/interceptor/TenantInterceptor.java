@@ -9,8 +9,6 @@ import com.arextest.common.saas.utils.ResponseWriterUtil;
 import com.arextest.common.utils.TenantContextUtil;
 import java.util.List;
 import java.util.Objects;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.Getter;
@@ -80,9 +78,9 @@ public class TenantInterceptor extends AbstractInterceptorHandler {
       return true;
     } catch (Exception e) {
       TenantContextUtil.clear();
-      LOGGER.error("tenantCode:{}, error:{}", tenantCode, e.getMessage());
+      LOGGER.error("tenantCode:{}, error:{}", tenantCode, e);
       ResponseWriterUtil.setDefaultErrorResponse(response, HttpStatus.INTERNAL_SERVER_ERROR,
-          SaasErrorCode.SAAS_TENANT_HANDLE_ERROR);
+          SaasErrorCode.SAAS_COMMON_ERROR);
       return false;
     }
   }
@@ -95,21 +93,8 @@ public class TenantInterceptor extends AbstractInterceptorHandler {
 
 
   private static String extractTenantCodeFromRequest(HttpServletRequest request) {
-    String res = "";
-    String serverName = request.getServerName();
-    if (StringUtils.isNotEmpty(serverName)) {
-      Pattern pattern = Pattern.compile("^(.*?)\\.arextest\\.com$");
-      Matcher matcher = pattern.matcher(serverName);
-      if (matcher.find()) {
-        res = matcher.group(1);
-      }
-    }
-
-    if (StringUtils.isEmpty(res)) {
-      String orgHeader = request.getHeader(Constants.AREX_TENANT_CODE);
-      res = orgHeader == null ? StringUtils.EMPTY : orgHeader;
-    }
-    return res;
+    String orgHeader = request.getHeader(Constants.AREX_TENANT_CODE);
+    return orgHeader == null ? StringUtils.EMPTY : orgHeader;
   }
 
 }
