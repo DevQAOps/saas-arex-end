@@ -10,14 +10,13 @@ public enum SaasErrorCode {
   // common error, 9-xx-xxx-00
   SAAS_TENANT_NOT_FOUND(90000100, "the tenant is not found"),
   SAAS_TENANT_EXPIRED(90000200, "the tenant is expired"),
-
+  SAAS_TENANT_HANDLE_ERROR(90000300, "the tenant handle error"),
   // api error 1-xx-xxx-00
   SAAS_USER_NOT_FOUND(10000100, "the user is not found")
 
   // scheduler error 2-xx-xxx-00
 
   // storage error 3-xx-xxx-00
-
 
   ;
 
