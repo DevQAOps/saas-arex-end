@@ -100,6 +100,9 @@ arex:
       excludes:
         dubbo:
         http:
+  saas:
+    desensitization:
+      url: "classpath:lib/arex-extension-desensitization.jar"
 auto:
   rerun:
     threshold: 1.0

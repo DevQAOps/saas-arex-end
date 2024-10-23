@@ -3,10 +3,6 @@ package com.arextest.schedule.saas.api.bean;
 import com.arextest.common.jwt.JWTService;
 import com.arextest.common.saas.httpclient.AccessRequestInterceptor;
 import com.arextest.common.saas.login.SaasJWTService;
-import com.arextest.common.saas.repository.SaasSystemConfigurationRepository;
-import com.arextest.common.saas.repository.impl.SaasSystemConfigurationRepositoryImpl;
-import com.arextest.extension.desensitization.DataDesensitization;
-import com.arextest.extension.desensitization.DefaultDataDesensitization;
 import com.arextest.schedule.comparer.CompareConfigService;
 import com.arextest.schedule.comparer.CompareService;
 import com.arextest.schedule.saas.api.compare.SaasCompareService;
@@ -59,20 +55,6 @@ public class SaasServiceConfiguration {
   @Bean
   public CompareService compareService(CompareConfigService compareConfigService) {
     return new SaasCompareService(compareConfigService);
-  }
-
-  @Bean
-  DataDesensitization desensitizationService() {
-    return new DefaultDataDesensitization();
-  }
-
-  /*
-   * for saas system configuration repository
-   */
-  @Bean
-  public SaasSystemConfigurationRepository saasSystemConfigurationRepository(
-      MongoTemplate mongoTemplate) {
-    return new SaasSystemConfigurationRepositoryImpl(mongoTemplate);
   }
 
   @Configuration
