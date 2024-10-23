@@ -5,7 +5,7 @@ import com.arextest.common.saas.tenant.TenantStatusRedisInfo;
 import com.arextest.saasdevops.model.dto.TenantStatusInfo;
 import com.arextest.saasdevops.service.TenantManageService;
 import java.util.Calendar;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;

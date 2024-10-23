@@ -18,7 +18,6 @@ import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Repository;
 
 @Slf4j
-@Repository
 @RequiredArgsConstructor
 public class SaasSystemConfigurationRepositoryImpl implements SaasSystemConfigurationRepository {
 

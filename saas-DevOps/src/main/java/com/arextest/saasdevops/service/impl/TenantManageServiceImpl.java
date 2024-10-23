@@ -5,7 +5,7 @@ import com.arextest.common.saas.tenant.TenantStatusRedisInfo;
 import com.arextest.saasdevops.mapper.TenantStatusMapper;
 import com.arextest.saasdevops.model.dto.TenantStatusInfo;
 import com.arextest.saasdevops.service.TenantManageService;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
