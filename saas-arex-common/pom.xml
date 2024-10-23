@@ -40,17 +40,18 @@
       <groupId>com.arextest</groupId>
       <artifactId>arex-storage-config</artifactId>
       <version>${arex.storage.config.version}</version>
-      <exclusions>
-        <exclusion>
-          <artifactId>mapstruct-jdk8</artifactId>
-          <groupId>org.mapstruct</groupId>
-        </exclusion>
-      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.mapstruct</groupId>
       <artifactId>mapstruct</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.mapstruct</groupId>
+      <artifactId>mapstruct-processor</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
   </dependencies>
-
 </project>
