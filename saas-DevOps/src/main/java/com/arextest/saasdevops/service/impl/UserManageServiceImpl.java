@@ -6,6 +6,7 @@ import com.arextest.common.saas.tenant.TenantRedisHandler;
 import com.arextest.config.model.dao.config.SystemConfigurationCollection;
 import com.arextest.config.model.dto.system.ComparePluginInfo;
 import com.arextest.model.mock.AREXMocker;
+import com.arextest.model.mock.AbstractMocker;
 import com.arextest.model.mock.MockCategoryType;
 import com.arextest.saasdevops.mapper.TenantStatusMapper;
 import com.arextest.saasdevops.model.contract.FinalizeSaasUserRequest;
@@ -199,7 +200,7 @@ public class UserManageServiceImpl implements UserManageService {
                 AREXMocker.class);
         try {
           Document index = new Document();
-          index.append(AREXMocker.Fields.recordId, 1);
+          index.append(AbstractMocker.Fields.recordId, 1);
           collection.createIndex(index);
         } catch (MongoCommandException e) {
           LOGGER.info("create index failed for {}", category.getName(), e);
@@ -207,8 +208,8 @@ public class UserManageServiceImpl implements UserManageService {
 
         try {
           Document index = new Document();
-          index.append(AREXMocker.Fields.appId, 1);
-          index.append(AREXMocker.Fields.operationName, 1);
+          index.append(AbstractMocker.Fields.appId, 1);
+          index.append(AbstractMocker.Fields.operationName, 1);
           collection.createIndex(index);
         } catch (MongoCommandException e) {
           LOGGER.info("create index failed for {}", category.getName(), e);
