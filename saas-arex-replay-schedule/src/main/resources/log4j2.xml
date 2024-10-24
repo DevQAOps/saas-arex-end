@@ -2,10 +2,10 @@
 <Configuration>
   <Appenders>
     <Console name="Console" target="SYSTEM_OUT">
-      <!--<JSONLayout compact="true" eventEol="true" stacktraceAsString="true">-->
-      <!--  <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd'T'HH:mm:ss.SSSZ}" />-->
-      <!--  <KeyValuePair key="tenant" value="${ctx:tenant}"/>-->
-      <!--</JSONLayout>-->
+      <JSONLayout compact="true" eventEol="true" stacktraceAsString="true">
+        <KeyValuePair key="timestamp" value="$${date:yyyy-MM-dd'T'HH:mm:ss.SSSZ}" />
+        <KeyValuePair key="tenant" value="${ctx:tenant}"/>
+      </JSONLayout>
       <PatternLayout/>
     </Console>
   </Appenders>
