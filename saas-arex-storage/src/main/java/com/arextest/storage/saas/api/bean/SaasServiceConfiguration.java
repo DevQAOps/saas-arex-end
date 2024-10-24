@@ -1,5 +1,6 @@
 package com.arextest.storage.saas.api.bean;
 
+import com.arextest.common.desensitization.DesensitizationProvider;
 import com.arextest.common.jwt.JWTService;
 import com.arextest.common.saas.httpclient.AccessRequestInterceptor;
 import com.arextest.common.saas.login.SaasJWTService;
@@ -46,6 +47,12 @@ public class SaasServiceConfiguration {
   public SaasSystemConfigurationRepository saasSystemConfigurationRepository(
       MongoTemplate mongoTemplate) {
     return new SaasSystemConfigurationRepositoryImpl(mongoTemplate);
+  }
+
+  @Bean
+  public DesensitizationProvider saasDesensitizationProvider(
+      @Value("${arex.saas.desensitization.url}") String desensitizationUrl) {
+    return new DesensitizationProvider(desensitizationUrl);
   }
 
 
