@@ -93,6 +93,10 @@ public class TenantInterceptor extends AbstractInterceptorHandler {
 
 
   private static String extractTenantCodeFromRequest(HttpServletRequest request) {
+    String tenantCode = TenantContextUtil.getTenantCode();
+    if (StringUtils.isNotEmpty(tenantCode)) {
+      return TenantContextUtil.getTenantCode();
+    }
     String orgHeader = request.getHeader(Constants.AREX_TENANT_CODE);
     return orgHeader == null ? StringUtils.EMPTY : orgHeader;
   }
