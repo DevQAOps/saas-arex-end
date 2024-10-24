@@ -51,6 +51,8 @@ arex:
     updateCaseStatus:
       url: ${arex.schedule.service.url:http://arex-schedule-service:8080}/api/updateCaseStatus
   saas:
+    desensitization:
+      url: "classpath:lib/arex-extension-desensitization.jar"
     traffic:
       limit:
         enable: false
