@@ -8,7 +8,7 @@ import com.arextest.saasdevops.model.contract.FinalizeSaasUserRequest;
 import com.arextest.saasdevops.model.contract.InitSaasUserRequest;
 import com.arextest.saasdevops.model.contract.RemoveUserRequest;
 import com.arextest.saasdevops.service.UserManageService;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;

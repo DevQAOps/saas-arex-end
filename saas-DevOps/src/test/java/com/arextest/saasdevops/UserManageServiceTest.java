@@ -3,7 +3,7 @@ package com.arextest.saasdevops;
 import com.arextest.saasdevops.service.impl.UserManageServiceImpl;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoDatabase;
-import javax.annotation.Resource;
+import jakarta.annotation.Resource;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

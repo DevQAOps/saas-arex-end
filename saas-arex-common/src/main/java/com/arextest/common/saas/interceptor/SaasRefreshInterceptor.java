@@ -7,8 +7,8 @@ import com.arextest.common.model.response.ResponseCode;
 import com.arextest.common.utils.ResponseUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 

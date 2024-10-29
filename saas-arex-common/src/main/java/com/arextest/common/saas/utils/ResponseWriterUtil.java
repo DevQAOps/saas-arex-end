@@ -5,7 +5,7 @@ import com.arextest.common.model.response.ResponseStatusType;
 import com.arextest.common.saas.enums.SaasErrorCode;
 import com.arextest.common.utils.ResponseUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -42,6 +42,4 @@ public class ResponseWriterUtil {
       }
     }
   }
-
-
 }

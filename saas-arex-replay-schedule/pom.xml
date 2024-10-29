@@ -69,7 +69,7 @@
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-war-plugin</artifactId>
-            <version>3.3.1</version>
+            <version>3.4.0</version>
           </plugin>
         </plugins>
       </build>
@@ -94,10 +94,6 @@
           </resource>
         </resources>
         <plugins>
-          <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <groupId>org.apache.maven.plugins</groupId>
-          </plugin>
           <plugin>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-maven-plugin</artifactId>
