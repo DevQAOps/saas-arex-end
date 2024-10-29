@@ -1,0 +1,14 @@
+logging:
+  config: classpath:log4j2-dev.xml
+server:
+  port: 8190
+arex:
+  devops:
+    url: http://arex-devops.fat3.tripqate.com
+  agent:
+    aesKey: 0EV1iPX7Zsgw22/w+XB7lPBc+bp9ac1ggnmZ49+MzBM=
+spring:
+  data:
+    mongodb:
+      uri: mongodb://citizix:S3cret@10.118.1.217:37017/
+      database: saas_db

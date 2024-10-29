@@ -1,0 +1,88 @@
+spring:
+  profiles:
+    active: prod
+  data:
+    redis:
+      repositories:
+        enabled: false
+
+arex:
+  email:
+    domain: https://mail.arextest.com
+  oauth:
+    google:
+      clientid: 321806507825-7ajin7m8v3bt0td6hg9bf8r2iulh4c70.apps.googleusercontent.com
+      secret: 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
+    oauth0:
+      rsaPrivateKey: "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCxIMJTWPQZUt3O+C+IMKP1+PF6\
+      35oWDxy+mdLSuQ8eN3SlUvgs+kZN9AtfwgtssizbkgWR/0glz3lxT2SGe4U6f42VD+NbzKxd/MLeezIKLsdA/n4isFrq\
+      6Icv19mbKjbMbzrxeN4e3Y3o0fLwN8O7dgSqylsq3O5yLyp1hHdOGWdf5f4+EhTmATsX+d5HrVH4rdTHrkD9a19tnBhH\
+      IxVz60IibURWqCzGv0DYQP2LLOdoOU37PYKoAI9j0BCIug2punvgI+9nKaob0Ua9tgU6N1wwKCJUg15B+AiDVrvHEbq+4\
+      CUfJXJY2dAj++DTTtj19LGD/KFzr2+keHXQarDvAgMBAAECggEAcIAnDLsN5tusB924it6h9QOVlH5aprIYhrK6pZ5mjM\
+      GaM7sb561aY/6iDsL3cKVGOntnUFB86Y76Sk6rwYLIntwO9+Mse8zmmZeFybsjkDYf1hcN1EiApnzkCC4nhxbr0TLAlEg\
+      5hA8iKALZM1un1PPjiPqXpwTF6f4tEJD/GbmX+UJ8lgC5bAgPWaFVefNwqO3AVOOb71btw3UkQj/yKJqSp3S7H37ASe1hU\
+      Hy8SIePH0cGkKflNkjKZOe4HUELKdf+MsOX2+4li5A9Y8n4SMq59pttwbrq9fqhcAi6u07ga+GgXbR1lxfTisOLMxpyBG\
+      Qv9X8A9s/IqlxV22si+QKBgQDg2ZFtR33sB8AkdmsVcGKCTV2J6DnCyIK+nQZaKm9NCVZMKXlH+Z5PzVaM68fSFLSEGIC\
+      MXOunrs6rptWfgc65TbEkV/eqcJ4KTmEuFF3N445172kzBALH1eNr9aNI68X0WqAu6/F+5ySMVuYpsCQBMz0w2FszCQ5w\
+      K7mR5AKnCwKBgQDJqrSlFV7iad87I+mBNu8I7+dbZPZ+9qU6YbRXY9CxNVwxf+W1LiHRwJCwir2wpIR06HKNptEBHydRy\
+      OJgOAVlvya+2x8Mg4Z3rK75yzFb68twr0Fm4OjqG6Bzeo31ctzaPusLifuNYQhOcYIxI9u9JM3mOUGoiVzdF2hAd158LQ\
+      KBgQDMMinU4VElEiDXvEchcC+2AAaLoD8cerXp33aOWe08O9eIUT3YNIQmGueYEOQmEDGjqRDM5/IHFUSRNHDaa6tOM5V\
+      E2TKNMbsExwuQKmTJ/vc4eVTDRMg1rTPcrnY8WgorEEZadmGZitZxMNXTVChOgrb2bfXc0kOvcLYVHMmf4wKBgF+pimeE\
+      662bazkyn+GbnWgv5R+FlShE97vp/RI3Vxe4qDMS6HQ5nfFR11Dnf3P7lpmeajinmR1fGdfB4yChcm4Bbu+6IdBd07uRP\
+      q9fo9pmz+p0OCIFLndfA43D5PM5uWoNzpF6sskt7jLHxWpqCCKBAuri3jKEdniqUdnCxh9BAoGAGeXtuMSEc793CGwoc\
+      E9eOlMiTSv+C1284SgXCt3bvfMiERzSJaSs4CEJG1chlCxEid+LPYBqpdGHZtYMhncHGhVSB2Gc0PgIZ/v2AhupA4fms\
+      cs4jZBQ3qLdMPsCD4BeAJ7LRfljGBsmngdAARWUMHSVLrknd7/JX4oADBEnJdw="
+      auth0IssuerBaseUrl: https://arextest.us.auth0.com
+  verify:
+    # not available
+    domain: https://cloud.arextest.com
+  client:
+    login:
+      tokenSecret: arex_secret_arex_api_auth
+      tokenExpirationMS: 300000
+  saas:
+    # 0:day, 1:month, 2:year
+    packageInfos:
+      - { packageId: 0, num: 1, unit: 2 , trafficLimit: 107374182400, memberLimit: 100 }
+  domain:
+    disabled:
+      - cloud
+      - deno
+      - doc
+      - docs
+      - mail
+      - trace
+      - www
+secure:
+  ignored:
+    urls: #安全路径白名单
+      - /api/login/register
+      - /api/login/login
+      - /api/login/vaildate
+      - /api/login/verify
+      - /api/login/oauthLogin
+      - /api/login/sendResetPwdEmail
+      - /error
+      - /vi/*
+      - /js/**
+      - /css/**
+      - /images/**
+      - /lib/**
+      - /fonts/**
+      - /swagger-resources/**
+      - /webjars/**
+      - /v3/**
+      - /swagger-ui/**
+      - /api/user/mgnt/queryTenants/**
+      - /api/client/clientLogin
+devops:
+  url:
+    usermgnt:
+      add: /api/devops/user/addUser
+      remove: /api/devops/user/removeUser
+    init: /api/devops/user/initSaasUser
+    finalize: /api/devops/user/finalizeSaasUser
+    usage:
+      query: /api/devops/usage/query
+      update:
+        subscribe: /api/devops/usage/update/subscribe
