@@ -9,6 +9,14 @@ spring:
     active: prod
 # for report
 arex:
+  storage:
+    categoryTypes:
+      - name: RocketMessageProducer
+        entryPoint: false
+        skipComparison: false
+      - name: RocketMessageConsumer
+        entryPoint: false
+        skipComparison: false
   app:
     auth:
       switch: false
