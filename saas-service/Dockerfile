@@ -4,5 +4,5 @@ WORKDIR /usr/src/app
 RUN mvn clean package -pl saas-arex-api-web -am -DskipTests=true -Pjar
 
 FROM public.ecr.aws/docker/library/eclipse-temurin:21-jre
-COPY --from=builder /usr/src/app/saas-end-jar/web-api.jar web-api.jar
-ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar /web-api.jar"]
+COPY --from=builder /usr/src/app/saas-end-jar/arex-saas.jar app.jar
+ENTRYPOINT ["sh", "-c", "java ${JAVA_OPTS} -jar /app.jar"]
