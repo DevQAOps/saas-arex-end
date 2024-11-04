@@ -124,7 +124,7 @@
             <configuration>
               <includeSystemScope>true</includeSystemScope>
               <mainClass>com.arextest.saas.api.ArexSaasApiApplication</mainClass>
-              <outputDirectory>../arex-saas-service-jar</outputDirectory>
+              <outputDirectory>../saas-end-jar</outputDirectory>
             </configuration>
             <executions>
               <execution>
