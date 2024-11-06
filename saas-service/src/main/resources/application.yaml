@@ -33,6 +33,8 @@ arex:
       E9eOlMiTSv+C1284SgXCt3bvfMiERzSJaSs4CEJG1chlCxEid+LPYBqpdGHZtYMhncHGhVSB2Gc0PgIZ/v2AhupA4fms\
       cs4jZBQ3qLdMPsCD4BeAJ7LRfljGBsmngdAARWUMHSVLrknd7/JX4oADBEnJdw="
       auth0IssuerBaseUrl: https://arextest.us.auth0.com
+    admins:
+      - D8sfp5ZMUxQNAgoV@arextest.com
   verify:
     # not available
     domain: https://cloud.arextest.com

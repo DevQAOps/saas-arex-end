@@ -19,4 +19,6 @@ public interface TenantRepository {
   Boolean deleteTenantInfo(String email);
 
   List<TenantCollection> queryTenantsByEmail(String email);
+
+  List<TenantCollection> queryAllTenants();
 }

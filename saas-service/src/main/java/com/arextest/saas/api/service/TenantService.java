@@ -43,6 +43,7 @@ public interface TenantService {
   boolean logOff(String tenantCode);
 
   List<TenantVo> queryTenantsByEmail(String email);
+  List<TenantVo> listAllTenants();
 
   Set<String> queryUserEmailsByCode(String tenantCode);
 
