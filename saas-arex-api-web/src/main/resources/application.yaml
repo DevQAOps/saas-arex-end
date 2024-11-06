@@ -87,6 +87,8 @@ arex:
       secret: ""
       redirecturi: ""
       uri: ""
+    admins:
+      - d8sfp5zmuxqnagov@arextest.com
   # client
   client:
     login:

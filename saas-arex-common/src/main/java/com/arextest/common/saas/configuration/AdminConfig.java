@@ -1,4 +1,4 @@
-package com.arextest.saas.api.service.impl;
+package com.arextest.common.saas.configuration;
 
 import java.util.Set;
 import lombok.Getter;

@@ -17,6 +17,11 @@
       <artifactId>lombok</artifactId>
     </dependency>
     <dependency>
+      <groupId>com.arextest</groupId>
+      <artifactId>saas-arex-common</artifactId>
+    </dependency>
+
+    <dependency>
       <artifactId>arex-common</artifactId>
       <groupId>com.arextest</groupId>
       <exclusions>

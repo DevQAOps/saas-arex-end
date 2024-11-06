@@ -1,5 +1,6 @@
 package com.arextest.saas.api.service.impl;
 
+import com.arextest.common.saas.configuration.AdminConfig;
 import com.arextest.saas.api.common.enums.ErrorCode;
 import com.arextest.saas.api.common.exceptions.ArexSaasException;
 import com.arextest.saas.api.service.ClientOauthService;
@@ -20,7 +21,6 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +32,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 

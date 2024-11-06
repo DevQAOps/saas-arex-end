@@ -2,6 +2,7 @@ package com.arextest.web.saas.api.service;
 
 import com.arextest.common.exceptions.ArexException;
 import com.arextest.common.jwt.JWTService;
+import com.arextest.common.saas.configuration.AdminConfig;
 import com.arextest.common.saas.enums.SaasErrorCode;
 import com.arextest.web.core.repository.UserRepository;
 import com.arextest.web.saas.model.contract.SaasVerifyRequestType;
@@ -11,26 +12,26 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
+@EnableConfigurationProperties(AdminConfig.class)
+@RequiredArgsConstructor
 public class SaasLoginService {
-
-  @Resource
-  TicketTokenJwtService ticketTokenJwtService;
-
-  @Resource
-  private UserRepository userRepository;
-
-  @Resource
-  private JWTService jwtService;
+  private final TicketTokenJwtService ticketTokenJwtService;
+  private final UserRepository userRepository;
+  private final JWTService jwtService;
+  private final AdminConfig adminConfig;
 
   public SaasVerifyResponseType verify(SaasVerifyRequestType requestType) {
     String ticket = requestType.getTicket();
     String email = ticketTokenJwtService.getUserName(ticket);
-    boolean existed = userRepository.existUserName(email);
+    boolean existed = userRepository.existUserName(email) ||
+        adminConfig.getAdmins().contains(email.toLowerCase());
     if (!existed) {
       throw new ArexException(SaasErrorCode.SAAS_USER_NOT_FOUND.getCodeValue(),
           SaasErrorCode.SAAS_USER_NOT_FOUND.getMessage());
