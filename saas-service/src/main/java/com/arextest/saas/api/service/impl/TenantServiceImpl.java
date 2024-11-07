@@ -380,6 +380,15 @@ public class TenantServiceImpl implements TenantService {
   }
 
   @Override
+  public List<TenantVo> listAllTenants() {
+    return tenantRepository.queryAllTenants()
+        .stream()
+        .map(this::displayUserLoginDetails)
+        .filter(Objects::nonNull)
+        .collect(Collectors.toList());
+  }
+
+  @Override
   public Set<String> queryUserEmailsByCode(String tenantCode) {
     return tenantRepository.queryTenant(tenantCode).getUserInfos().stream()
         .map(UserInfoDto::getEmail)

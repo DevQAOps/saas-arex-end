@@ -1,5 +1,6 @@
 package com.arextest.saas.api.service.impl;
 
+import com.arextest.common.saas.configuration.AdminConfig;
 import com.arextest.saas.api.common.enums.ErrorCode;
 import com.arextest.saas.api.common.exceptions.ArexSaasException;
 import com.arextest.saas.api.service.ClientOauthService;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -30,7 +32,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Service;
 
 /**
@@ -39,8 +41,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @Slf4j
+@RequiredArgsConstructor
+@EnableConfigurationProperties(AdminConfig.class)
 public class ClientServiceImpl implements ClientService {
-
   private static final String QUERY_RELEASES_URL = "https://api.github.com/repos/arextest/releases/releases/latest";
   private static final String AUTHORIZATION = "Authorization";
   private static final String AUTH_TOKEN = "Bearer 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";
@@ -51,24 +54,18 @@ public class ClientServiceImpl implements ClientService {
   private static final String X64 = "x64";
   private static final String DMG = ".dmg";
   private static final String CACHE_KEY = "latest_client_url";
-
   private static final ObjectMapper objectMapper = new ObjectMapper()
       .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-
-  Cache<String, Object> cache = CacheBuilder.newBuilder()
+  private final Cache<String, Object> cache = CacheBuilder.newBuilder()
       .maximumSize(100)
       .expireAfterWrite(5, TimeUnit.MINUTES)
       .build();
 
-  @Autowired
-  List<ClientOauthService> clientOauthServices;
 
-  @Autowired
-  TenantServiceImpl tenantService;
-
-  @Autowired
-  ArexApiSystemAuthJwtService arexApiSystemAuthJwtService;
+  private final List<ClientOauthService> clientOauthServices;
+  private final TenantServiceImpl tenantService;
+  private final ArexApiSystemAuthJwtService arexApiSystemAuthJwtService;
+  private final AdminConfig adminConfig;
 
   @Override
   public ClientDownloadResponse getBrowserDownloadUrl() {
@@ -106,7 +103,9 @@ public class ClientServiceImpl implements ClientService {
     }
 
     // verify whether the email has been in the tenant list
-    List<TenantVo> tenantInfos = tenantService.queryTenantsByEmail(email);
+    List<TenantVo> tenantInfos = adminConfig.getAdmins().contains(email) ? tenantService.listAllTenants() :
+        tenantService.queryTenantsByEmail(email);
+
     if (CollectionUtils.isEmpty(tenantInfos)) {
       throw new ArexSaasException(ErrorCode.CLIENT_LOGIN_USER_NOT_FOUND.getCodeValue(),
           "No tenant found for email");

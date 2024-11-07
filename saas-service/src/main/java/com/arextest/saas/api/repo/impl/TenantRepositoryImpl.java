@@ -72,6 +72,11 @@ public class TenantRepositoryImpl implements TenantRepository {
     return mongoTemplate.find(query, TenantCollection.class);
   }
 
+  @Override
+  public List<TenantCollection> queryAllTenants() {
+    return mongoTemplate.findAll(TenantCollection.class);
+  }
+
   private String toDot(String... fieldNames) {
     return String.join(".", fieldNames);
   }
