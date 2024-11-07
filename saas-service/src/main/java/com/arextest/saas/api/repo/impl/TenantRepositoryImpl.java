@@ -1,11 +1,11 @@
 package com.arextest.saas.api.repo.impl;
 
-import com.arextest.saas.api.repo.mapper.UserMapper;
 import com.arextest.saas.api.common.utils.MongoHelper;
-import com.arextest.saas.api.repo.TenantRepository;
 import com.arextest.saas.api.model.dao.TenantCollection;
 import com.arextest.saas.api.model.dao.TenantCollection.UserInfo;
 import com.arextest.saas.api.model.dto.TenantDto;
+import com.arextest.saas.api.repo.TenantRepository;
+import com.arextest.saas.api.repo.mapper.UserMapper;
 import com.mongodb.client.result.DeleteResult;
 import jakarta.annotation.Resource;
 import java.util.List;
@@ -74,7 +74,7 @@ public class TenantRepositoryImpl implements TenantRepository {
 
   @Override
   public List<TenantCollection> queryAllTenants() {
-    return mongoTemplate.findAll(TenantCollection.class);
+    return mongoTemplate.find(new Query(Criteria.where(TenantCollection.Fields.tenantCode).ne(null)), TenantCollection.class);
   }
 
   private String toDot(String... fieldNames) {
