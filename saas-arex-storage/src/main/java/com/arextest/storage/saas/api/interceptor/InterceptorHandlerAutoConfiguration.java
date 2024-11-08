@@ -27,14 +27,13 @@ public class InterceptorHandlerAutoConfiguration {
 
   @Bean
   public TenantRedisHandler tenantRedisHandler(CacheProvider cacheProvider,
-      ObjectMapper objectMapper) {
-    return new TenantRedisHandler(cacheProvider, objectMapper);
+      ObjectMapper objectMapper, SaasSystemConfigurationRepository saasSystemConfigurationRepository) {
+    return new TenantRedisHandler(cacheProvider, objectMapper, saasSystemConfigurationRepository);
   }
 
   @Bean
-  public TenantLimitService tenantLimitService(TenantRedisHandler tenantRedisHandler,
-      SaasSystemConfigurationRepository saasSystemConfigurationRepository) {
-    return new TenantLimitService(tenantRedisHandler, saasSystemConfigurationRepository);
+  public TenantLimitService tenantLimitService(TenantRedisHandler tenantRedisHandler) {
+    return new TenantLimitService(tenantRedisHandler);
   }
 
   @Bean

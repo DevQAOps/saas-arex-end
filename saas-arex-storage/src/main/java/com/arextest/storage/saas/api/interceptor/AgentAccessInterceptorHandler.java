@@ -6,6 +6,8 @@ import com.arextest.common.saas.tenant.TenantStatusRedisInfo;
 import com.arextest.common.saas.utils.ResponseWriterUtil;
 import com.arextest.common.utils.TenantContextUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Base64;
@@ -16,8 +18,6 @@ import java.util.Optional;
 import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -59,13 +59,14 @@ public class AgentAccessInterceptorHandler extends AbstractInterceptorHandler {
 
     return parseApiToken(agentTokenContext)
         .flatMap(this::extractTenantCode)
-        .flatMap(this::verifyToken)
-        .map(item -> {
+        .flatMap(item -> {
           TenantContextUtil.setTenantCode(item.getTenantCode());
-          return true;
+          return verifyToken(item);
         })
+        .map(item -> true)
         .orElseGet(() -> {
           ResponseWriterUtil.setDefaultErrorResponse(response, HttpStatus.UNAUTHORIZED, null);
+          TenantContextUtil.clear();
           return false;
         });
   }
