@@ -34,6 +34,12 @@ public class RRController {
     return ResponseUtils.successResponse(rrService.record(dto));
   }
 
+  @PostMapping("/search")
+  @ResponseBody
+  public Response search(@RequestBody RecordDto.Search search) {
+    return ResponseUtils.successResponse(rrService.search(search));
+  }
+
   @PostMapping("/list")
   @ResponseBody
   public Response list(@RequestBody RecordListingReq req) {

@@ -33,4 +33,16 @@ public class RecordDto {
     private long timestamp;
     private Object data;
   }
+
+  @Data
+  public static class Search {
+    private String recordId;
+    private String appId;
+    private String userId;
+    private String clientId;
+    private String mobileNo;
+    private Map<String, String> ext;
+    private Date createTimeFrom;
+    private Date createTimeTo;
+  }
 }

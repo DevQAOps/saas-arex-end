@@ -28,4 +28,8 @@ public class RRService {
   public RecordDto detail(String recordId) {
     return eventsRepository.viewRecord(recordId);
   }
+
+  public List<RecordDto> search(RecordDto.Search search) {
+    return eventsRepository.search(search);
+  }
 }
