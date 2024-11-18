@@ -5,6 +5,7 @@ import com.arextest.common.utils.ResponseUtils;
 import com.arextest.storage.saas.api.models.rr.RecordDto;
 import com.arextest.storage.saas.api.models.rr.RecordListingReq;
 import com.arextest.storage.saas.api.service.RRService;
+import jakarta.validation.Valid;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class RRController {
 
   @PostMapping("/record")
   @ResponseBody
-  public Response record(@RequestBody RecordDto dto) {
+  public Response record(@Valid @RequestBody RecordDto dto) {
     return ResponseUtils.successResponse(rrService.record(dto));
   }
 
