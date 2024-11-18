@@ -2,7 +2,6 @@ package com.arextest.storage.saas.api.service;
 
 import com.arextest.storage.saas.api.models.rr.RecordDto;
 import com.arextest.storage.saas.api.models.rr.RecordListingReq;
-import com.arextest.storage.saas.api.models.rr.RecordingReq;
 import com.arextest.storage.saas.api.repository.rr.RREventsRepository;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -17,8 +16,8 @@ import org.springframework.stereotype.Service;
 public class RRService {
   private final RREventsRepository eventsRepository;
 
-  public boolean record(RecordingReq req) {
-    eventsRepository.record(req.getAppId(), req.getRecordId(), req.getEvents());
+  public boolean record(RecordDto dto) {
+    eventsRepository.record(dto);
     return true;
   }
 

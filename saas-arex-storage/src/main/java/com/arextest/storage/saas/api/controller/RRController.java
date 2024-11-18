@@ -2,8 +2,8 @@ package com.arextest.storage.saas.api.controller;
 
 import com.arextest.common.model.response.Response;
 import com.arextest.common.utils.ResponseUtils;
+import com.arextest.storage.saas.api.models.rr.RecordDto;
 import com.arextest.storage.saas.api.models.rr.RecordListingReq;
-import com.arextest.storage.saas.api.models.rr.RecordingReq;
 import com.arextest.storage.saas.api.service.RRService;
 import java.util.Date;
 import lombok.RequiredArgsConstructor;
@@ -29,8 +29,8 @@ public class RRController {
 
   @PostMapping("/record")
   @ResponseBody
-  public Response record(@RequestBody RecordingReq req) {
-    return ResponseUtils.successResponse(rrService.record(req));
+  public Response record(@RequestBody RecordDto dto) {
+    return ResponseUtils.successResponse(rrService.record(dto));
   }
 
   @PostMapping("/list")

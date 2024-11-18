@@ -2,6 +2,7 @@ package com.arextest.storage.saas.api.models.rr;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import lombok.Data;
 
 /**
@@ -11,10 +12,15 @@ import lombok.Data;
 @Data
 public class RecordDto {
   private String recordId;
-  private String appId;
   private Date createTime;
   private Date updateTime;
   private List<EventDto> events;
+
+  private String appId;
+  private String userId;
+  private String clientId;
+  private String mobileNo;
+  private Map<String, String> ext;
 
   @Data
   public static class EventDto {

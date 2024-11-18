@@ -25,14 +25,19 @@ public class RREventsRepository {
   private final MongoTemplate mongoTemplate;
   private final Converter converter;
 
-  public void record(String appId, String recordId, List<EventDto> events) {
-    Query q = new Query(Criteria.where(Fields.recordId).is(recordId));
+  public void record(RecordDto dto) {
+    Query q = new Query(Criteria.where(Fields.recordId).is(dto.getRecordId()));
 
     Update update = new Update()
-        .setOnInsert(Fields.appId, appId)
+        .setOnInsert(Fields.appId, dto.getAppId())
+        .set(Fields.userId, dto.getUserId())
+        .set(Fields.clientId, dto.getClientId())
+        .set(Fields.mobileNo, dto.getMobileNo())
+        .set(Fields.ext, dto.getExt())
+
         .setOnInsert(Fields.createTime, new Date())
         .set(Fields.updateTime, new Date())
-        .push(Fields.events).each(events.stream().map(converter::eventDtoToDoc).toArray());
+        .push(Fields.events).each(dto.getEvents().stream().map(converter::eventDtoToDoc).toArray());
     mongoTemplate.upsert(q, update, RecordDocument.class);
   }
 
