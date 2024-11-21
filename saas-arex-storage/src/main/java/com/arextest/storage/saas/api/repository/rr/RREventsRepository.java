@@ -79,11 +79,14 @@ public class RREventsRepository {
     if (search.getExt() != null) {
       search.getExt().forEach((k, v) -> q.addCriteria(Criteria.where(Fields.ext + "." + k).is(v)));
     }
+
+    Criteria timeCriteria = Criteria.where(Fields.createTime).ne(null);
+    q.addCriteria(timeCriteria);
     if (search.getCreateTimeFrom() != null) {
-      q.addCriteria(Criteria.where(Fields.createTime).gte(search.getCreateTimeFrom()));
+      timeCriteria.gt(search.getCreateTimeFrom());
     }
     if (search.getCreateTimeTo() != null) {
-      q.addCriteria(Criteria.where(Fields.createTime).lt(search.getCreateTimeTo()));
+      timeCriteria.lte(search.getCreateTimeTo());
     }
 
     q.with(Sort.by(Sort.Order.desc(Fields.createTime)));
