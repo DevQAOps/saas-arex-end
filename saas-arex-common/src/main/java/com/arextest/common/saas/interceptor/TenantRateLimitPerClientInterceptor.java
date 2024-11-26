@@ -67,6 +67,9 @@ public class TenantRateLimitPerClientInterceptor extends AbstractInterceptorHand
     } else {
       // https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429
       httpServletResponse.sendError(429, "Rate limit exceeded");
+      LOGGER.warn("Rate limit exceeded for tenant: {}, client IP: {}",
+          TenantContextUtil.getTenantCode(),
+          getClientIP(httpServletRequest));
       return false;
     }
   }
