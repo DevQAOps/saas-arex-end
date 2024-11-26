@@ -16,9 +16,8 @@ import org.springframework.stereotype.Service;
 public class RRService {
   private final RREventsRepository eventsRepository;
 
-  public boolean record(RecordDto dto) {
+  public void record(RecordDto dto) {
     eventsRepository.record(dto);
-    return true;
   }
 
   public List<RecordDto> listRecords(RecordListingReq req) {

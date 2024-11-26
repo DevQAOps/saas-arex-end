@@ -72,7 +72,7 @@ public class InterceptorHandlerAutoConfiguration {
 
   private List<String> getAuthorizationExcludePathPatterns() {
     return Lists.newArrayList("/error", "/favicon.ico", "/vi/health", "/api/config/agent/**",
-        "/api/storage/record/**", "/api/rr/**");
+        "/api/storage/record/**", "/api/rr/record");
   }
 
   @Bean
