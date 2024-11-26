@@ -6,6 +6,7 @@ import com.arextest.common.jwt.JWTService;
 import com.arextest.common.saas.interceptor.SaasAuthorizationInterceptor;
 import com.arextest.common.saas.interceptor.TenantInterceptor;
 import com.arextest.common.saas.interceptor.TenantLimitService;
+import com.arextest.common.saas.interceptor.TenantRateLimitPerClientInterceptor;
 import com.arextest.common.saas.interceptor.TenantTrafficLimitInterceptor;
 import com.arextest.common.saas.repository.SaasSystemConfigurationRepository;
 import com.arextest.common.saas.repository.impl.UsageStatDao;
@@ -82,5 +83,15 @@ public class InterceptorHandlerAutoConfiguration {
       SaasSystemConfigurationRepository saasSystemConfigurationRepository) {
     return new TenantTrafficLimitInterceptor(usageStatDao, cacheProvider,
         saasSystemConfigurationRepository);
+  }
+
+  @Bean
+  public AbstractInterceptorHandler rateLimitingInterceptor(CacheProvider cacheProvider) {
+    return new TenantRateLimitPerClientInterceptor(cacheProvider, Lists.newArrayList(
+        TenantRateLimitPerClientInterceptor.Config.builder()
+            .path("/api/rr/record")
+            .limitPerMinute(60) // frontend recording, qps 1 is very large already
+            .build()
+    ));
   }
 }
