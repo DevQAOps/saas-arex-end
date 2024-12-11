@@ -3,7 +3,9 @@ component: build
 timeoutInSeconds: 10000
 shell: bash
 failImmediatelyOnError: true
-
+env:
+  exportedVariables:
+    - BUILDRUN_HASH
 steps:
   - type: Command
     name: "Define unique image tag"
@@ -15,7 +17,7 @@ steps:
   - type: Command
     name: "Docker build"
     command: |
-      docker build -t us-sanjose-1.ocir.io/axqjl8ow85vi/saas-service:$BUILDRUN_HASH -f saas-service/Dockerfile .
+      docker build -t us-sanjose-1.ocir.io/axqjl8ow85vi/saas-service:${BUILDRUN_HASH} -f saas-service/Dockerfile .
       echo "DONE"
     onFailure:
       - type: Command
@@ -26,4 +28,4 @@ steps:
 outputArtifacts:
   - name: Build_output_image
     type: DOCKER_IMAGE
-    location: us-sanjose-1.ocir.io/axqjl8ow85vi/saas-service:$BUILDRUN_HASH
+    location: us-sanjose-1.ocir.io/axqjl8ow85vi/saas-service:${BUILDRUN_HASH}
