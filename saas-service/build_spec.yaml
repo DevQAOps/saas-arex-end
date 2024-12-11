@@ -1,0 +1,45 @@
+version: 0.1
+component: build
+timeoutInSeconds: 10000
+shell: bash
+failImmediatelyOnError: true
+
+env:
+  variables:
+    BUILDX_VERSION: 0.8.2
+
+steps:
+  - type: Command
+    name: "Define unique image tag"
+    timeoutInSeconds: 140
+    command: |
+      echo "OCI_BUILD_RUN_ID: ${OCI_BUILD_RUN_ID}"
+      export BUILDRUN_HASH=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-7`
+      echo "BUILDRUN_HASH: " $BUILDRUN_HASH
+  - type: Command
+    name: "Docker BuildKit Setup"
+    timeoutInSeconds: 140
+    command: |
+      wget https://github.com/docker/buildx/releases/download/v${BUILDX_VERSION}/buildx-v${BUILDX_VERSION}.linux-amd64 -O docker-buildx
+      mkdir -p ~/.docker/cli-plugins
+      mv docker-buildx ~/.docker/cli-plugins/
+      chmod +x ~/.docker/cli-plugins/docker-buildx
+      docker buildx install
+  - type: Command
+    name: "Docker build"
+    command: |
+      export DOCKER_BUILDKIT=1
+      export DOCKER_CLI_EXPERIMENTAL=enabled
+      docker buildx create --use
+      docker buildx build -t="saas-service" .
+      echo "DONE"
+    onFailure:
+      - type: Command
+        command: |
+          echo "Handling Failure"
+          build_result=FAILURE
+          echo "Failure successfully handled"
+outputArtifacts:
+  - name: Build_output_image
+    type: DOCKER_IMAGE
+    location: "saas-service"
