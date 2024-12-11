@@ -15,6 +15,7 @@ steps:
   - type: Command
     name: "Docker build"
     command: |
+      cd saas-service
       docker build -t saas-service .
       echo "DONE"
     onFailure:
