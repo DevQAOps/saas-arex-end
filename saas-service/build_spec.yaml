@@ -15,7 +15,7 @@ steps:
   - type: Command
     name: "Docker build"
     command: |
-      docker build -t saas-service -f saas-service/Dockerfile .
+      docker build -t us-sanjose-1.ocir.io/axqjl8ow85vi/saas-service:${BUILDRUN_HASH} -f saas-service/Dockerfile .
       echo "DONE"
     onFailure:
       - type: Command
@@ -26,4 +26,4 @@ steps:
 outputArtifacts:
   - name: Build_output_image
     type: DOCKER_IMAGE
-    location: "saas-service"
+    location: us-sanjose-1.ocir.io/axqjl8ow85vi/saas-service:${BUILDRUN_HASH}
