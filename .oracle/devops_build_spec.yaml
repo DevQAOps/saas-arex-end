@@ -17,9 +17,7 @@ steps:
   - type: Command
     name: "Docker build"
     command: |
-      pwd
-      ls
-      docker build -t us-sanjose-1.ocir.io/axqjl8ow85vi/saas-devops:${BUILDRUN_HASH} -f saas-devops/Dockerfile .
+      docker build -t us-sanjose-1.ocir.io/axqjl8ow85vi/saas-devops:${BUILDRUN_HASH} -f saas-DevOps/Dockerfile .
       echo "DONE"
     onFailure:
       - type: Command
