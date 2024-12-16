@@ -17,7 +17,7 @@ steps:
   - type: Command
     name: "Docker build"
     command: |
-      docker build -t us-sanjose-1.ocir.io/axqjl8ow85vi/arex-schedule:${BUILDRUN_HASH} -f saas-arex-storage/Dockerfile .
+      docker build -t us-sanjose-1.ocir.io/axqjl8ow85vi/arex-storage:${BUILDRUN_HASH} -f saas-arex-storage/Dockerfile .
       echo "DONE"
     onFailure:
       - type: Command
