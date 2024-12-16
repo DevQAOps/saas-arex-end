@@ -14,7 +14,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
  */
 @Data
 @FieldNameConstants
-@Document(collection = "rr_record")
+@Document(collection = "RRRecord")
 public class RecordDocument {
   @Id
   private String recordId;

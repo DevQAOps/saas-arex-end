@@ -258,9 +258,9 @@ public class UserManageServiceImpl implements UserManageService {
     // auth switch, control app auth
     SystemConfigurationCollection authSwitchConfiguration = new SystemConfigurationCollection();
     authSwitchConfiguration.setAuthSwitch(true);
-    jwtSeedConfiguration.setKey(SystemConfigurationCollection.KeySummary.AUTH_SWITCH);
-    jwtSeedConfiguration.setDataChangeCreateTime(currentTime);
-    jwtSeedConfiguration.setDataChangeUpdateTime(currentTime);
+    authSwitchConfiguration.setKey(SystemConfigurationCollection.KeySummary.AUTH_SWITCH);
+    authSwitchConfiguration.setDataChangeCreateTime(currentTime);
+    authSwitchConfiguration.setDataChangeUpdateTime(currentTime);
 
     // compare plugin jar, load conversion method in comparison function
     SystemConfigurationCollection comparePluginJarConfiguration = new SystemConfigurationCollection();
