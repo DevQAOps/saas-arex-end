@@ -1,0 +1,31 @@
+version: 0.1
+component: build
+timeoutInSeconds: 10000
+shell: bash
+failImmediatelyOnError: true
+env:
+  exportedVariables:
+    - BUILDRUN_HASH
+steps:
+  - type: Command
+    name: "Define unique image tag"
+    timeoutInSeconds: 140
+    command: |
+      echo "OCI_BUILD_RUN_ID: ${OCI_BUILD_RUN_ID}"
+      export BUILDRUN_HASH=`echo ${OCI_BUILD_RUN_ID} | rev | cut -c 1-7`
+      echo "BUILDRUN_HASH: " $BUILDRUN_HASH
+  - type: Command
+    name: "Docker build"
+    command: |
+      docker build -t us-sanjose-1.ocir.io/axqjl8ow85vi/arex-schedule:${BUILDRUN_HASH} -f saas-arex-api-web/Dockerfile .
+      echo "DONE"
+    onFailure:
+      - type: Command
+        command: |
+          echo "Handling Failure"
+          build_result=FAILURE
+          echo "Failure successfully handled"
+outputArtifacts:
+  - name: API_IMAGE
+    type: DOCKER_IMAGE
+    location: us-sanjose-1.ocir.io/axqjl8ow85vi/arex-api:${BUILDRUN_HASH}
