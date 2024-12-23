@@ -1,4 +1,6 @@
 # test
+server:
+  port: 8090
 logging:
   config: classpath:log4j2-dev.xml
 arex:
