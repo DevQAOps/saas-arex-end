@@ -1,0 +1,115 @@
+spring:
+  application:
+    name: Bootstrap Spring Boot
+  jackson:
+    default-property-inclusion: non_null
+    serialization:
+      FAIL_ON_EMPTY_BEANS: false
+  profiles:
+    active: prod
+sp:
+  api:
+    config:
+      addExclusion:
+        url: ${sp.api.service.api}/api/config/comparison/exclusions/batchModify/INSERT
+      application:
+        url: ${sp.api.service.api}/api/config/application/useResult/appId/{appId}
+      applicationService:
+        url: ${sp.api.service.api}/api/config/applicationService/useResultAsList/appId/{appId}
+      comparison:
+        summary:
+          url: ${sp.api.service.api}/api/config/comparison/summary/queryByAppId/{appId}
+        queryCompareConfig:
+          url: ${sp.api.service.api}/api/config/comparison/summary/queryCompareConfig
+      desensitization:
+        url: ${sp.api.service.api}/api/desensitization/listJar
+      schedule:
+        url: ${sp.api.service.api}/api/config/schedule/useResult/appId/{appId}
+      system:
+        url: ${sp.api.service.api}/api/system/config/list
+    init:
+      url: ${sp.api.service.api}/api/report/init
+    push:
+      compareResult:
+        url: ${sp.api.service.api}/api/report/analyzeCompareResults
+      replayStatus:
+        url: ${sp.api.service.api}/api/report/pushReplayStatus
+    queryPlanStatistic:
+      url: ${sp.api.service.api}/api/report/queryPlanStatistic
+    remove:
+      errorMsg:
+        url: ${sp.api.service.api}/api/report/removeErrorMsg
+      records:
+        url: ${sp.api.service.api}/api/report/removeRecordsAndScenes
+    update:
+      report:
+        info:
+          url: ${sp.api.service.api}/api/report/updateReportInfo
+    delete:
+      planItemStatistics:
+        url: ${sp.api.service.api}/api/report/deletePlanItemStatistics
+  client:
+    https:
+      cert:
+        disable: true
+  connect:
+    time:
+      out: 10000
+  prometheus:
+    port: 20092
+  read:
+    time:
+      out: 10000
+  retry:
+    back:
+      'off':
+        period: 1000
+    max:
+      attempts: 2
+  schedule:
+    bizLog:
+      secondToSave: 30
+      sizeToSave: 100
+    monitor:
+      secondToRefresh: 5
+    pool:
+      io:
+        cpuratio: 4
+    compare:
+      case:
+        url: ${sp.schedule.service.api}/api/compareCase
+  storage:
+    cacheLoad:
+      url: ${sp.storage.service.api}/api/storage/replay/query/cacheLoad
+    cacheRemove:
+      url: ${sp.storage.service.api}/api/storage/replay/query/cacheRemove
+    countByRange:
+      url: ${sp.storage.service.api}/api/storage/replay/query/countByRange
+    postProcess:
+      url: ${sp.storage.service.api}/api/storage/replay/postprocessResult
+    replayCase:
+      url: ${sp.storage.service.api}/api/storage/replay/query/replayCase
+    replayResult:
+      url: ${sp.storage.service.api}/api/storage/replay/query/replayResult
+    viewRecord:
+      url: ${sp.storage.service.api}/api/storage/replay/query/viewRecord
+    clearScene:
+      url: ${sp.storage.service.api}/api/scene/clearReplayPool/
+  replay:
+    header:
+      excludes:
+        dubbo:
+        http:
+  saas:
+    desensitization:
+      url: "classpath:lib/arex-extension-desensitization.jar"
+auto:
+  rerun:
+    threshold: 1.0
+pom:
+  version: ""
+replay:
+  sender:
+    extension:
+      jarPath:
+      switch: true

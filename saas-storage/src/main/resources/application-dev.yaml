@@ -1,0 +1,42 @@
+logging:
+  config: classpath:log4j2-dev.xml
+sp:
+  storage:
+    enableDiscoveryEntryPoint: true
+    recordEnv: TEST
+    expirationDurationMap:
+      ConfigFile: 3456000000
+    defaultExpirationDuration: 345600000
+    allowReRunDays: 1
+  api:
+    service:
+      api: http://arex-web-api.fat3.tripqate.com
+    config:
+      agent:
+        url: http://arex-web-api.fat3.tripqate.com
+      schedule:
+        service:
+          url: http://arex-schedule.fat3.tripqate.com
+  agent:
+    aesKey: 0EV1iPX7Zsgw22/w+XB7lPBc+bp9ac1ggnmZ49+MzBM=
+#    categoryTypes:
+#      - name: Hi
+#        entryPoint: true
+#        skipComparison: true
+saas:
+  tenant:
+    database:
+      mongo:
+        uri:
+          base: mongodb://arex:iLoveArex@10.118.1.217:37017/
+        default:
+          uri: mongodb://arex:iLoveArex@10.118.1.217:37017/arex_storage_db
+          database: arex_storage_db
+spring:
+  data:
+    redis:
+      sentinel:
+        nodes: 10.118.1.231:26379,10.118.1.240:26379,10.118.1.241:26379
+        password: foobared
+        master: mymaster
+      password: foobared

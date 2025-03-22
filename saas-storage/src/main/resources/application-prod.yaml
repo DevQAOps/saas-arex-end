@@ -1,0 +1,42 @@
+sp:
+  redis:
+    uri: redis://redis-inner-nlb-2203a1ba55b82a05.elb.us-west-2.amazonaws.com:6379/
+  storage:
+    enableDiscoveryEntryPoint: true
+    recordEnv: TEST
+    expirationDurationMap:
+      ConfigFile: 3456000000
+    defaultExpirationDuration: 345600000
+    allowReRunDays: 1
+  config:
+    mockerConvert:
+      enabled: false
+  api:
+    service:
+      api: http://arex-web-api-find.arex-namesapce:8080
+    config:
+      agent:
+        url: http://arex-web-api-find.arex-namesapce:8080
+  schedule:
+    service:
+      url: http://arex-schedule-discovery.arex-namesapce:8080
+  agent:
+    aesKey: 0EV1iPX7Zsgw22/w+XB7lPBc+bp9ac1ggnmZ49+MzBM=
+#    categoryTypes:
+#      - name: Hi
+#        entryPoint: true
+#        skipComparison: true
+saas:
+  tenant:
+    database:
+      mongo:
+        uri:
+          base: mongodb://arex:iLoveArex@172.31.29.251:27017,172.31.20.184:27017,172.31.27.88:27017/
+        default:
+          uri: mongodb://arex:iLoveArex@172.31.29.251:27017,172.31.20.184:27017,172.31.27.88:27017/arex_storage_db
+          database: arex_storage_db
+spring:
+  data:
+    redis:
+      host: redis-inner-nlb-2203a1ba55b82a05.elb.us-west-2.amazonaws.com
+      port: 6379

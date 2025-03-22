@@ -1,0 +1,70 @@
+package ai.softprobe.saas.storage.api.bean;
+
+import com.arextest.common.desensitization.DesensitizationProvider;
+import com.arextest.common.jwt.JWTService;
+import ai.softprobe.saas.common.httpclient.AccessRequestInterceptor;
+import ai.softprobe.saas.common.login.SaasJWTService;
+import ai.softprobe.saas.common.repository.SaasSystemConfigurationRepository;
+import ai.softprobe.saas.common.repository.impl.SaasSystemConfigurationRepositoryImpl;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.http.client.ClientHttpRequestInterceptor;
+
+@Configuration
+public class SaasServiceConfiguration {
+
+  private static final long ACCESS_EXPIRE_TIME = 604800000L;
+  private static final long REFRESH_EXPIRE_TIME = 2592000000L;
+
+  @Bean
+  public JWTService saasJWTService(MongoTemplate mongoTemplate) {
+    return new SaasJWTService(ACCESS_EXPIRE_TIME, REFRESH_EXPIRE_TIME, mongoTemplate);
+  }
+
+  /**
+   * for http request interceptor
+   *
+   * @param jwtService
+   * @param interfaceAddressConfiguration
+   * @return
+   */
+  @Bean
+  public ClientHttpRequestInterceptor accessRequestInterceptor(JWTService jwtService,
+      InterfaceAddressConfiguration interfaceAddressConfiguration) {
+    return new AccessRequestInterceptor(jwtService,
+        interfaceAddressConfiguration.getServiceAddressInfos());
+  }
+
+  /*
+   * for saas system configuration repository
+   */
+  @Bean
+  public SaasSystemConfigurationRepository saasSystemConfigurationRepository(
+      MongoTemplate mongoTemplate) {
+    return new SaasSystemConfigurationRepositoryImpl(mongoTemplate);
+  }
+
+  @Bean
+  public DesensitizationProvider saasDesensitizationProvider(
+      @Value("${arex.saas.desensitization.url}") String desensitizationUrl) {
+    return new DesensitizationProvider(desensitizationUrl);
+  }
+
+
+  @Configuration
+  public class InterfaceAddressConfiguration {
+
+    @Value("${arex.api.service.api}")
+    private String apiServiceUrl;
+
+    public Set<String> getServiceAddressInfos() {
+      return new HashSet<>(Arrays.asList(apiServiceUrl));
+    }
+  }
+
+}

@@ -6,7 +6,7 @@ spring:
       repositories:
         enabled: false
 
-arex:
+sp:
   email:
     domain: https://mail.arextest.com
   oauth:

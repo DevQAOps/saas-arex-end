@@ -2,7 +2,7 @@ logging:
   config: classpath:log4j2-dev.xml
 server:
   port: 8190
-arex:
+sp:
   devops:
     url: http://arex-devops.fat3.tripqate.com
   agent:

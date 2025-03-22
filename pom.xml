@@ -4,21 +4,22 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>com.arextest</groupId>
-  <artifactId>saas-arex-end</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <groupId>ai.softprobe</groupId>
+  <artifactId>sp-backend-saas</artifactId>
+  <version>${revision}</version>
   <packaging>pom</packaging>
   <modules>
-    <module>saas-arex-api-web</module>
-    <module>saas-arex-common</module>
-    <module>saas-arex-storage</module>
-    <module>saas-arex-replay-schedule</module>
-    <module>saas-DevOps</module>
+    <module>saas-web-api</module>
+    <module>saas-common</module>
+    <module>saas-storage</module>
+    <module>saas-replay-schedule</module>
+    <module>saas-devops</module>
     <module>saas-service</module>
   </modules>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <revision>1.0.0</revision>
     <springboot.version>3.2.3</springboot.version>
     <!--arex-common-version-->
     <arex-common.version>1.0.1</arex-common.version>
@@ -37,8 +38,8 @@
     <dependencies>
       <!--child jar-->
       <dependency>
-        <groupId>com.arextest</groupId>
-        <artifactId>saas-arex-common</artifactId>
+        <groupId>ai.softprobe</groupId>
+        <artifactId>saas-common</artifactId>
         <version>${project.version}</version>
       </dependency>
       <dependency>
